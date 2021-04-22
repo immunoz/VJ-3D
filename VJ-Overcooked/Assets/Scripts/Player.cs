@@ -4,10 +4,6 @@ public class Player : MonoBehaviour
 {
     public int playerVelocity = 1;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -21,6 +17,7 @@ public class Player : MonoBehaviour
             movement = movement + new Vector3(0f, 0f, playerVelocity * Time.deltaTime);
         if (Input.GetKey("d"))
             movement = movement + new Vector3(0f, 0f, -playerVelocity * Time.deltaTime);
-        transform.position = transform.position + movement;
+        gameObject.GetComponent<Rigidbody>().AddForce(movement);
+        //transform.position = transform.position + movement;
     }
 }

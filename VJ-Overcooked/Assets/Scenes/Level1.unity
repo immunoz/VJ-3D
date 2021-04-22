@@ -149,7 +149,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32945520}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d1da9118dea679c4b98e39701d8fb844, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -520,4 +520,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51c9e72cc9d3fe44baa134c567cf99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocity: 20
+  playerVelocity: 500
