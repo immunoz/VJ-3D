@@ -77,11 +77,29 @@ public class Player : MonoBehaviour
                     state = playerStates.MOVE;
                 }
 
-                if (canChopp && spaceB)
+                
+                if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
                 {
+                    TableScript tableScript = currentTable.GetComponent<TableScript>();
+                    if (tableScript.isFree() && carryingObject)
+                    {
+                        tableScript.setIngredient(carriedIngredient);
+                        carriedIngredient = null;
+                        carryingObject = false;
+                    }
+                    else if ( !tableScript.isFree() && ! carryingObject)
+                    {
+                        carriedIngredient = tableScript.pickIngredient();
+                        carryingObject = true;
+                    }
 
+                }
+                if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree() ) {
+
+                    GameObject ingredientOnTable =  currentTable.GetComponent<TableScript>().getIngredient();
+                    ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
                     state = playerStates.CHOPP;
-                    timer = 2.0f;
+
                 }
                 else if (canPickUp && spaceB && !carryingObject)
                 {
@@ -92,13 +110,6 @@ public class Player : MonoBehaviour
                     carriedIngredient.GetComponent<Rigidbody>().isKinematic = true;
                     carryingObject = true;
                 }
-                /*else if (carryingObject && spaceB && !canPickUp)
-                {
-                    carriedIngredient.GetComponent<Rigidbody>().useGravity = true;
-                    carriedIngredient.GetComponent<Rigidbody>().detectCollisions = true;
-                    carriedIngredient.GetComponent<Rigidbody>().isKinematic = false;
-                    carryingObject = false;
-                }*/
                 else if (nextToTable && spaceB && currentTable.GetComponent<TableScript>().canBeUsed()) {
                     TableScript tableScript = currentTable.GetComponent<TableScript>();
                     if (tableScript.isFree() && carryingObject)
@@ -109,7 +120,7 @@ public class Player : MonoBehaviour
                     }
                     else if (!tableScript.isFree() && !carryingObject)
                     {
-                        carriedIngredient = tableScript.getIngredient();
+                        carriedIngredient = tableScript.pickIngredient();
                         carryingObject = true;
                     }
                 }
@@ -176,37 +187,31 @@ public class Player : MonoBehaviour
                 break;
             case playerStates.CHOPP:
 
-                timer -= Time.deltaTime;
-                if ( timer  <= 0 ) state = playerStates.STAND;
 
-
+                //if (doneChopping) state = playerStates.STAND;
+                GameObject tableIngredient = currentTable.GetComponent<TableScript>().getIngredient();
+                if (upB || downB || leftB || rightB) {
+                    state = playerStates.STAND;
+                    tableIngredient.GetComponent<Ingredient>().stopCutting();
+                } 
+                else if (tableIngredient.GetComponent<Ingredient>().choppingDone() ) state = playerStates.STAND;
                 break;
             case playerStates.DISHES:
+
+                
 
                 break;
 
         }
-        //if (Input.GetKey("w"))
-          //  rb.velocity = new Vector3(-playerVelocity, rb.velocity.y + Physics.gravity.y, 0f) * Time.deltaTime;
-        // 
-
-        //Vector3 movement = new Vector3(0f, 0f, 0f);
-        /*if (Input.GetKey("w"))
-            movement =  movement + new Vector3(playerVelocity * Time.deltaTime, 0f, 0f);
-        if (Input.GetKey("s"))
-            movement = movement + new Vector3(-playerVelocity * Time.deltaTime, 0f, 0f);
-        if (Input.GetKey("a"))
-            movement = movement + new Vector3(0f, 0f, playerVelocity * Time.deltaTime);
-        if (Input.GetKey("d"))
-            movement = movement + new Vector3(0f, 0f, -playerVelocity * Time.deltaTime);
-        //gameObject.GetComponent<Rigidbody>().AddForce(movement);
-        transform.position = transform.position + movement;*/
     }
 
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.name == "cooker") canChopp = true;
+        if (collider.name == "Chopper") {
+            canChopp = true;
+            currentTable = collider.gameObject;
+        } 
         else if (collider.name == "IngredientSpawner")
         {
             ingredientSpawner = collider.gameObject.GetComponent<IngredientSpawner>();
@@ -220,7 +225,7 @@ public class Player : MonoBehaviour
     }
 
     void OnTriggerExit(Collider collider) {
-        if (collider.name == "cooker") canChopp = false;
+        if (collider.name == "Chopper") canChopp = false;
         else if (collider.name == "IngredientSpawner")
         {
             ingredientSpawner = null;
@@ -245,14 +250,6 @@ public class Player : MonoBehaviour
         return carryingObject;
     }
 
-    private void updateCarryingObjectPosition(Vector3 movement) {
-
-        /*if ((int)GetComponent<Rigidbody>().velocity.magnitude > 1)
-            carriedIngredient.GetComponent<Rigidbody>().velocity = movement * Time.deltaTime; //movement.z * Time.deltaTime
-        else
-            carriedIngredient.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);*/
-
-    }
 
     private void initIngridientPosition()
     {
@@ -286,16 +283,6 @@ public class Player : MonoBehaviour
                 carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
                 break;
         }
-        /*if (direction == playerDirections.UP || direction == playerDirections.DOWN )
-        {
-            carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, increment + playerCenter.z);
-
-        }
-        else
-        {
-            carriedIngredient.transform.position = new Vector3(increment + playerCenter.x ,ingredientPosY, playerCenter.z);
-        }*/
     }
-
 
 }

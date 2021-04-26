@@ -32,11 +32,16 @@ public class TableScript : MonoBehaviour
         return currentIngredient == null;
     }
 
-    public GameObject getIngredient() {
+    public GameObject pickIngredient() {
         GameObject result = currentIngredient;
         currentIngredient = null;
         timer = cooldownTime;
         return result;
+    }
+
+    public GameObject getIngredient ()
+    {
+        return currentIngredient;
     }
 
     public bool canBeUsed() {
