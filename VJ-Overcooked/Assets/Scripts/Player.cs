@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public int playerVelocity = 1;
     private IngredientSpawner ingredientSpawner;
-    private GameObject carriedIngredient;
+    private GameObject carriedIngredient, currentTable;
     public float ingredientSpawnDistance = 5f;
     // Start is called before the first frame update
 
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private playerDirections direction;
     public float timer;
     public float maxSpeed;
-    private bool canChopp, canPickUp, carryingObject;
+    private bool canChopp, canPickUp, carryingObject, nextToTable;
     public float ingredientPosY = 10f;
 
     void Start()
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
         canChopp = false;
         canPickUp = false;
         carryingObject = false;
+        nextToTable = false;
         carriedIngredient = null;
         ingredientSpawner = null;
     }
@@ -81,19 +82,36 @@ public class Player : MonoBehaviour
 
                     state = playerStates.CHOPP;
                     timer = 2.0f;
-                } else if (canPickUp && spaceB && !carryingObject) {
+                }
+                else if (canPickUp && spaceB && !carryingObject)
+                {
                     carriedIngredient = ingredientSpawner.createIngredient();
                     initIngridientPosition();
                     carriedIngredient.GetComponent<Rigidbody>().useGravity = false;
                     carriedIngredient.GetComponent<Rigidbody>().detectCollisions = false;
                     carriedIngredient.GetComponent<Rigidbody>().isKinematic = true;
                     carryingObject = true;
-                } else if (carryingObject && spaceB && !canPickUp)
+                }
+                /*else if (carryingObject && spaceB && !canPickUp)
                 {
                     carriedIngredient.GetComponent<Rigidbody>().useGravity = true;
                     carriedIngredient.GetComponent<Rigidbody>().detectCollisions = true;
                     carriedIngredient.GetComponent<Rigidbody>().isKinematic = false;
                     carryingObject = false;
+                }*/
+                else if (nextToTable && spaceB) {
+                    TableScript tableScript = currentTable.GetComponent<TableScript>();
+                    if (tableScript.isFree() && carryingObject)
+                    {
+                        tableScript.setIngredient(carriedIngredient);
+                        carriedIngredient = null;
+                        carryingObject = false;
+                    }
+                    else if (!tableScript.isFree() && !carryingObject)
+                    {
+                        carriedIngredient = tableScript.getIngredient();
+                        carryingObject = true;
+                    }
                 }
 
 
@@ -189,20 +207,29 @@ public class Player : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         if (collider.name == "cooker") canChopp = true;
-        else if (collider.name == "box")
+        else if (collider.name == "IngredientSpawner")
         {
             ingredientSpawner = collider.gameObject.GetComponent<IngredientSpawner>();
             canPickUp = true;
+        }
+        else if (collider.name == "Table") {
+            currentTable = collider.gameObject;
+            nextToTable = true;
         }
 
     }
 
     void OnTriggerExit(Collider collider) {
         if (collider.name == "cooker") canChopp = false;
-        else if (collider.name == "box")
+        else if (collider.name == "IngredientSpawner")
         {
             ingredientSpawner = null;
             canPickUp = false;
+        }
+        else if (collider.name == "Table")
+        {
+            currentTable = null;
+            nextToTable = false;
         }
     }
 
