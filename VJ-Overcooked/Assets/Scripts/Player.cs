@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
                     carriedIngredient.GetComponent<Rigidbody>().isKinematic = false;
                     carryingObject = false;
                 }*/
-                else if (nextToTable && spaceB) {
+                else if (nextToTable && spaceB && currentTable.GetComponent<TableScript>().canBeUsed()) {
                     TableScript tableScript = currentTable.GetComponent<TableScript>();
                     if (tableScript.isFree() && carryingObject)
                     {

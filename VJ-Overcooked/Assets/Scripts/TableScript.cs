@@ -6,11 +6,21 @@ public class TableScript : MonoBehaviour
 {
     private GameObject currentIngredient;
     public float heightOffset;
+    public float cooldownTime;
+    private float timer;
+
+    void Start() {
+        timer = 0;
+    }
+
+    void Update() {
+        if (timer > 0) timer -= Time.deltaTime;
+    }
 
     public void setIngredient(GameObject ingredient) {
-        if (currentIngredient == null) Debug.Log("isFreee");
         currentIngredient = ingredient;
         setIngredientPosition();
+        timer = cooldownTime;
     }
 
     private void setIngredientPosition() {
@@ -25,6 +35,11 @@ public class TableScript : MonoBehaviour
     public GameObject getIngredient() {
         GameObject result = currentIngredient;
         currentIngredient = null;
+        timer = cooldownTime;
         return result;
+    }
+
+    public bool canBeUsed() {
+        return timer <= 0;
     }
 }
