@@ -87,19 +87,20 @@ public class Player : MonoBehaviour
                         carriedIngredient = null;
                         carryingObject = false;
                     }
-                    else if ( !tableScript.isFree() && ! carryingObject)
+                    else if (!tableScript.isFree() && !carryingObject && tableScript.ingredientCanBePickedUp())
                     {
                         carriedIngredient = tableScript.pickIngredient();
                         carryingObject = true;
                     }
 
                 }
-                if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree() ) {
-
+                if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree()) {
                     GameObject ingredientOnTable =  currentTable.GetComponent<TableScript>().getIngredient();
-                    ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
-                    state = playerStates.CHOPP;
-
+                    if (!ingredientOnTable.GetComponent<Ingredient>().choppingDone()) {
+                        float timeLeft = ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
+                        currentTable.GetComponent<ProcessBar>().setMaxTime(timeLeft);
+                        state = playerStates.CHOPP;
+                    }
                 }
                 else if (canPickUp && spaceB && !carryingObject)
                 {
@@ -186,15 +187,18 @@ public class Player : MonoBehaviour
 
                 break;
             case playerStates.CHOPP:
-
-
-                //if (doneChopping) state = playerStates.STAND;
                 GameObject tableIngredient = currentTable.GetComponent<TableScript>().getIngredient();
-                if (upB || downB || leftB || rightB) {
+                currentTable.GetComponent<ProcessBar>().setProcessTime(tableIngredient.GetComponent<Ingredient>().getTimeLeftNormalized());
+                if (upB || downB || leftB || rightB)
+                {
                     state = playerStates.STAND;
                     tableIngredient.GetComponent<Ingredient>().stopCutting();
-                } 
-                else if (tableIngredient.GetComponent<Ingredient>().choppingDone() ) state = playerStates.STAND;
+                }
+                else if (tableIngredient.GetComponent<Ingredient>().choppingDone())
+                {
+                    state = playerStates.STAND;
+                    currentTable.GetComponent<ProcessBar>().hide();
+                }
                 break;
             case playerStates.DISHES:
 

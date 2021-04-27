@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,5 +47,10 @@ public class TableScript : MonoBehaviour
 
     public bool canBeUsed() {
         return timer <= 0;
+    }
+
+    public bool ingredientCanBePickedUp()
+    {
+        return currentIngredient.GetComponent<Ingredient>().ingredientCanBePickedUp();
     }
 }
