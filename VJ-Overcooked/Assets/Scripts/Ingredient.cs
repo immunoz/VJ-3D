@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,9 @@ public class Ingredient : MonoBehaviour
 
     bool readyToCut;
     public float CuttingTime;
+    private float leftCuttingTime;
     private float timer;
+    private bool bChopped;
 
     enum ingredientState
     {
@@ -22,7 +25,8 @@ public class Ingredient : MonoBehaviour
     {
         state = ingredientState.RAW;
         readyToCut = false;
-
+        bChopped = false;
+        leftCuttingTime = CuttingTime;
     }
 
     // Update is called once per frame
@@ -34,18 +38,19 @@ public class Ingredient : MonoBehaviour
             case ingredientState.RAW:
                 if (readyToCut) {
                     state = ingredientState.IN_PROCESS;
-                    timer = CuttingTime; 
+                    timer = leftCuttingTime;
+                    bChopped = true;
                 } 
                 break;
             case ingredientState.IN_PROCESS:
                 timer -= Time.deltaTime;
                 if (timer <= 0)
                     state = ingredientState.CHOPPED;
-                Debug.Log("holla");
+                    leftCuttingTime = 0f;
                 break;
 
             case ingredientState.CHOPPED:
-                Debug.Log("Chopped");
+                bChopped = false;
                 break;
         }
         
@@ -53,9 +58,10 @@ public class Ingredient : MonoBehaviour
 
 
 
-    public void setReadyToCut()
+    public float setReadyToCut()
     {
         readyToCut = true;
+        return leftCuttingTime / CuttingTime;
     }
 
     public bool choppingDone()
@@ -63,12 +69,20 @@ public class Ingredient : MonoBehaviour
         return state == ingredientState.CHOPPED;
     }
 
+    public bool ingredientCanBePickedUp()
+    {
+        return (state == ingredientState.RAW && leftCuttingTime == CuttingTime) || choppingDone();
+    }
 
     public void stopCutting()
     {
         state = ingredientState.RAW;
         readyToCut = false;
-        CuttingTime = timer;
-        Debug.Log(CuttingTime);
+        leftCuttingTime = timer;
+    }
+
+    public float getTimeLeftNormalized()
+    {
+        return timer / CuttingTime;
     }
 }
