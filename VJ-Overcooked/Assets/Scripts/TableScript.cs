@@ -6,12 +6,14 @@ using UnityEngine;
 public class TableScript : MonoBehaviour
 {
     private GameObject currentIngredient;
+    public GameObject currentPlate;
     public float heightOffset;
     public float cooldownTime;
     private float timer;
 
     void Start() {
         timer = 0;
+        if (currentPlate != null) setPlate(currentPlate);
     }
 
     void Update() {
@@ -24,13 +26,26 @@ public class TableScript : MonoBehaviour
         timer = cooldownTime;
     }
 
+    public void setPlate(GameObject plate )
+    {
+        currentPlate = plate;
+        setPlatePosition();
+        timer = cooldownTime;
+    }
+
     private void setIngredientPosition() {
         Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
         currentIngredient.transform.position = tableCenter + new Vector3(0f, heightOffset, 0f);
     }
 
+    private void setPlatePosition()
+    {
+        Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
+        currentPlate.transform.position = tableCenter + new Vector3(0f, heightOffset, 0f);
+    }
+
     public bool isFree() {
-        return currentIngredient == null;
+        return (currentIngredient == null && currentPlate == null);
     }
 
     public GameObject pickIngredient() {
@@ -40,9 +55,22 @@ public class TableScript : MonoBehaviour
         return result;
     }
 
+    public GameObject pickPlate()
+    {
+        GameObject result = currentPlate;
+        currentPlate = null;
+        timer = cooldownTime;
+        return result;
+    }
+
     public GameObject getIngredient ()
     {
         return currentIngredient;
+    }
+
+    public GameObject getPlate()
+    {
+        return currentPlate;
     }
 
     public bool canBeUsed() {
@@ -53,4 +81,18 @@ public class TableScript : MonoBehaviour
     {
         return currentIngredient.GetComponent<Ingredient>().ingredientCanBePickedUp();
     }
+
+    public bool plateCanBePickedUp()
+    {
+        return currentPlate.GetComponent<Plate>().plateCanBePickedUp();
+    }
+
+    public bool plateOnTable ()
+    {
+        //  se puede hacer mas en general mas tarde para diferenciar entre plate e ingrediente, etc
+        return currentPlate != null;
+    }
+
+
+
 }

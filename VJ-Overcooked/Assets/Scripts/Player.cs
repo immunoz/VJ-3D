@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public int playerVelocity = 1;
     private IngredientSpawner ingredientSpawner;
-    private GameObject carriedIngredient, currentTable;
+    private GameObject carriedIngredient, currentTable, currentWasher, carriedPlate;
     public float ingredientSpawnDistance = 5f;
     // Start is called before the first frame update
 
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private playerDirections direction;
     public float timer;
     public float maxSpeed;
-    private bool canChopp, canPickUp, carryingObject, nextToTable;
+    private bool canChopp, canPickUp, carryingObject, nextToTable, canWash;
     public float ingredientPosY = 10f;
 
     void Start()
@@ -33,8 +33,10 @@ public class Player : MonoBehaviour
         canChopp = false;
         canPickUp = false;
         carryingObject = false;
+        canWash = false;
         nextToTable = false;
         carriedIngredient = null;
+        carriedPlate = null;
         ingredientSpawner = null;
     }
 
@@ -115,15 +117,61 @@ public class Player : MonoBehaviour
                     TableScript tableScript = currentTable.GetComponent<TableScript>();
                     if (tableScript.isFree() && carryingObject)
                     {
-                        tableScript.setIngredient(carriedIngredient);
-                        carriedIngredient = null;
+                        if (carriedIngredient != null) {
+                            tableScript.setIngredient(carriedIngredient);
+                            carriedIngredient = null;
+                        }
+                        else if (carriedPlate != null )
+                        {
+                            tableScript.setPlate(carriedPlate);
+                            carriedPlate = null;
+                        }
+
+
                         carryingObject = false;
                     }
                     else if (!tableScript.isFree() && !carryingObject)
                     {
-                        carriedIngredient = tableScript.pickIngredient();
+                        if (!tableScript.plateOnTable()) carriedIngredient = tableScript.pickIngredient();
+                        else carriedPlate = tableScript.pickPlate();
+
+                        //como diferencio entre plato y ingridiente
                         carryingObject = true;
                     }
+                }
+                else if ( canWash && spaceB && currentWasher.GetComponent<SinkScript>().canBeUsed() )
+                {
+                    SinkScript sinkScript = currentWasher.GetComponent<SinkScript>();
+                    if (sinkScript.isFree() && carryingObject)
+                    {
+                        //hacer cambios hay que adaptarlo al plato 
+                        sinkScript.setPlate(carriedPlate);
+                        carriedPlate = null;
+                        carryingObject = false;
+                    }
+                    else if ( !sinkScript.isFree() && !carryingObject)
+                    {
+                        GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
+                        if (plateOnTable.GetComponent<Plate>().doneWashing())
+                        {
+                            carriedPlate = sinkScript.pickPlate();
+                            carryingObject = true;
+                        }
+
+                    }
+                    // no esta entrando 
+
+                }
+                if (canWash && Input.GetKey(KeyCode.LeftControl) && !currentWasher.GetComponent<SinkScript>().isFree())
+                {
+                    GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
+                    if (!plateOnTable.GetComponent<Plate>().doneWashing())
+                    {
+                        float timeLeft = plateOnTable.GetComponent<Plate>().setReadyToWash();
+                        currentWasher.GetComponent<ProcessBar>().setMaxTime(timeLeft);
+                        state = playerStates.DISHES;
+                    }
+
                 }
 
 
@@ -174,7 +222,11 @@ public class Player : MonoBehaviour
                 if (!upB && !downB && !leftB && !rightB)
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
-                    if (carryingObject) carriedIngredient.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                    if (carryingObject) {
+                        if ( carriedIngredient != null )carriedIngredient.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                        else if ( carriedPlate != null ) carriedPlate.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                    }
+                    
                     //gameObject.GetComponent<Rigidbody>().angularVelocity = new Vector3(0f, 0f, 0f);
                     state = playerStates.STAND;
                 }
@@ -201,9 +253,19 @@ public class Player : MonoBehaviour
                 }
                 break;
             case playerStates.DISHES:
+                GameObject plate = currentWasher.GetComponent<SinkScript>().getPlate();
+                currentWasher.GetComponent<ProcessBar>().setProcessTime(plate.GetComponent<Plate>().getTimeLeftNormalized());
+                if (upB || downB || leftB || rightB)
+                {
+                    state = playerStates.STAND;
+                    plate.GetComponent<Plate>().stopWashing();
 
-                
-
+                }
+                else if (plate.GetComponent<Plate>().doneWashing())
+                {
+                    state = playerStates.STAND;
+                    currentWasher.GetComponent<ProcessBar>().hide();
+                }
                 break;
 
         }
@@ -225,6 +287,12 @@ public class Player : MonoBehaviour
             currentTable = collider.gameObject;
             nextToTable = true;
         }
+        else if ( collider.name == "Sink")
+        {
+            canWash = true;
+            currentWasher = collider.gameObject;
+            
+        }
 
     }
 
@@ -239,6 +307,11 @@ public class Player : MonoBehaviour
         {
             currentTable = null;
             nextToTable = false;
+        }
+        else if (collider.name == "Sink")
+        {
+            currentWasher = null;
+            canWash = false;
         }
     }
 
@@ -255,6 +328,8 @@ public class Player : MonoBehaviour
     }
 
 
+
+    //Aprovecho esta llamada para usarla tambien para los platos. Tenemos que cambiarle de nombre.
     private void initIngridientPosition()
     {
 
@@ -263,28 +338,36 @@ public class Player : MonoBehaviour
        switch (direction)
         {
             case playerDirections.UP:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+                if (carriedIngredient != null ) carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+                else if ( carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
                 break;
             case playerDirections.DOWN:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY,   playerCenter.z- ingredientSpawnDistance);
+                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY,   playerCenter.z- ingredientSpawnDistance);
+                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
                 break;
             case playerDirections.LEFT:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x- ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x- ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
                 break;
             case playerDirections.RIGHT:
-                carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
                 break;
             case playerDirections.BOTTOMRIGHT:
-                carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY,   playerCenter.z - ingredientSpawnDistance);
+                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY,   playerCenter.z - ingredientSpawnDistance);
+                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
                 break;
             case playerDirections.BOTTOMLEFT:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
                 break;
             case playerDirections.TOPLEFT:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
                 break;
             case playerDirections.TOPRIGHT:
-                carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
                 break;
         }
     }
