@@ -72,6 +72,7 @@ public class Plate : MonoBehaviour
 
     public void stopWashing()
     {
+
         state = plateState.DIRTY;
         washing = false;
         leftWasshingTime = timer;

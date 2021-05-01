@@ -3,10 +3,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int playerVelocity = 1;
-    private IngredientSpawner ingredientSpawner;
     private GameObject carriedIngredient, currentTable, currentWasher, carriedPlate;
     public float ingredientSpawnDistance = 5f;
     // Start is called before the first frame update
+
+    private bool canUse;
+    public GameObject currentLocation, carriedObject;
 
     // Update is called once per frame
 
@@ -37,7 +39,11 @@ public class Player : MonoBehaviour
         nextToTable = false;
         carriedIngredient = null;
         carriedPlate = null;
-        ingredientSpawner = null;
+
+
+        ////////////////////
+        canUse = false;
+        currentLocation = null;
     }
 
     void FixedUpdate()
@@ -79,100 +85,148 @@ public class Player : MonoBehaviour
                     state = playerStates.MOVE;
                 }
 
-                
-                if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
+                if (spaceB && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
-                    TableScript tableScript = currentTable.GetComponent<TableScript>();
-                    if (tableScript.isFree() && carryingObject)
+                    Location locationScript = currentLocation.GetComponent<Location>();
+                    if ( locationScript.getType() != "IngredientSpawner")
                     {
-                        tableScript.setIngredient(carriedIngredient);
-                        carriedIngredient = null;
-                        carryingObject = false;
-                    }
-                    else if (!tableScript.isFree() && !carryingObject && tableScript.ingredientCanBePickedUp())
-                    {
-                        carriedIngredient = tableScript.pickIngredient();
-                        carryingObject = true;
-                    }
-
-                }
-                if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree()) {
-                    GameObject ingredientOnTable =  currentTable.GetComponent<TableScript>().getIngredient();
-                    if (!ingredientOnTable.GetComponent<Ingredient>().choppingDone()) {
-                        float timeLeft = ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
-                        currentTable.GetComponent<ProcessBar>().setMaxTime(timeLeft);
-                        state = playerStates.CHOPP;
-                    }
-                }
-                else if (canPickUp && spaceB && !carryingObject)
-                {
-                    carriedIngredient = ingredientSpawner.createIngredient();
-                    initIngridientPosition();
-                    carriedIngredient.GetComponent<Rigidbody>().useGravity = false;
-                    carriedIngredient.GetComponent<Rigidbody>().detectCollisions = false;
-                    carriedIngredient.GetComponent<Rigidbody>().isKinematic = true;
-                    carryingObject = true;
-                }
-                else if (nextToTable && spaceB && currentTable.GetComponent<TableScript>().canBeUsed()) {
-                    TableScript tableScript = currentTable.GetComponent<TableScript>();
-                    if (tableScript.isFree() && carryingObject)
-                    {
-                        if (carriedIngredient != null) {
-                            tableScript.setIngredient(carriedIngredient);
-                            carriedIngredient = null;
-                        }
-                        else if (carriedPlate != null )
+                        if (locationScript.isFree() && carryingObject)
                         {
-                            tableScript.setPlate(carriedPlate);
-                            carriedPlate = null;
+                            locationScript.setObject(carriedObject);
+                            carriedObject = null;
+                            carryingObject = false;
                         }
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.objectCanBePickedUp())
+                        {
+                            if (locationScript.finished())
+                            {
+                                carriedObject = locationScript.pickObject();
+                                carryingObject = true;
+                            }
 
-
-                        carryingObject = false;
+                        }
                     }
-                    else if (!tableScript.isFree() && !carryingObject)
+                    else if (  !carryingObject )
                     {
-                        if (!tableScript.plateOnTable()) carriedIngredient = tableScript.pickIngredient();
-                        else carriedPlate = tableScript.pickPlate();
-
-                        //como diferencio entre plato y ingridiente
+                        Spawner ingredientSpawner = currentLocation.GetComponent<Spawner>();
+                        carriedObject = ingredientSpawner.createIngredient();
+                        initObjectPosition();
                         carryingObject = true;
                     }
                 }
-                else if ( canWash && spaceB && currentWasher.GetComponent<SinkScript>().canBeUsed() )
+                if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
-                    SinkScript sinkScript = currentWasher.GetComponent<SinkScript>();
-                    if (sinkScript.isFree() && carryingObject)
+                    Location locationScript = currentLocation.GetComponent<Location>();
+                    if (locationScript.getType() == "Chopper")
                     {
-                        //hacer cambios hay que adaptarlo al plato 
-                        sinkScript.setPlate(carriedPlate);
-                        carriedPlate = null;
-                        carryingObject = false;
-                    }
-                    else if ( !sinkScript.isFree() && !carryingObject)
-                    {
-                        GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
-                        if (plateOnTable.GetComponent<Plate>().doneWashing())
+                        if (!locationScript.isFree() && !carryingObject )
                         {
-                            carriedPlate = sinkScript.pickPlate();
-                            carryingObject = true;
+                            Chopper chopperScript = currentLocation.GetComponent<Chopper>();
+                            chopperScript.startChopp();
+                            state = playerStates.CHOPP;
                         }
-
-                    }
-                    // no esta entrando 
-
-                }
-                if (canWash && Input.GetKey(KeyCode.LeftControl) && !currentWasher.GetComponent<SinkScript>().isFree())
-                {
-                    GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
-                    if (!plateOnTable.GetComponent<Plate>().doneWashing())
+                    }else if ( locationScript.getType() == "Sink")
                     {
-                        float timeLeft = plateOnTable.GetComponent<Plate>().setReadyToWash();
-                        currentWasher.GetComponent<ProcessBar>().setMaxTime(timeLeft);
+                        SinkScript sink = currentLocation.GetComponent<SinkScript>();
+                        sink.startWashing();
                         state = playerStates.DISHES;
                     }
-
                 }
+
+
+                /*  if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
+                  {
+                      TableScript tableScript = currentTable.GetComponent<TableScript>();
+                      if (tableScript.isFree() && carryingObject)
+                      {
+                          tableScript.setIngredient(carriedIngredient);
+                          carriedIngredient = null;
+                          carryingObject = false;
+                      }
+                      else if (!tableScript.isFree() && !carryingObject && tableScript.ingredientCanBePickedUp())
+                      {
+                          carriedIngredient = tableScript.pickIngredient();
+                          carryingObject = true;
+                      }
+
+                  }
+                  if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree()) {
+                      GameObject ingredientOnTable =  currentTable.GetComponent<TableScript>().getIngredient();
+                      if (!ingredientOnTable.GetComponent<Ingredient>().choppingDone()) {
+                          float timeLeft = ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
+                          currentTable.GetComponent<ProcessBar>().setMaxTime(timeLeft);
+                          state = playerStates.CHOPP;
+                      }
+                  }
+                  else if (canPickUp && spaceB && !carryingObject)
+                  {
+                      carriedIngredient = ingredientSpawner.createIngredient();
+                      initIngridientPosition();
+                      carriedIngredient.GetComponent<Rigidbody>().useGravity = false;
+                      carriedIngredient.GetComponent<Rigidbody>().detectCollisions = false;
+                      carriedIngredient.GetComponent<Rigidbody>().isKinematic = true;
+                      carryingObject = true;
+                  }
+                  else if (nextToTable && spaceB && currentTable.GetComponent<TableScript>().canBeUsed()) {
+                      TableScript tableScript = currentTable.GetComponent<TableScript>();
+                      if (tableScript.isFree() && carryingObject)
+                      {
+                          if (carriedIngredient != null) {
+                              tableScript.setIngredient(carriedIngredient);
+                              carriedIngredient = null;
+                          }
+                          else if (carriedPlate != null )
+                          {
+                              tableScript.setPlate(carriedPlate);
+                              carriedPlate = null;
+                          }
+
+
+                          carryingObject = false;
+                      }
+                      else if (!tableScript.isFree() && !carryingObject)
+                      {
+                          if (!tableScript.plateOnTable()) carriedIngredient = tableScript.pickIngredient();
+                          else carriedPlate = tableScript.pickPlate();
+
+                          //como diferencio entre plato y ingridiente
+                          carryingObject = true;
+                      }
+                  }
+                  else if ( canWash && spaceB && currentWasher.GetComponent<SinkScript>().canBeUsed() )
+                  {
+                      SinkScript sinkScript = currentWasher.GetComponent<SinkScript>();
+                      if (sinkScript.isFree() && carryingObject)
+                      {
+                          //hacer cambios hay que adaptarlo al plato 
+                          sinkScript.setPlate(carriedPlate);
+                          carriedPlate = null;
+                          carryingObject = false;
+                      }
+                      else if ( !sinkScript.isFree() && !carryingObject)
+                      {
+                          GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
+                          if (plateOnTable.GetComponent<Plate>().doneWashing())
+                          {
+                              carriedPlate = sinkScript.pickPlate();
+                              carryingObject = true;
+                          }
+
+                      }
+                      // no esta entrando 
+
+                  }
+                  if (canWash && Input.GetKey(KeyCode.LeftControl) && !currentWasher.GetComponent<SinkScript>().isFree())
+                  {
+                      GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
+                      if (!plateOnTable.GetComponent<Plate>().doneWashing())
+                      {
+                          float timeLeft = plateOnTable.GetComponent<Plate>().setReadyToWash();
+                          currentWasher.GetComponent<ProcessBar>().setMaxTime(timeLeft);
+                          state = playerStates.DISHES;
+                      }
+
+                  }*/
 
 
                 break;
@@ -217,9 +271,20 @@ public class Player : MonoBehaviour
                 else if (leftB && downB) {
                     direction = playerDirections.BOTTOMLEFT;
                     movement = movement + new Vector3(-playerVelocity / 2, 0f, -playerVelocity / 2);
-                } 
+                }
 
                 if (!upB && !downB && !leftB && !rightB)
+                {
+                    gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+                    state = playerStates.STAND;
+                }
+                else
+                {
+                    //gameObject.GetComponent<Rigidbody>().AddForce(movement);
+                    if (carryingObject) initObjectPosition(); //updateCarryingObjectPosition(movement);
+                    gameObject.GetComponent<Rigidbody>().velocity = movement * Time.deltaTime;//Vector3.ClampMagnitude(gameObject.GetComponent<Rigidbody>().velocity, maxSpeed);
+                }
+                /*if (!upB && !downB && !leftB && !rightB)
                 {
                     gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
                     if (carryingObject) {
@@ -235,11 +300,20 @@ public class Player : MonoBehaviour
                     //gameObject.GetComponent<Rigidbody>().AddForce(movement);
                     if (carryingObject) initIngridientPosition(); //updateCarryingObjectPosition(movement);
                     gameObject.GetComponent<Rigidbody>().velocity = movement * Time.deltaTime;//Vector3.ClampMagnitude(gameObject.GetComponent<Rigidbody>().velocity, maxSpeed);
-                }
+                }*/
 
                 break;
             case playerStates.CHOPP:
-                GameObject tableIngredient = currentTable.GetComponent<TableScript>().getIngredient();
+                Chopper chopperScr = currentLocation.GetComponent<Chopper>();
+                if (upB || downB || leftB || rightB || chopperScr.finished())
+                {
+                    if (chopperScr.finished()) chopperScr.stopChopp();
+                    else chopperScr.pauseChopping();
+                    state = playerStates.STAND;
+                }
+ 
+
+                /*GameObject tableIngredient = currentTable.GetComponent<TableScript>().getIngredient();
                 currentTable.GetComponent<ProcessBar>().setProcessTime(tableIngredient.GetComponent<Ingredient>().getTimeLeftNormalized());
                 if (upB || downB || leftB || rightB)
                 {
@@ -250,21 +324,15 @@ public class Player : MonoBehaviour
                 {
                     state = playerStates.STAND;
                     currentTable.GetComponent<ProcessBar>().hide();
-                }
+                }*/
                 break;
             case playerStates.DISHES:
-                GameObject plate = currentWasher.GetComponent<SinkScript>().getPlate();
-                currentWasher.GetComponent<ProcessBar>().setProcessTime(plate.GetComponent<Plate>().getTimeLeftNormalized());
-                if (upB || downB || leftB || rightB)
-                {
+                SinkScript sinkScript = currentLocation.GetComponent<SinkScript>();
+                if (upB || downB || leftB || rightB || sinkScript.finished())
+                { 
                     state = playerStates.STAND;
-                    plate.GetComponent<Plate>().stopWashing();
-
-                }
-                else if (plate.GetComponent<Plate>().doneWashing())
-                {
-                    state = playerStates.STAND;
-                    currentWasher.GetComponent<ProcessBar>().hide();
+                    if (sinkScript.finished()) sinkScript.stopWashing();
+                    else sinkScript.pauseWashing();
                 }
                 break;
 
@@ -274,7 +342,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.name == "Chopper") {
+        /*if (collider.name == "Chopper") {
             canChopp = true;
             currentTable = collider.gameObject;
         } 
@@ -292,12 +360,14 @@ public class Player : MonoBehaviour
             canWash = true;
             currentWasher = collider.gameObject;
             
-        }
+        }*/
+        canUse = true;
+        currentLocation = collider.gameObject;
 
     }
 
     void OnTriggerExit(Collider collider) {
-        if (collider.name == "Chopper") canChopp = false;
+        /* if (collider.name == "Chopper") canChopp = false;
         else if (collider.name == "IngredientSpawner")
         {
             ingredientSpawner = null;
@@ -312,7 +382,9 @@ public class Player : MonoBehaviour
         {
             currentWasher = null;
             canWash = false;
-        }
+        }*/
+        canUse = false;
+        currentLocation = null;
     }
 
     public bool playerCanPickUP() {
@@ -330,45 +402,78 @@ public class Player : MonoBehaviour
 
 
     //Aprovecho esta llamada para usarla tambien para los platos. Tenemos que cambiarle de nombre.
-    private void initIngridientPosition()
+    private void initObjectPosition()
     {
 
         Vector3 playerCenter = GetComponent<Renderer>().bounds.center;
        // carriedIngredient
        switch (direction)
         {
+
             case playerDirections.UP:
-                if (carriedIngredient != null ) carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
-                else if ( carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+                carriedObject.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+
                 break;
             case playerDirections.DOWN:
-                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY,   playerCenter.z- ingredientSpawnDistance);
-                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                carriedObject.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+
                 break;
             case playerDirections.LEFT:
-                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x- ingredientSpawnDistance, ingredientPosY, playerCenter.z);
-                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+                carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+
                 break;
             case playerDirections.RIGHT:
-                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
-                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+                carriedObject.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+
                 break;
             case playerDirections.BOTTOMRIGHT:
-                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY,   playerCenter.z - ingredientSpawnDistance);
-                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                carriedObject.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+
                 break;
             case playerDirections.BOTTOMLEFT:
-                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
-                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
                 break;
             case playerDirections.TOPLEFT:
-                if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+
                 break;
             case playerDirections.TOPRIGHT:
-                if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                carriedObject.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+ 
                 break;
+                /*
+                case playerDirections.UP:
+                    if (carriedIngredient != null ) carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+                    else if ( carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+                    break;
+                case playerDirections.DOWN:
+                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY,   playerCenter.z- ingredientSpawnDistance);
+                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                    break;
+                case playerDirections.LEFT:
+                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x- ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
+                    break;
+                case playerDirections.RIGHT:
+                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
+                    break;
+                case playerDirections.BOTTOMRIGHT:
+                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY,   playerCenter.z - ingredientSpawnDistance);
+                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                    break;
+                case playerDirections.BOTTOMLEFT:
+                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
+                    break;
+                case playerDirections.TOPLEFT:
+                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                    break;
+                case playerDirections.TOPRIGHT:
+                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
+                    break;*/
         }
     }
 

@@ -12,6 +12,7 @@ public class Ingredient : MonoBehaviour
     private float leftCuttingTime;
     private float timer;
     private bool bChopped;
+    public string name;
 
     enum ingredientState
     {
@@ -85,4 +86,5 @@ public class Ingredient : MonoBehaviour
     {
         return timer / CuttingTime;
     }
+
 }

@@ -2,10 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SinkScript : MonoBehaviour
+class SinkScript : Location
 {
 
-    public GameObject currentPlate;
+    public float heightOffset;
+    private bool started = false;
+
+    public override float getGetHeightOffset()
+    {
+        return heightOffset;
+    }
+
+
+    private void LateUpdate()
+    {
+        if (currentObject != null && started ) GetComponent<ProcessBar>().setProcessTime(currentObject.GetComponent<Plate>().getTimeLeftNormalized());
+    }
+    public void startWashing()
+    {
+        float time = currentObject.GetComponent<Plate>().setReadyToWash();
+        if (time > 0) GetComponent<ProcessBar>().setMaxTime(time);
+        started = true;
+    }
+
+    public void stopWashing()
+    {
+        GetComponent<ProcessBar>().hide();
+        started = false;
+    }
+    
+    public void pauseWashing()
+    {
+        currentObject.GetComponent<Plate>().stopWashing();
+        started = false;
+    }
+
+    public override bool  finished()
+    {
+        return currentObject.GetComponent<Plate>().doneWashing();
+    }
+
+
+
+    /*public GameObject currentPlate;
     public float cooldownTime;
     public float heightOffset;
     public float timer;
@@ -67,5 +106,5 @@ public class SinkScript : MonoBehaviour
     public bool ingredientCanBePickedUp()
     {
         return currentPlate.GetComponent<Plate>().plateCanBePickedUp();
-    }
+    }*/
 }

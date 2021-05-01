@@ -3,15 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TableScript : MonoBehaviour
+ class TableScript : Location
 {
-    private GameObject currentIngredient;
-    public GameObject currentPlate;
     public float heightOffset;
-    public float cooldownTime;
-    private float timer;
 
-    void Start() {
+    public override float getGetHeightOffset()
+    {
+        return heightOffset;
+    }
+
+    public override bool finished()
+    {
+        return true;
+    }
+
+
+
+
+    /*void Start() {
         timer = 0;
         if (currentPlate != null) setPlate(currentPlate);
     }
@@ -91,7 +100,7 @@ public class TableScript : MonoBehaviour
     {
         //  se puede hacer mas en general mas tarde para diferenciar entre plate e ingrediente, etc
         return currentPlate != null;
-    }
+    }*/
 
 
 
