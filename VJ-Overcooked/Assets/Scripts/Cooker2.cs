@@ -18,6 +18,17 @@ using UnityEngine;
         return true;
     }
 
+    public bool addIngredient(GameObject obj)
+    {
+        //asumimos que solo pueden haber ollas y sartenes sobre la cocina
+        if ( currentObject != null && obj.name != "plate")
+        {
+            Pot pot = currentObject.GetComponent<Pot>();
+            return pot.setObject(obj);
+        }
+        return false;
+    }
+
 
 
 

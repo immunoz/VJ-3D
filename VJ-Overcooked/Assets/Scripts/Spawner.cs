@@ -11,6 +11,7 @@ using UnityEngine;
     public GameObject createIngredient()
     {
         GameObject temp = Instantiate(ingredientPrefab) as GameObject;
+        temp.name = "onion";
         return temp;
     }
     

@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
                             carryingObject = false;
 
                         }
-                        else if (!locationScript.isFree() && !carryingObject && locationScript.objectCanBePickedUp())
+                        else if (!locationScript.isFree() && !carryingObject /*&& locationScript.objectCanBePickedUp()*/)
                         {
                             if (locationScript.finished())
                             {
@@ -116,15 +116,27 @@ public class Player : MonoBehaviour
                     }
                     else if ( locationScript.getType() == "cooker")
                     {
-                        Debug.Log("cook");
-                        Pot potScript = currentLocation.GetComponent<Pot>();
-                        if (potScript.setObject(carriedObject))
+                       
+                        Cooker2 cooker =  locationScript.GetComponent<Cooker2>();
+                        if (carriedObject != null && carriedObject.name == "pot" && locationScript.isFree() && carryingObject)
+                        {
+                            locationScript.setObject(carriedObject);
+                            carryingObject = false;
+                            carriedObject = null;
+                        }
+                        else if (!locationScript.isFree() && !carryingObject)
+                        {
+                            
+                            carriedObject = locationScript.pickObject();
+                            carryingObject = true;
+
+                        }
+                        else if (cooker.addIngredient(carriedObject))
                         {
                             carryingObject = false;
                             carriedObject = null;
                         }
                     }
-                    Debug.Log(locationScript.getType());
                 }
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {

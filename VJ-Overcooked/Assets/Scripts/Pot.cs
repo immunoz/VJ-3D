@@ -7,13 +7,22 @@ public class Pot : MonoBehaviour
 
 
 
-    public ArrayList currentObjects;
+    public int count;
+    public string ingredient;
+
+    void Start()
+    {
+        count = 0;
+        ingredient = "";
+    }
 
     public bool setObject(GameObject obj)
     {
-        Onion onionScript = obj.GetComponent<Onion>();
-        if (onionScript.inPot() && onionScript.choppingDone()) {
-            currentObjects.Add(obj);
+        Ingredient ingredientScript = obj.GetComponent<Ingredient>();
+        if (ingredientScript.inPot() && ingredientScript.choppingDone() && (count == 0 || obj.name == ingredient && count < 3) ) {
+            count++;
+            ingredient = obj.name;
+            Destroy(obj);
             return true;
         }
         return false;
