@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ingredient : MonoBehaviour
+abstract class Ingredient : MonoBehaviour
 {
 
 
@@ -13,7 +13,7 @@ public class Ingredient : MonoBehaviour
     private float timer;
     private bool bChopped;
     public string name;
-
+    
     enum ingredientState
     {
        RAW, IN_PROCESS, CHOPPED
@@ -22,12 +22,12 @@ public class Ingredient : MonoBehaviour
     private ingredientState state;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         state = ingredientState.RAW;
         readyToCut = false;
         bChopped = false;
-        leftCuttingTime = CuttingTime;
+        leftCuttingTime = getTime();
     }
 
     // Update is called once per frame
@@ -62,7 +62,10 @@ public class Ingredient : MonoBehaviour
     public float setReadyToCut()
     {
         readyToCut = true;
-        return leftCuttingTime / CuttingTime;
+        //Debug.Log(leftCuttingTime);
+        
+       
+        return leftCuttingTime / getTime();
     }
 
     public bool choppingDone()
@@ -72,7 +75,7 @@ public class Ingredient : MonoBehaviour
 
     public bool ingredientCanBePickedUp()
     {
-        return (state == ingredientState.RAW && leftCuttingTime == CuttingTime) || choppingDone();
+        return (state == ingredientState.RAW && leftCuttingTime == getTime()) || choppingDone();
     }
 
     public void stopCutting()
@@ -84,7 +87,11 @@ public class Ingredient : MonoBehaviour
 
     public float getTimeLeftNormalized()
     {
-        return timer / CuttingTime;
+        return timer / getTime();
     }
+
+    public abstract bool inPot();
+
+    public abstract float getTime();
 
 }

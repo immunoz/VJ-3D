@@ -88,13 +88,14 @@ public class Player : MonoBehaviour
                 if (spaceB && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
-                    if ( locationScript.getType() != "IngredientSpawner")
+                    if ( locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker")
                     {
                         if (locationScript.isFree() && carryingObject)
                         {
                             locationScript.setObject(carriedObject);
                             carriedObject = null;
                             carryingObject = false;
+
                         }
                         else if (!locationScript.isFree() && !carryingObject && locationScript.objectCanBePickedUp())
                         {
@@ -106,13 +107,24 @@ public class Player : MonoBehaviour
 
                         }
                     }
-                    else if (  !carryingObject )
+                    else if (locationScript.getType() == "IngredientSpawner" && !carryingObject )
                     {
                         Spawner ingredientSpawner = currentLocation.GetComponent<Spawner>();
                         carriedObject = ingredientSpawner.createIngredient();
                         initObjectPosition();
                         carryingObject = true;
                     }
+                    else if ( locationScript.getType() == "cooker")
+                    {
+                        Debug.Log("cook");
+                        Pot potScript = currentLocation.GetComponent<Pot>();
+                        if (potScript.setObject(carriedObject))
+                        {
+                            carryingObject = false;
+                            carriedObject = null;
+                        }
+                    }
+                    Debug.Log(locationScript.getType());
                 }
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {

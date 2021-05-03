@@ -21,6 +21,7 @@ using UnityEngine;
     public void startChopp()
     {
         float time = currentObject.GetComponent<Ingredient>().setReadyToCut();
+        //Debug.Log(time);
         started = true;
         if ( time > 0 ) GetComponent<ProcessBar>().setMaxTime(time);
     }

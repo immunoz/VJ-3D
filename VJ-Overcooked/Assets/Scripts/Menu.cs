@@ -11,9 +11,5 @@ public class Menu
 
 
 
-    public void setIngredient (Ingredient ingredient)
-    {
-        //if ( ingredient.name  )
 
-    }
 }

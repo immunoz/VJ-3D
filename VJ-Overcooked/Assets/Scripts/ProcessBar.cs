@@ -8,6 +8,7 @@ public class ProcessBar : MonoBehaviour
     public Slider slider;
 
     public void setMaxTime(float normalizedTime) {
+
         processBarObject.SetActive(true);
         slider.value = normalizedTime;
     }
