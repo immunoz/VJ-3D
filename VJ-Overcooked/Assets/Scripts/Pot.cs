@@ -21,8 +21,6 @@ public class Pot : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log("ksdhafklashkflj");
-        Debug.Log(MaxCookTime * count / 3);
         if (count != 0 && cookTime < MaxCookTime * count / 3) {
             cookTime += Time.deltaTime;
             //GetComponent<ProcessBar>().setProcessTime(cookTime/MaxCookTime); //cookTime - (cookTime / (MaxCookTime * count))
