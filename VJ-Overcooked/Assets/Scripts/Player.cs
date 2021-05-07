@@ -84,17 +84,17 @@ public class Player : MonoBehaviour
                     direction = playerDirections.RIGHT;
                     state = playerStates.MOVE;
                 }
-
                 if (spaceB && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
-                    if ( locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker")
+                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven")
                     {
                         if (locationScript.isFree() && carryingObject)
                         {
                             locationScript.setObject(carriedObject);
                             carriedObject = null;
                             carryingObject = false;
+
 
                         }
                         else if (!locationScript.isFree() && !carryingObject /*&& locationScript.objectCanBePickedUp()*/)
@@ -107,28 +107,32 @@ public class Player : MonoBehaviour
 
                         }
                     }
-                    else if (locationScript.getType() == "IngredientSpawner" && !carryingObject )
+                    else if (locationScript.getType() == "IngredientSpawner" && !carryingObject)
                     {
                         Spawner ingredientSpawner = currentLocation.GetComponent<Spawner>();
                         carriedObject = ingredientSpawner.createIngredient();
                         initObjectPosition();
                         carryingObject = true;
                     }
-                    else if ( locationScript.getType() == "cooker")
+                    else if (locationScript.getType() == "cooker")
                     {
-                       
-                        Cooker2 cooker =  locationScript.GetComponent<Cooker2>();
+
+                        Cooker2 cooker = locationScript.GetComponent<Cooker2>();
                         if (carriedObject != null && carriedObject.name == "pot" && locationScript.isFree() && carryingObject)
                         {
                             locationScript.setObject(carriedObject);
+                            Pot potScript = carriedObject.GetComponent<Pot>();
+                            if (potScript.hasElement()) potScript.continueCooking();
                             carryingObject = false;
                             carriedObject = null;
+
                         }
                         else if (!locationScript.isFree() && !carryingObject)
                         {
-                            
+
                             carriedObject = locationScript.pickObject();
                             carryingObject = true;
+                            carriedObject.GetComponent<Pot>().stopCooking();
 
                         }
                         else if (cooker.addIngredient(carriedObject))
@@ -136,6 +140,27 @@ public class Player : MonoBehaviour
                             carryingObject = false;
                             carriedObject = null;
                         }
+                    }
+                    else if (locationScript.getType() == "oven")
+                    {
+
+                        if (carryingObject && carriedObject.name == "pizza" && locationScript.isFree() && ! carriedObject.GetComponent<Pizza>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
+                        {
+                            // poner otro if para comprobar que la pizza tiene todos los ingredientes necesarios.
+                            locationScript.setObject(carriedObject);
+                            carryingObject = false;
+                            carriedObject = null;
+                            locationScript.GetComponent<Oven>().initOven();
+                        }
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished() )
+                        {
+                            carriedObject = locationScript.pickObject();
+                            carryingObject = true;
+                            locationScript.GetComponent<Oven>().finishOven();
+
+                        }
+
+
                     }
                 }
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())

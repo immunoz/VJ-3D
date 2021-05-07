@@ -24,7 +24,10 @@ using UnityEngine;
         if ( currentObject != null && obj.name != "plate")
         {
             Pot pot = currentObject.GetComponent<Pot>();
-            return pot.setObject(obj);
+            
+            bool set = pot.setObject(obj);
+            if ( set ) resetCoolDown();
+            return set;
         }
         return false;
     }
