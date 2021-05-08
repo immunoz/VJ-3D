@@ -133,6 +133,7 @@ public class Player : MonoBehaviour
                             carriedObject = locationScript.pickObject();
                             carryingObject = true;
                             carriedObject.GetComponent<Pot>().stopCooking();
+                            carriedObject.GetComponent<Cooker2>().hideWarning();
 
                         }
                         else if (cooker.addIngredient(carriedObject))

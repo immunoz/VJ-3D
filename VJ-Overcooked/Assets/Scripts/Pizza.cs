@@ -16,6 +16,7 @@ public class Pizza : MonoBehaviour
     void Start()
     {
         startCooking = false;
+        ingredients = new List<string>();
         done = false;
         state = pizzaState.RAW;
         count = 0;
@@ -61,4 +62,5 @@ public class Pizza : MonoBehaviour
             count++;
         }
     }
+   
 }

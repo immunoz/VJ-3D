@@ -22,6 +22,11 @@ public class Pot : MonoBehaviour
         stop = false;
     }
 
+    public void hideBar()
+    {
+        GetComponent<ProcessBar>().hide();
+    }
+
     private void Update()
     {
         if (count != 0 && cookTime < MaxCookTime * count / 3 && !stop) {
@@ -61,5 +66,10 @@ public class Pot : MonoBehaviour
     public void continueCooking()
     {
         stop = false;
+    }
+
+    public bool doneCooking()
+    {
+        return cookTime >= MaxCookTime;
     }
 }
