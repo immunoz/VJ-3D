@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,38 @@ using UnityEngine;
 {
     public float heightOffset;
 
+    public GameObject warning;
 
+    public float delay;
+
+    void Start()
+    {
+        delay = 0.0f;
+    }
+
+    void FixedUpdate()
+    {
+       
+        
+        if ( currentObject != null)
+        {
+
+
+            
+            if (currentObject.name == "pot" && currentObject.GetComponent<Pot>().doneCooking())
+            {
+                Pot potSricpt = currentObject.GetComponent<Pot>();
+                if (delay > 0) delay -= Time.deltaTime;
+                potSricpt.hideBar();
+                warning.SetActive(true);
+                if (delay <= 0) {
+                    warning.SetActive(false);
+                    delay = 0.5f;
+                } 
+            }
+
+        }
+    }
 
     public override float getGetHeightOffset()
     {
@@ -24,12 +56,16 @@ using UnityEngine;
         if ( currentObject != null && obj.name != "plate")
         {
             Pot pot = currentObject.GetComponent<Pot>();
-            return pot.setObject(obj);
+            
+            bool set = pot.setObject(obj);
+            if ( set ) resetCoolDown();
+            return set;
         }
         return false;
     }
 
-
-
-
+    public void hideWarning()
+    {
+        warning.SetActive(false);
+    }
 }
