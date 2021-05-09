@@ -26,7 +26,7 @@ abstract  class Location : MonoBehaviour
     public void setObject(GameObject obj)
     {
         currentObject = obj;
-        setObjectPosition();
+        if ( name != "pizza" ) setObjectPosition();
         timer = cooldownTime;
     }
 
@@ -51,7 +51,7 @@ abstract  class Location : MonoBehaviour
         GameObject result = currentObject;
         if ( name == "Sink") currentObject.transform.Rotate(0f, 45f, 0f);
         currentObject = null;
-        timer = cooldownTime;
+        resetCoolDown();
         return result;
     }
 
@@ -78,6 +78,11 @@ abstract  class Location : MonoBehaviour
     public  string getType()
     {
         return name;
+    }
+
+    public void resetCoolDown()
+    {
+        timer = cooldownTime;
     }
 
     public abstract bool finished();
