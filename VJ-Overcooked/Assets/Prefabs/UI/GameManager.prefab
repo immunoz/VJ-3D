@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5250196874350646002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5250196874350646001}
+  - component: {fileID: 5250196874350646000}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5250196874350646001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250196874350646002}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 491.7394, y: 262.7117, z: -33.244095}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5250196874350646000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5250196874350646002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33257bba04c003441a8c7ebc0ede1001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipe: {fileID: 0}
+  preparingStep: {fileID: 0}
+  player: {fileID: 0}
+  delivery: {fileID: 7558719380928687508, guid: c527a8ef3345e5643a6ad64ff86214fa, type: 3}
+  canvas: {fileID: 0}
+  goSprite: {fileID: 21300000, guid: 44c26d4971f52a848a8773bb11cdf70f, type: 3}
+  showRecipeTime: 3
+  offset: 5
+  spawnTime: 5
+  levelDeliveries:
+  - {fileID: 8561107583123646804, guid: d63f9f8e2f53c034eb22617becf4a054, type: 3}
+  - {fileID: 7558719380928687508, guid: c527a8ef3345e5643a6ad64ff86214fa, type: 3}
+  - {fileID: 2630682498756309925, guid: 1f02c2d12f3f4644986747349f65a6f3, type: 3}
