@@ -42,4 +42,13 @@ using UnityEngine;
     {
         return currentObject.GetComponent<Ingredient>().choppingDone();
     }
+
+    public override void setOnFire()
+    {
+        if (!onFire)
+        {
+            onFire = true;
+            flame.SetActive(true);
+        }
+    }
 }

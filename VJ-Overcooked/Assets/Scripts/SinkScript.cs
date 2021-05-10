@@ -42,6 +42,10 @@ class SinkScript : Location
         return currentObject.GetComponent<Plate>().doneWashing();
     }
 
+    public override void setOnFire()
+    {
+    }
+
 
 
     /*public GameObject currentPlate;

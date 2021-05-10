@@ -4,6 +4,10 @@ using UnityEngine;
 {
     public float heightOffset;
 
+
+
+
+
     public override float getGetHeightOffset()
     {
         return heightOffset;
@@ -20,7 +24,11 @@ using UnityEngine;
         timer = cooldownTime;
     }
 
-
+    public override void setOnFire()
+    {
+        onFire = true;
+        flame.SetActive(true);
+    }
 
 
     /*void Start() {

@@ -24,4 +24,13 @@ using UnityEngine;
     {
         return true;
     }
+
+    public override void setOnFire()
+    {
+        if (!onFire)
+        {
+            onFire = true;
+            flame.SetActive(true);
+        }
+    }
 }

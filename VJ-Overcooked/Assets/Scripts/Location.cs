@@ -10,17 +10,43 @@ abstract  class Location : MonoBehaviour
     public GameObject currentObject;
     protected float timer;
     public float  cooldownTime;
+    public Vector3 scale;
+    public float scaleDelay;
+    private Vector3 threshHold;
+    public float expandDelay;
+    public GameObject flame;
+    public GameObject[] nearComponents;
+
+    bool expandedNear;
+
+    protected bool onFire;
     void Start()
     {
         timer = 0f;
+
+        onFire = false;
+        threshHold = new Vector3(2.5f, 2.5f, 2.5f);
         if (currentObject != null) setObject(currentObject);
- 
+        flame.transform.position = GetComponent<Renderer>().bounds.center + new Vector3 (0,2f,0);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (timer > 0) timer -= Time.deltaTime;
+        if (expandDelay > 0 && onFire) expandDelay -= Time.deltaTime;
+        if (onFire ) scaleDelay -= Time.deltaTime;
+        if (onFire && scaleDelay <= 0)
+        {
+            expand();
+            scaleDelay = 0.2f;
+        }
+        else if (onFire && !expandedNear && expandDelay <= 0 )
+        {
+            setNearObjectsOnFire();
+            expandedNear = true;
+        }
+
     }
 
 
@@ -91,5 +117,28 @@ abstract  class Location : MonoBehaviour
     public bool hasPlate()
     {
         return currentObject.name == "plate";
+    }
+
+    public abstract void setOnFire();
+
+    public void expand()
+    {
+        //
+        if (flame.transform.GetChild(0).transform.localScale.x < threshHold.x)
+        {
+            flame.transform.GetChild(0).transform.localScale += scale;
+            flame.transform.GetChild(1).transform.localScale += scale;
+            flame.transform.GetChild(2).transform.localScale += scale;
+            flame.transform.GetChild(3).transform.localScale += scale;
+        }
+
+    }
+
+    private void setNearObjectsOnFire()
+    {
+        for (int i = 0; i < nearComponents.Length; ++i)
+        {
+            nearComponents[i].GetComponent<Location>().setOnFire();
+        }
     }
 }
