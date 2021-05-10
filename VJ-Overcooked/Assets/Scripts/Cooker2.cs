@@ -8,17 +8,21 @@ using UnityEngine;
     public float heightOffset;
 
     public GameObject warning;
-
+    public GameObject flame;
     public float delay;
+    public float scaleDelay;
+    public Vector3 scale;
+    private Vector3 threshHold;
 
     void Start()
     {
-        delay = 0.0f;
+        threshHold = new Vector3(2.5f, 2.5f, 2.5f);
+        if (currentObject.name == "pot") flame.transform.position = GetComponent<Renderer>().bounds.center;
     }
 
     void FixedUpdate()
     {
-       
+
         
         if ( currentObject != null)
         {
@@ -29,12 +33,20 @@ using UnityEngine;
             {
                 Pot potSricpt = currentObject.GetComponent<Pot>();
                 if (delay > 0) delay -= Time.deltaTime;
+                if (scaleDelay > 0) scaleDelay -= Time.deltaTime;
                 potSricpt.hideBar();
                 warning.SetActive(true);
                 if (delay <= 0) {
                     warning.SetActive(false);
-                    delay = 0.5f;
-                } 
+                    flame.SetActive(true);
+                    if (scaleDelay <= 0)
+                    {
+                        expand();
+                        scaleDelay = 0.2f;
+
+                    }
+                }
+
             }
 
         }
@@ -67,5 +79,18 @@ using UnityEngine;
     public void hideWarning()
     {
         warning.SetActive(false);
+    }
+
+    public void expand()
+    {
+        //
+        if (flame.transform.GetChild(0).transform.localScale.x < threshHold.x)
+        {
+            flame.transform.GetChild(0).transform.localScale += scale;
+            flame.transform.GetChild(1).transform.localScale += scale;
+            flame.transform.GetChild(2).transform.localScale += scale;
+            flame.transform.GetChild(3).transform.localScale += scale;
+        }
+
     }
 }
