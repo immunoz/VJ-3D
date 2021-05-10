@@ -3,17 +3,18 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int playerVelocity = 1;
-    private GameObject carriedIngredient, currentTable, currentWasher, carriedPlate;
     public float ingredientSpawnDistance = 5f;
+    public GameObject currentLocation, carriedObject;
     // Start is called before the first frame update
 
     private bool canUse;
-    public GameObject currentLocation, carriedObject;
+    private GameObject carriedIngredient, currentTable, currentWasher, carriedPlate;
+    private bool play;
 
     // Update is called once per frame
 
 
-     enum playerStates{
+    enum playerStates{
         MOVE, STAND, CHOPP, DISHES 
     };
      enum playerDirections {
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
         nextToTable = false;
         carriedIngredient = null;
         carriedPlate = null;
+        play = false;
 
 
         ////////////////////
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!play) return;
         bool leftB, rightB, upB, downB, spaceB;
         leftB = Input.GetKey("a");
         rightB = Input.GetKey("d");
@@ -87,7 +90,9 @@ public class Player : MonoBehaviour
                 if (spaceB && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
-                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven")
+                    Ingredient ingredientScript = null;
+                    if (carriedObject != null) ingredientScript = carriedObject.GetComponent<Ingredient>();
+                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven" && locationScript.getType() != "Sink")
                     {
                         if (locationScript.isFree() && carryingObject)
                         {
@@ -105,6 +110,12 @@ public class Player : MonoBehaviour
                                 carryingObject = true;
                             }
 
+                        }
+                        else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject && ingredientScript != null && ingredientScript.putInPlate()) {
+                            TableScript tableScript = currentLocation.GetComponent<TableScript>();
+                            tableScript.setInPlate(carriedObject);
+                            carriedObject = null;
+                            carryingObject = false;
                         }
                     }
                     else if (locationScript.getType() == "IngredientSpawner" && !carryingObject)
@@ -165,7 +176,14 @@ public class Player : MonoBehaviour
 
 
                     }
+                    else if (locationScript.getType() == "sink")
+                    {
+                        Plate plateScript = carriedObject.GetComponent<Plate>();
+                        if (locationScript.isFree() && carryingObject && carriedObject.name == "plate" && plateScript.isDirty()) setObjectInLocation(locationScript);
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished()) getObjectInLocation(locationScript);
+                    }
                 }
+                
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
@@ -391,6 +409,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void setObjectInLocation(Location locationScript) {
+        locationScript.setObject(carriedObject);
+        carriedObject = null;
+        carryingObject = false;
+    }
+
+    private void getObjectInLocation(Location locationScript)
+    {
+        carriedObject = locationScript.pickObject();
+        carryingObject = true;
+    }
+
 
     void OnTriggerEnter(Collider collider)
     {
@@ -527,6 +557,10 @@ public class Player : MonoBehaviour
                     else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
                     break;*/
         }
+    }
+
+    public void setPlay(bool value) {
+        play = value;
     }
 
 }

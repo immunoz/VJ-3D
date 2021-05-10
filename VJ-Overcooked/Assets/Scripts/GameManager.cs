@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
                     state = GameSteps.RUNNING;
                     preparingStep.SetActive(false);
                     timer = 0;
+                    player.GetComponent<Player>().setPlay(true);
                 }
                 if (showRecipeTime * 2 / 3 < timer) preparingStep.GetComponent<Image>().sprite = goSprite;
                 break;
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     private void generateDelivery() {
         GameObject temp = Instantiate(levelDeliveries[Random.Range(0, levelDeliveries.Length)]) as GameObject;
-        temp.transform.SetParent(canvas.transform);
+        temp.transform.SetParent(canvas.transform,false);
         lastPosition.x += temp.GetComponent<RectTransform>().sizeDelta.x + offset;
         temp.GetComponent<RectTransform>().localPosition = lastPosition;
         deliveries.Add(temp);

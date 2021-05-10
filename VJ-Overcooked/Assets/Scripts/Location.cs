@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ abstract  class Location : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject currentObject;
-    private float timer;
+    protected float timer;
     public float  cooldownTime;
     void Start()
     {
@@ -87,4 +88,8 @@ abstract  class Location : MonoBehaviour
 
     public abstract bool finished();
 
+    public bool hasPlate()
+    {
+        return currentObject.name == "plate";
+    }
 }

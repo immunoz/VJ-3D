@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
  class TableScript : Location
@@ -15,6 +12,12 @@ using UnityEngine;
     public override bool finished()
     {
         return true;
+    }
+
+    public void setInPlate(GameObject carriedObject)
+    {
+        currentObject.GetComponent<Plate>().putIngredient(carriedObject);
+        timer = cooldownTime;
     }
 
 

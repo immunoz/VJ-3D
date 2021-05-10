@@ -1,19 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Plate : MonoBehaviour
-
-
 {
 
     public float washingTime;
+    
     private float leftWasshingTime;
     private float timer;
     private bool washing;
-
-
-
+    public List<GameObject> ingredients;
 
 
     enum plateState
@@ -26,9 +24,15 @@ public class Plate : MonoBehaviour
 
     void Start()
     {
+        ingredients = new List<GameObject>();
         washing = false;
-        state = plateState.DIRTY;
+        state = plateState.WASHED;
         leftWasshingTime = washingTime;
+    }
+
+    public void putIngredient(GameObject carriedObject)
+    {
+        ingredients.Add(carriedObject);
     }
 
     void Update()
@@ -87,5 +91,10 @@ public class Plate : MonoBehaviour
     public float getTimeLeftNormalized()
     {
         return timer / washingTime;
+    }
+
+    public bool isDirty()
+    {
+        return state == plateState.DIRTY;
     }
 }

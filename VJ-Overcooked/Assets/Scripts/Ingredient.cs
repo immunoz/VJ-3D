@@ -68,6 +68,11 @@ public abstract class Ingredient : MonoBehaviour
         return leftCuttingTime / getTime();
     }
 
+    public bool putInPlate()
+    {
+        return state == ingredientState.CHOPPED;
+    }
+
     public bool choppingDone()
     {
         return state == ingredientState.CHOPPED;
