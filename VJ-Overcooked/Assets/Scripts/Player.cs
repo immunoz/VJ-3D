@@ -87,12 +87,13 @@ public class Player : MonoBehaviour
                     direction = playerDirections.RIGHT;
                     state = playerStates.MOVE;
                 }
+
                 if (spaceB && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
                     Ingredient ingredientScript = null;
                     if (carriedObject != null) ingredientScript = carriedObject.GetComponent<Ingredient>();
-                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven" && locationScript.getType() != "Sink")
+                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven" && locationScript.getType() != "Sink" && locationScript.getType() != "DeliveryZone")
                     {
                         if (locationScript.isFree() && carryingObject)
                         {
@@ -181,6 +182,13 @@ public class Player : MonoBehaviour
                         Plate plateScript = carriedObject.GetComponent<Plate>();
                         if (locationScript.isFree() && carryingObject && carriedObject.name == "plate" && plateScript.isDirty()) setObjectInLocation(locationScript);
                         else if (!locationScript.isFree() && !carryingObject && locationScript.finished()) getObjectInLocation(locationScript);
+                    }
+                    else if (locationScript.getType() == "DeliveryZone" && carryingObject && carriedObject.name == "plate")
+                    {
+                        DeliveryZone deliveryZone = currentLocation.GetComponent<DeliveryZone>();
+                        deliveryZone.setObject(carriedObject);
+                        carriedObject = null;
+                        carryingObject = false;
                     }
                 }
                 

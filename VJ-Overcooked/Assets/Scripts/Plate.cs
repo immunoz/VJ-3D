@@ -97,4 +97,9 @@ public class Plate : MonoBehaviour
     {
         return state == plateState.DIRTY;
     }
+
+    public List<GameObject> getIngredients()
+    {
+        return ingredients;
+    }
 }

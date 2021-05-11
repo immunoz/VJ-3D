@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     public GameObject[] levelDeliveries;
 
     private GameSteps state;
+
+    public void increaseScore()
+    {
+        Debug.Log("increase score!");
+    }
+
     private float timer;
     private Vector2 lastPosition;
     private List<GameObject> deliveries;
@@ -87,5 +93,20 @@ public class GameManager : MonoBehaviour
         lastPosition.x += temp.GetComponent<RectTransform>().sizeDelta.x + offset;
         temp.GetComponent<RectTransform>().localPosition = lastPosition;
         deliveries.Add(temp);
+    }
+
+    public bool deliverPlate(GameObject plate) {
+        if (deliveries.Capacity == 0) return false;
+        
+        Plate plateScript = plate.GetComponent<Plate>();
+        foreach (GameObject delivery in deliveries) {
+            Recipe recipeScript = delivery.GetComponent<Recipe>();
+            if (recipeScript != null && recipeScript.checkRecipe(plateScript.getIngredients()))
+            {
+                Destroy(delivery);
+                return true;
+            }
+        }
+        return false;
     }
 }

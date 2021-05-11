@@ -9,6 +9,7 @@ using UnityEngine;
     private void Start()
     {
         pot = true;
+        name = "Onion";
     }
 
 

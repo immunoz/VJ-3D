@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5976,8 +5976,40 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 2}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!65 &455850406
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455850403}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1, z: 1.25}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &455850407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455850403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b009ad7da087fae4c9a940d1eaca617b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentObject: {fileID: 0}
+  cooldownTime: 0.5
+  scale: {x: 0, y: 0, z: 0}
+  scaleDelay: 0
+  expandDelay: 0
+  flame: {fileID: 0}
+  nearComponents: []
 --- !u!1 &484438205
 GameObject:
   m_ObjectHideFlags: 0
@@ -25433,6 +25465,37 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &683353153 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9114200441683578158, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
+  m_PrefabInstance: {fileID: 1661051972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &683353158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683353153}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 1.9999996, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &683353159
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683353153}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.9999996, z: 1.9999996}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &692914130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64454,7 +64517,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ffe4e97c1698c5a489045700ce890856, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffe4e97c1698c5a489045700ce890856, type: 3}
       propertyPath: m_LocalScale.x
@@ -100043,7 +100106,7 @@ MonoBehaviour:
   offset: 5
   spawnTime: 5
   levelDeliveries:
-  - {fileID: 8561107583123646804, guid: d63f9f8e2f53c034eb22617becf4a054, type: 3}
+  - {fileID: 3564672835676810609, guid: d63f9f8e2f53c034eb22617becf4a054, type: 3}
   - {fileID: 7558719380928687508, guid: c527a8ef3345e5643a6ad64ff86214fa, type: 3}
   - {fileID: 2630682498756309925, guid: 1f02c2d12f3f4644986747349f65a6f3, type: 3}
 --- !u!1001 &7478159274879253208

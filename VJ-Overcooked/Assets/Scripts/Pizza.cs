@@ -6,7 +6,7 @@ public class Pizza : MonoBehaviour
 {
     private bool startCooking,done;
     public int count;
-    List<string> ingredients;
+    private List<string> ingredients;
     enum pizzaState
     {
         RAW, IN_PROCESS,COOKED

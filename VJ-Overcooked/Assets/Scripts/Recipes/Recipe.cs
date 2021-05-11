@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recipe : MonoBehaviour
 {
-    public Ingredient[] ingredients;
+    public GameObject[] ingredients;
     public int[] quantity;
 
     public int getSize() {
@@ -14,9 +14,11 @@ public class Recipe : MonoBehaviour
     }
 
     public bool checkRecipe(List<GameObject> inputIngredients) { //tal vez el array no se copie y sea una copia por referencia
-        if (inputIngredients.Capacity != getSize()) return false;
+        if (inputIngredients.Capacity - 1 != getSize()) return false;
+        
         int[] tempQuantity = new int[quantity.Length];
-        Array.Copy(quantity, 0, tempQuantity, 0, quantity.Length - 1);
+        Array.Copy(quantity, 0, tempQuantity, 0, quantity.Length);
+        foreach (int x in tempQuantity) Debug.Log(x);
 
         foreach (GameObject i in inputIngredients) {
             bool not_found = true;

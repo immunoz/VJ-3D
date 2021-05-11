@@ -27,7 +27,7 @@ abstract  class Location : MonoBehaviour
         onFire = false;
         threshHold = new Vector3(2.5f, 2.5f, 2.5f);
         if (currentObject != null) setObject(currentObject);
-        flame.transform.position = GetComponent<Renderer>().bounds.center + new Vector3 (0,2f,0);
+        if (flame != null) flame.transform.position = GetComponent<Renderer>().bounds.center + new Vector3 (0,2f,0);
     }
 
     // Update is called once per frame
