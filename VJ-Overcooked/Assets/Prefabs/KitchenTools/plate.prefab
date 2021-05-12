@@ -141,9 +141,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50536ebfdc5ce0340b34e2b270906f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temp: {fileID: 2100000, guid: ef8edeb2a648da947b59adfb9e4346c2, type: 2}
   washingTime: 5
   stewTexture: {fileID: 4110754539252252699}
+  recipes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   ingredients: []
 --- !u!1 &4110754539252252699
 GameObject:

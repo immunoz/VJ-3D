@@ -7,6 +7,7 @@ public class Plate : MonoBehaviour
 {
     public float washingTime;
     public GameObject stewTexture;
+    public Recipe[] recipes;
     
     private float leftWasshingTime;
     private float timer;
