@@ -112,11 +112,19 @@ public class Player : MonoBehaviour
                             }
 
                         }
-                        else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject && ingredientScript != null && ingredientScript.putInPlate()) {
+                        else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject) {
                             TableScript tableScript = currentLocation.GetComponent<TableScript>();
-                            tableScript.setInPlate(carriedObject);
-                            carriedObject = null;
-                            carryingObject = false;
+                            if (ingredientScript != null && ingredientScript.putInPlate())
+                            {
+                                tableScript.setInPlate(carriedObject);
+                                carriedObject = null;
+                                carryingObject = false;
+                            }
+                            else if (carriedObject.name == "pot") {
+                                Pot potScript = carriedObject.GetComponent<Pot>();
+                                if (potScript.hasStew() && !tableScript.getObject().GetComponent<Plate>().isDirty()) potScript.getStew(tableScript.getObject());
+                            }
+                            
                         }
                     }
                     else if (locationScript.getType() == "IngredientSpawner" && !carryingObject)
@@ -143,10 +151,10 @@ public class Player : MonoBehaviour
                         {
 
                             carriedObject = locationScript.pickObject();
-                            
+
                             carryingObject = true;
                             carriedObject.GetComponent<Pot>().stopCooking();
-                           // Debug.Log(carriedObject.name);
+                            // Debug.Log(carriedObject.name);
                             currentLocation.GetComponent<Cooker2>().hideWarning();
 
                         }
@@ -155,6 +163,8 @@ public class Player : MonoBehaviour
                             carryingObject = false;
                             carriedObject = null;
                         }
+                        else if (carriedObject.name == "plate" && cooker.hasStew())
+                            cooker.GetStew(carriedObject);
                     }
                     else if (locationScript.getType() == "oven")
                     {
@@ -177,9 +187,10 @@ public class Player : MonoBehaviour
 
 
                     }
-                    else if (locationScript.getType() == "sink")
+                    else if (locationScript.getType() == "Sink")
                     {
-                        Plate plateScript = carriedObject.GetComponent<Plate>();
+                        Plate plateScript = null;
+                        if (carriedObject != null) plateScript = carriedObject.GetComponent<Plate>();
                         if (locationScript.isFree() && carryingObject && carriedObject.name == "plate" && plateScript.isDirty()) setObjectInLocation(locationScript);
                         else if (!locationScript.isFree() && !carryingObject && locationScript.finished()) getObjectInLocation(locationScript);
                     }

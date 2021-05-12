@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ public class DeliveryScript : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     public float expireTime;
-    public Ingredient[] ingredients;
+    public string dish;
 
     void Start()
     {
