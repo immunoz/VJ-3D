@@ -221,6 +221,11 @@ public class Player : MonoBehaviour
                         state = playerStates.DISHES;
                     }
                 }
+                else if (Input.GetKey(KeyCode.LeftControl) && carryingObject &&  carriedObject.name == "extinguisher")
+                {
+                    extinguisher extinguisherScript = carriedObject.GetComponent<extinguisher>();
+                    if (!extinguisherScript.isShooting()) extinguisherScript.startShooting();
+                }
 
 
                 /*  if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
@@ -512,33 +517,72 @@ public class Player : MonoBehaviour
         {
 
             case playerDirections.UP:
-                carriedObject.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
+
+                if (carriedObject.name == "extinguisher") {
+                    Quaternion target = Quaternion.Euler(0, 90,78);
+                    carriedObject.transform.rotation = target;
+                }
+                 carriedObject.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
 
                 break;
             case playerDirections.DOWN:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, -90,78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
 
                 break;
             case playerDirections.LEFT:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, 0, 78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
 
                 break;
             case playerDirections.RIGHT:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, 180, 78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
 
                 break;
             case playerDirections.BOTTOMRIGHT:
+                if (carriedObject.name == "extinguisher") {
+                    Quaternion target = Quaternion.Euler(0, -135, 78);
+                    carriedObject.transform.rotation = target;
+                } 
                 carriedObject.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
 
                 break;
             case playerDirections.BOTTOMLEFT:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, -45, 78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
                 break;
             case playerDirections.TOPLEFT:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, 45, 78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
 
                 break;
             case playerDirections.TOPRIGHT:
+                if (carriedObject.name == "extinguisher")
+                {
+                    Quaternion target = Quaternion.Euler(0, 135, 78);
+                    carriedObject.transform.rotation = target;
+                }
                 carriedObject.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
  
                 break;

@@ -63,6 +63,7 @@ abstract class Location : MonoBehaviour
     {
         Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
         if ( name == "Sink") currentObject.transform.Rotate(0f, -45f, 0f);
+        if ( currentObject.name != "extinguisher" )currentObject.transform.position = tableCenter + new Vector3(0f, getGetHeightOffset(), 0f);
         currentObject.transform.position = new Vector3(tableCenter.x, getGetHeightOffset() + tableCenter.y, tableCenter.z);
     }
 
@@ -140,5 +141,20 @@ abstract class Location : MonoBehaviour
         {
             nearComponents[i].GetComponent<Location>().setOnFire();
         }
+    }
+
+   public bool burnning ()
+    {
+        return onFire;
+    }
+
+    public void turnOffFire()
+    {
+        scale = new Vector3(-0.1f, -0.1f, -0.1f);
+        if (flame.transform.GetChild(0).transform.localScale.x > 0) expand();
+        else {
+            flame.SetActive(false);
+            onFire = false;
+        } 
     }
 }
