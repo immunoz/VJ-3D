@@ -4,24 +4,33 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject recipe, preparingStep, player, delivery;
+
+    public GameObject recipe, preparingStep, player, delivery, plateSpawner;
     public Canvas canvas;          
     public Sprite goSprite;
     public float showRecipeTime;
     public float offset;
-    public float spawnTime;
+    public float spawnTime, spawnPlateTime;
     public GameObject[] levelDeliveries;
+    
 
     private GameSteps state;
+    private float timer;
+    private Vector2 lastPosition;
+    private List<GameObject> deliveries;
+    private List<GameObject> plates;
+    private List<float> plateCooldown;
 
     public void increaseScore()
     {
         Debug.Log("increase score!");
     }
 
-    private float timer;
-    private Vector2 lastPosition;
-    private List<GameObject> deliveries;
+    public void AddPlateTimer(GameObject obj)
+    {
+        plates.Add(obj);
+        plateCooldown.Add(spawnPlateTime);
+    }
 
     enum GameSteps
     {
@@ -34,6 +43,8 @@ public class GameManager : MonoBehaviour
         else state = GameSteps.PREPARING;
         timer = 0f;
         deliveries = new List<GameObject>();
+        plates = new List<GameObject>();
+        plateCooldown = new List<float>();
         initSpawnPoint();
     }
 
@@ -65,13 +76,14 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameSteps.RUNNING:
+                if (plates.Count != 0) updatePlateTimers();
+
+
                 if (timer > 0) timer -= Time.deltaTime;
                 else {
                     timer = spawnTime;
                     generateDelivery();
                 }
-                
-                
                 break;
             case GameSteps.PREPARING:
                 timer += Time.deltaTime;
@@ -87,6 +99,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void updatePlateTimers()
+    {
+        for (int i = 0; i < plates.Count; ++i) {
+            if (plateCooldown[i] > 0) plateCooldown[i] -= Time.deltaTime;
+            else
+            {
+                plates[i].SetActive(true);
+                plates[i].GetComponent<Plate>().SetDirty();
+                plateSpawner.GetComponent<SpawnPlateLocation>().setObject(plates[i]);
+                plates.Remove(plates[i]);
+                plateCooldown.RemoveAt(i);
+            }
+        }
+    }
+
     private void generateDelivery() {
         GameObject temp = Instantiate(levelDeliveries[Random.Range(0, levelDeliveries.Length)]) as GameObject;
         temp.transform.SetParent(canvas.transform,false);
@@ -95,8 +122,8 @@ public class GameManager : MonoBehaviour
         deliveries.Add(temp);
     }
 
-    public bool deliverPlate(GameObject plate) {
-        if (deliveries.Capacity == 0) return false;
+    /*public bool deliverPlate(GameObject plate) {
+        if (deliveries.Count == 0) return false;
         
         Plate plateScript = plate.GetComponent<Plate>();
         foreach (GameObject delivery in deliveries) {
@@ -104,6 +131,23 @@ public class GameManager : MonoBehaviour
             if (recipeScript != null && recipeScript.checkRecipe(plateScript.getIngredients()))
             {
                 Destroy(delivery);
+                return true;
+            }
+        }
+        return false;
+    }*/
+    public bool deliverPlate(GameObject plate)
+    {
+        if (deliveries.Count == 0) return false;
+
+        Plate plateScript = plate.GetComponent<Plate>();
+        for (int i = 0; i < deliveries.Count; ++i)
+        {
+            DeliveryScript d = deliveries[i].GetComponent<DeliveryScript>();
+            if (d.dish == plateScript.getPreparedDish())
+            {
+                Destroy(deliveries[i]);
+                deliveries.RemoveAt(i);
                 return true;
             }
         }

@@ -16,15 +16,15 @@ class DeliveryZone : Location
 
     public void setObject(GameObject obj)
     {
-        currentObject = obj;
-        currentObject.SetActive(false);
+        //currentObject = obj;
+        obj.SetActive(false);
         GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (gameManager.deliverPlate(obj)) gameManager.increaseScore();
+        gameManager.AddPlateTimer(obj);
         timer = cooldownTime;
     }
 
     public override void setOnFire()
     {
-        throw new System.NotImplementedException();
     }
 }

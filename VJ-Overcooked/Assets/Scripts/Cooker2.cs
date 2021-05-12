@@ -9,10 +9,6 @@ using UnityEngine;
 
     public GameObject warning;
     public float delay;
-    
-    
-
-
 
     void FixedUpdate()
     {
@@ -64,10 +60,6 @@ using UnityEngine;
         warning.SetActive(false);
     }
 
-
-
-
-
     public override void setOnFire()
     {
         if (!onFire)
@@ -76,5 +68,16 @@ using UnityEngine;
             onFire = true;
             flame.SetActive(true);
         }
+    }
+
+    public bool hasStew()
+    {
+        return currentObject.GetComponent<Pot>().hasStew();
+    }
+
+    public void GetStew(GameObject plate)
+    {
+        Plate plateScript = plate.GetComponent<Plate>();
+        if (!plateScript.isDirty()) currentObject.GetComponent<Pot>().getStew(plate);
     }
 }

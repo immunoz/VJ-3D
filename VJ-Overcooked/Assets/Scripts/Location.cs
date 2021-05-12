@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract  class Location : MonoBehaviour
+abstract class Location : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -63,7 +63,7 @@ abstract  class Location : MonoBehaviour
     {
         Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
         if ( name == "Sink") currentObject.transform.Rotate(0f, -45f, 0f);
-        currentObject.transform.position = tableCenter + new Vector3(0f, getGetHeightOffset(), 0f);
+        currentObject.transform.position = new Vector3(tableCenter.x, getGetHeightOffset() + tableCenter.y, tableCenter.z);
     }
 
 

@@ -210,7 +210,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 3564672835274864932}
   expireTime: 20
-  ingredients: []
+  dish: Onion Stew
 --- !u!114 &3564672835676810623
 MonoBehaviour:
   m_ObjectHideFlags: 0

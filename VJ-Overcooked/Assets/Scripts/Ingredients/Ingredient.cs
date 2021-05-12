@@ -9,6 +9,8 @@ public abstract class Ingredient : MonoBehaviour
 
     bool readyToCut;
     public float CuttingTime;
+    public bool pot;
+    
     private float leftCuttingTime;
     private float timer;
     private bool bChopped;
@@ -94,7 +96,10 @@ public abstract class Ingredient : MonoBehaviour
         return timer / getTime();
     }
 
-    public abstract bool inPot();
+    public bool inPot()
+    {
+        return pot;
+    }
 
     public abstract float getTime();
 

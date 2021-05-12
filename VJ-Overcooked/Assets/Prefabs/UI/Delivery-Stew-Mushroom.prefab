@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7558719380928687509}
   - component: {fileID: 7558719380928687511}
   - component: {fileID: 7558719380928687510}
+  - component: {fileID: -2100402539941470715}
   m_Layer: 5
   m_Name: Delivery-Stew-Mushroom
   m_TagString: Untagged
@@ -134,7 +135,22 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 7558719381675187504}
   expireTime: 20
-  ingredients: []
+  dish: Mushroom Stew
+--- !u!114 &-2100402539941470715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558719380928687508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2581e7f5b24e4a46ab65d81f684ed28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 7985398191293147418, guid: f8c7192e7d7a3db4a9702e22445a8594, type: 3}
+  quantity: 03000000
 --- !u!1 &7558719380995153992
 GameObject:
   m_ObjectHideFlags: 0

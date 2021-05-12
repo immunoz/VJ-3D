@@ -4,10 +4,6 @@ using UnityEngine;
 {
     public float heightOffset;
 
-
-
-
-
     public override float getGetHeightOffset()
     {
         return heightOffset;
