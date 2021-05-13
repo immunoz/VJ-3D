@@ -7,7 +7,7 @@ public class Plate : MonoBehaviour
 {
     public float washingTime;
     public GameObject stewTexture;
-    public Recipe[] recipes;
+    public GameObject[] recipes;
     
     private float leftWasshingTime;
     private float timer;
@@ -29,6 +29,14 @@ public class Plate : MonoBehaviour
         ingredients = new List<GameObject>();
         state = plateState.WASHED;
         initDish();
+        if (recipes.Length != 0)
+        {
+            recipes[0] = Instantiate(recipes[0]) as GameObject;
+            recipes[1] = Instantiate(recipes[0]) as GameObject;
+            Debug.Log(recipes[0].name);
+            foreach (string x in recipes[0].GetComponent<Recipe>().state) Debug.Log(x);
+            foreach (GameObject x in recipes[0].GetComponent<Recipe>().ingredients) Debug.Log(x.name);
+        }
     }
 
     private void initDish()
@@ -42,6 +50,22 @@ public class Plate : MonoBehaviour
     public void putIngredient(GameObject carriedObject)
     {
         ingredients.Add(carriedObject);
+        bool recipeFound = false;
+        for (int i = 0; i < recipes.Length && !recipeFound; ++i) {
+            Debug.Log(recipes.Length);
+            Debug.Log(recipes[i].GetComponent<Recipe>().getSize());
+            if (recipes[i].GetComponent<Recipe>().getSize() == ingredients.Count)
+            {
+                recipeFound = true;
+                checkRecipe(i);
+            }
+        }
+    }
+
+    private void checkRecipe(int i)
+    {
+        //... codigo de comprovar los ingredientes
+        Debug.Log("TEST");
     }
 
     void Update()

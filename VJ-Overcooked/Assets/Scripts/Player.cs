@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
                         }
                         else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject) {
                             TableScript tableScript = currentLocation.GetComponent<TableScript>();
-                            if (ingredientScript != null && ingredientScript.putInPlate())
+                            if (ingredientScript != null && ingredientScript.putInPlate() && !tableScript.currentObject.GetComponent<Plate>().isDirty())
                             {
                                 tableScript.setInPlate(carriedObject);
                                 carriedObject = null;
@@ -136,24 +136,25 @@ public class Player : MonoBehaviour
                     }
                     else if (locationScript.getType() == "cooker")
                     {
-
                         Cooker2 cooker = locationScript.GetComponent<Cooker2>();
-                        if (carriedObject != null && carriedObject.name == "pot" && locationScript.isFree() && carryingObject)
+                        if (carriedObject != null && (carriedObject.name == "pot" || carriedObject.name == "pan") && locationScript.isFree() /*&& carryingObject*/) //carrying object es redundante
                         {
                             locationScript.setObject(carriedObject);
-                            Pot potScript = carriedObject.GetComponent<Pot>();
-                            if (potScript.hasElement()) potScript.continueCooking();
-                            carryingObject = false;
-                            carriedObject = null;
-
+                            if (carriedObject.name == "pot")
+                            {
+                                Pot potScript = carriedObject.GetComponent<Pot>();
+                                if (potScript.hasElement()) potScript.continueCooking();
+                            }
+                            else carriedObject.GetComponent<Pan>().resume();
+                            setObjectInLocation(locationScript);
                         }
                         else if (!locationScript.isFree() && !carryingObject)
                         {
-
                             carriedObject = locationScript.pickObject();
-
                             carryingObject = true;
-                            carriedObject.GetComponent<Pot>().stopCooking();
+                            if (carriedObject.name == "pot") carriedObject.GetComponent<Pot>().stopCooking();
+                            else carriedObject.GetComponent<Pan>().setPause(true);
+                            
                             // Debug.Log(carriedObject.name);
                             currentLocation.GetComponent<Cooker2>().hideWarning();
 

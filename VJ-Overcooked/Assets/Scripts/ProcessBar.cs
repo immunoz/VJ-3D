@@ -11,6 +11,7 @@ public class ProcessBar : MonoBehaviour
 
         processBarObject.SetActive(true);
         slider.value = normalizedTime;
+        Debug.Log("aklsflkashj");
     }
 
     public void setProcessTime(float normalizedTime) {
