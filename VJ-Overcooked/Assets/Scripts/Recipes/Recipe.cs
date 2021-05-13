@@ -5,6 +5,7 @@ using UnityEngine;
 public class Recipe : MonoBehaviour
 {
     public GameObject[] ingredients;
+    public string[] state;
     public int[] quantity;
 
     public int getSize() {

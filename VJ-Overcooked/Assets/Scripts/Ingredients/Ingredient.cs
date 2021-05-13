@@ -15,9 +15,11 @@ public abstract class Ingredient : MonoBehaviour
     private float timer;
     private bool bChopped;
     
+    protected bool cooked;
+    
     enum ingredientState
     {
-       RAW, IN_PROCESS, CHOPPED
+       RAW, IN_PROCESS, CHOPPED, COOKED
     };
 
     private ingredientState state;
@@ -29,6 +31,7 @@ public abstract class Ingredient : MonoBehaviour
         readyToCut = false;
         bChopped = false;
         leftCuttingTime = getTime();
+        cooked = false;
     }
 
     // Update is called once per frame
@@ -42,7 +45,8 @@ public abstract class Ingredient : MonoBehaviour
                     state = ingredientState.IN_PROCESS;
                     timer = leftCuttingTime;
                     bChopped = true;
-                } 
+                }
+                if (cooked) state = ingredientState.COOKED;
                 break;
             case ingredientState.IN_PROCESS:
                 timer -= Time.deltaTime;
@@ -53,6 +57,10 @@ public abstract class Ingredient : MonoBehaviour
 
             case ingredientState.CHOPPED:
                 bChopped = false;
+                if (cooked) state = ingredientState.COOKED;
+                break;
+            case ingredientState.COOKED:
+
                 break;
         }
         
@@ -71,6 +79,7 @@ public abstract class Ingredient : MonoBehaviour
 
     public bool putInPlate()
     {
+        if (name == "BurgerBread") return true;
         return state == ingredientState.CHOPPED;
     }
 

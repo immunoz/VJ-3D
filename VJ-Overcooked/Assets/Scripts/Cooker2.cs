@@ -12,8 +12,6 @@ using UnityEngine;
 
     void FixedUpdate()
     {
-
-        
         if ( currentObject != null && currentObject.GetComponent<Pot>().doneCooking() && !currentObject.GetComponent<Pot>().isBurned() )
         {
             Pot potSricpt = currentObject.GetComponent<Pot>();
@@ -38,13 +36,20 @@ using UnityEngine;
 
     public bool addIngredient(GameObject obj)
     {
+        bool set;
         //asumimos que solo pueden haber ollas y sartenes sobre la cocina
-        if ( currentObject != null && obj.name != "plate")
+        if (currentObject != null && currentObject.name == "pan" && obj.name != "plate") {
+            if (obj.name != "meat" || !obj.GetComponent<Meat>().choppingDone()) return false;
+            Pan panScript = currentObject.GetComponent<Pan>();
+            set = panScript.setObject(obj);
+            if (set) resetCoolDown();
+            return set;
+        }
+        else if (currentObject != null && obj.name != "plate")
         {
             Pot pot = currentObject.GetComponent<Pot>();
-            
-            bool set = pot.setObject(obj);
-            if ( set ) resetCoolDown();
+            set = pot.setObject(obj);
+            if (set) resetCoolDown();
             return set;
         }
         return false;
