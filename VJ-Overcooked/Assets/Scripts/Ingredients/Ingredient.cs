@@ -112,4 +112,20 @@ public abstract class Ingredient : MonoBehaviour
 
     public abstract float getTime();
 
+    public string getState()
+    {
+        switch (state)
+        {
+            case ingredientState.RAW:
+                return "Raw";
+                break;
+            case ingredientState.CHOPPED:
+                return "Chopped";
+                break;
+            case ingredientState.COOKED:
+                return "Cooked";
+                break;
+        }
+        return "";
+    }
 }

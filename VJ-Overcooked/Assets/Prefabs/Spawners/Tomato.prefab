@@ -95,5 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987d0005a59e3584abe91ae54baa010b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 3
+  CuttingTime: 2
   pot: 1

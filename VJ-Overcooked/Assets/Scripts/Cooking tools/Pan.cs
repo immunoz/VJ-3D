@@ -20,9 +20,7 @@ public class Pan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        state = States.IDLE;
-        timer = 0;
-        pause = false;
+        initPan();
     }
 
     // Update is called once per frame
@@ -81,5 +79,26 @@ public class Pan : MonoBehaviour
     {
         if (meat == null) return;
         setPause(false);
+    }
+
+    public bool hasMeat()
+    {
+        return state == States.READY;
+    }
+
+    public bool GetMeat(GameObject plate)
+    {
+        Plate plateScript = plate.GetComponent<Plate>();
+        bool result = plateScript.putIngredient(meat);
+        if (result) initPan();
+        return result;
+    }
+
+    private void initPan()
+    {
+        state = States.IDLE;
+        timer = 0;
+        pause = false;
+        meat = null;
     }
 }

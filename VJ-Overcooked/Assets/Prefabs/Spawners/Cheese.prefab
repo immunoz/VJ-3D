@@ -2433,7 +2433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886c4e3aacec86646bd60641948cf958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 4
+  CuttingTime: 2
   pot: 0
 --- !u!1 &9211736191949284871
 GameObject:

@@ -13,7 +13,7 @@ public class Plate : MonoBehaviour
     private float timer;
     private bool washing;
     public List<GameObject> ingredients;
-    private string preparedDish;
+    public string preparedDish;//public a modo de testing
 
 
     enum plateState
@@ -32,10 +32,10 @@ public class Plate : MonoBehaviour
         if (recipes.Length != 0)
         {
             recipes[0] = Instantiate(recipes[0]) as GameObject;
-            recipes[1] = Instantiate(recipes[0]) as GameObject;
-            Debug.Log(recipes[0].name);
-            foreach (string x in recipes[0].GetComponent<Recipe>().state) Debug.Log(x);
-            foreach (GameObject x in recipes[0].GetComponent<Recipe>().ingredients) Debug.Log(x.name);
+            recipes[1] = Instantiate(recipes[1]) as GameObject;
+            //Debug.Log(recipes[0].name);
+            //foreach (string x in recipes[0].GetComponent<Recipe>().state) Debug.Log(x);
+            //foreach (GameObject x in recipes[0].GetComponent<Recipe>().ingredients) Debug.Log(x.name);
         }
     }
 
@@ -47,25 +47,51 @@ public class Plate : MonoBehaviour
         preparedDish = "";
     }
 
-    public void putIngredient(GameObject carriedObject)
+    public bool putIngredient(GameObject carriedObject)
     {
+        if (ingredients.Count >= 4) return false;
         ingredients.Add(carriedObject);
         bool recipeFound = false;
         for (int i = 0; i < recipes.Length && !recipeFound; ++i) {
-            Debug.Log(recipes.Length);
-            Debug.Log(recipes[i].GetComponent<Recipe>().getSize());
             if (recipes[i].GetComponent<Recipe>().getSize() == ingredients.Count)
             {
-                recipeFound = true;
-                checkRecipe(i);
+                if (checkRecipe(i))
+                {
+                    Debug.Log(recipes[i].GetComponent<Recipe>().recipeName);
+                    preparedDish = recipes[i].GetComponent<Recipe>().recipeName;
+                    recipeFound = true;
+                }
             }
         }
+        return true;
     }
 
-    private void checkRecipe(int i)
+    private bool checkRecipe(int i)
     {
-        //... codigo de comprovar los ingredientes
-        Debug.Log("TEST");
+        Recipe recipeScript = recipes[i].GetComponent<Recipe>();
+        int[] tempQuantity = new int[recipeScript.quantity.Length];
+        Array.Copy(recipeScript.quantity, 0, tempQuantity, 0, recipeScript.quantity.Length);
+
+        foreach (GameObject k in ingredients)
+        {
+            bool not_found = true;
+            for (int j = 0; j < recipeScript.ingredients.Length && not_found; ++j)
+            {
+                //Debug.Log(k.name);
+                //Debug.Log(recipeScript.ingredients[j].name);
+                if (recipeScript.ingredients[j].name == k.name && k.GetComponent<Ingredient>().getState() == recipeScript.state[j])
+                {
+                    if (--tempQuantity[j] < 0) return false;
+                    not_found = false;
+                }
+            }
+        }
+
+        foreach (int e in tempQuantity)
+        {
+            if (e != 0) return false;
+        }
+        return true;
     }
 
     void Update()

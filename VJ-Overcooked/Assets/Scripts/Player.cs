@@ -116,15 +116,22 @@ public class Player : MonoBehaviour
                             TableScript tableScript = currentLocation.GetComponent<TableScript>();
                             if (ingredientScript != null && ingredientScript.putInPlate() && !tableScript.currentObject.GetComponent<Plate>().isDirty())
                             {
-                                tableScript.setInPlate(carriedObject);
-                                carriedObject = null;
-                                carryingObject = false;
+                                if (tableScript.setInPlate(carriedObject))
+                                {
+                                    carriedObject = null;
+                                    carryingObject = false;
+                                }
                             }
                             else if (carriedObject.name == "pot") {
                                 Pot potScript = carriedObject.GetComponent<Pot>();
                                 if (potScript.hasStew() && !tableScript.getObject().GetComponent<Plate>().isDirty()) potScript.getStew(tableScript.getObject());
                             }
-                            
+                            else if (carriedObject.name == "pan")
+                            {
+                                Pan panScript = carriedObject.GetComponent<Pan>();
+                                if (panScript.hasMeat() && !tableScript.getObject().GetComponent<Plate>().isDirty()) panScript.GetMeat(tableScript.getObject());
+                            }
+
                         }
                     }
                     else if (locationScript.getType() == "IngredientSpawner" && !carryingObject)
@@ -154,7 +161,7 @@ public class Player : MonoBehaviour
                             carryingObject = true;
                             if (carriedObject.name == "pot") carriedObject.GetComponent<Pot>().stopCooking();
                             else carriedObject.GetComponent<Pan>().setPause(true);
-                            
+
                             // Debug.Log(carriedObject.name);
                             currentLocation.GetComponent<Cooker2>().hideWarning();
 
@@ -164,8 +171,8 @@ public class Player : MonoBehaviour
                             carryingObject = false;
                             carriedObject = null;
                         }
-                        else if (carriedObject.name == "plate" && cooker.hasStew())
-                            cooker.GetStew(carriedObject);
+                        else if (carriedObject.name == "plate" && cooker.currentObject.name == "pot" && cooker.hasStew()) cooker.GetStew(carriedObject);
+                        else if (carriedObject.name == "plate" && cooker.currentObject.name == "pan" && cooker.hasMeat()) cooker.GetMeat(carriedObject);
                     }
                     else if (locationScript.getType() == "oven")
                     {

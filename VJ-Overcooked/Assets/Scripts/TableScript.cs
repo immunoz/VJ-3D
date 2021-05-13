@@ -14,10 +14,11 @@ using UnityEngine;
         return true;
     }
 
-    public void setInPlate(GameObject carriedObject)
+    public bool setInPlate(GameObject carriedObject)
     {
-        currentObject.GetComponent<Plate>().putIngredient(carriedObject);
-        timer = cooldownTime;
+        bool result = currentObject.GetComponent<Plate>().putIngredient(carriedObject);
+        if (result) timer = cooldownTime;
+        return result;
     }
 
     public override void setOnFire()

@@ -12,6 +12,6 @@ public class Sausage : Ingredient
     // Start is called before the first frame update
     void Start()
     {
-        
+        name = "Sausage";
     }
 }

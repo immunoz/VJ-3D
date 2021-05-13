@@ -15,7 +15,7 @@ public class Meat : Ingredient
     // Start is called before the first frame update
     void Start()
     {
-        name = "meat";
+        name = "Meat";
     }
 
     public void setCooked(bool v)
