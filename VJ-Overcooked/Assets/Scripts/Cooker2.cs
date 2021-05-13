@@ -12,20 +12,15 @@ using UnityEngine;
 
     void FixedUpdate()
     {
-        if ( currentObject != null)
+        if ( currentObject != null && currentObject.GetComponent<Pot>().doneCooking() && !currentObject.GetComponent<Pot>().isBurned() )
         {
-            if (currentObject.name == "pot" && currentObject.GetComponent<Pot>().doneCooking())
-            {
-                Pot potSricpt = currentObject.GetComponent<Pot>();
-                if (delay > 0) delay -= Time.deltaTime;
-                potSricpt.hideBar();
-                warning.SetActive(true);
-                if (delay <= 0) {     
-                    setOnFire();
-                }
-
-            }
-
+            Pot potSricpt = currentObject.GetComponent<Pot>();
+            potSricpt.hideBar();
+            warning.SetActive(true);
+            if (delay > 0) delay -= Time.deltaTime;
+            
+            else setOnFire();
+            //Debug.Log(delay);
         }
     }
 
@@ -69,9 +64,12 @@ using UnityEngine;
     {
         if (!onFire)
         {
+            Debug.Log("setOnfire");
             warning.SetActive(false);
             onFire = true;
             flame.SetActive(true);
+            currentObject.GetComponent<Pot>().setBurned(true);
+            delay = 3; // poner en una  funcion inicializadora.
         }
     }
 
