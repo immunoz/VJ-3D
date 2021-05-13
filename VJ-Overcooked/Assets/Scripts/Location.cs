@@ -10,20 +10,18 @@ abstract class Location : MonoBehaviour
     public GameObject currentObject;
     protected float timer;
     public float  cooldownTime;
-    public Vector3 scale;
     public float scaleDelay;
     private Vector3 threshHold;
     public float expandDelay;
     public GameObject flame;
     public GameObject[] nearComponents;
-
     bool expandedNear;
 
     protected bool onFire;
     void Start()
     {
         timer = 0f;
-
+        
         onFire = false;
         threshHold = new Vector3(2.5f, 2.5f, 2.5f);
         if (currentObject != null) setObject(currentObject);
@@ -38,7 +36,7 @@ abstract class Location : MonoBehaviour
         if (onFire ) scaleDelay -= Time.deltaTime;
         if (onFire && scaleDelay <= 0)
         {
-            expand();
+            expand(new Vector3 (0.3f,0.3f,0.3f));
             scaleDelay = 0.2f;
         }
         else if (onFire && !expandedNear && expandDelay <= 0 )
@@ -122,16 +120,17 @@ abstract class Location : MonoBehaviour
 
     public abstract void setOnFire();
 
-    public void expand()
+    public void expand(Vector3 scale)
     {
         //
-        if (flame.transform.GetChild(0).transform.localScale.x < threshHold.x)
+        if (flame.transform.GetChild(0).transform.localScale.x < threshHold.x || scale.x < 0)
         {
             flame.transform.GetChild(0).transform.localScale += scale;
             flame.transform.GetChild(1).transform.localScale += scale;
             flame.transform.GetChild(2).transform.localScale += scale;
             flame.transform.GetChild(3).transform.localScale += scale;
         }
+
 
     }
 
@@ -150,11 +149,24 @@ abstract class Location : MonoBehaviour
 
     public void turnOffFire()
     {
-        scale = new Vector3(-0.1f, -0.1f, -0.1f);
-        if (flame.transform.GetChild(0).transform.localScale.x > 0) expand();
+        if (flame.transform.GetChild(0).transform.localScale.x > 0) {
+            expand(new Vector3(-0.1f, -0.1f, -0.1f));
+            ProcessBar processScript = flame.GetComponent<ProcessBar>();
+            if (processScript != null) {
+                processScript.setMaxTime(1);
+                processScript.setProcessTime(flame.transform.GetChild(0).transform.localScale.x / threshHold.x);
+            }
+            
+
+            //  Debug.Log(flame.transform.GetChild(0).transform.localScale.x + "," + threshHold.x)
+            
+
+           // flame.transform.GetChild(4).
+        } 
         else {
             flame.SetActive(false);
             onFire = false;
+            flame.GetComponent<ProcessBar>().hide();
         } 
     }
 }

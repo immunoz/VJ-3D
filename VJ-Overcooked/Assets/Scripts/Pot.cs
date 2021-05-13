@@ -12,7 +12,8 @@ public class Pot : MonoBehaviour
     public GameObject stewTexture;
 
     private float cookTime;
-    private bool stop;    
+    private bool stop;
+    private bool burned;
 
     void Start()
     {
@@ -26,6 +27,7 @@ public class Pot : MonoBehaviour
         ingredient = "";
         cookTime = 0;
         stop = false;
+        burned = false;
     }
 
     public void hideBar()
@@ -35,7 +37,7 @@ public class Pot : MonoBehaviour
 
     private void Update()
     {
-        if (count != 0 && cookTime < MaxCookTime * count / 3 && !stop) {
+        if (count != 0 && cookTime < MaxCookTime * count / 3 && !stop && !burned) {
             cookTime += Time.deltaTime;
             GetComponent<ProcessBar>().setProcessTime(cookTime/ (MaxCookTime * count / 3)); //cookTime - (cookTime / (MaxCookTime * count))
         }
@@ -105,5 +107,15 @@ public class Pot : MonoBehaviour
         plateScript.showStew(true);
         plateScript.setStewFlavour(stewColour[index]);
         plateScript.setPreparedDish(dishName);
+    }
+
+    public bool isBurned ()
+    {
+        return burned;
+    }
+
+    public void setBurned(bool value)
+    {
+        burned = value;
     }
 }
