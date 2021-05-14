@@ -169,4 +169,9 @@ abstract class Location : MonoBehaviour
             flame.GetComponent<ProcessBar>().hide();
         } 
     }
+
+    internal bool hasPizzaMass()
+    {
+        throw new NotImplementedException();
+    }
 }

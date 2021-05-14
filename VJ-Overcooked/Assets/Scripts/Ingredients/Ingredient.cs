@@ -5,24 +5,22 @@ using UnityEngine;
 
 public abstract class Ingredient : MonoBehaviour
 {
-
-
-    bool readyToCut;
     public float CuttingTime;
     public bool pot;
     
-    private float leftCuttingTime;
-    private float timer;
-    private bool bChopped;
-    
+    protected float leftCuttingTime;
+    protected float timer;
+    protected bool bChopped;
+    protected bool readyToCut;
+
     protected bool cooked;
     
-    enum ingredientState
+    protected enum ingredientState
     {
        RAW, IN_PROCESS, CHOPPED, COOKED
     };
 
-    private ingredientState state;
+    protected ingredientState state;
 
     // Start is called before the first frame update
     void Awake()
@@ -80,6 +78,7 @@ public abstract class Ingredient : MonoBehaviour
     public bool putInPlate()
     {
         if (name == "BurgerBread") return true;
+        if (name == "PizzaMass") return false;
         return state == ingredientState.CHOPPED;
     }
 

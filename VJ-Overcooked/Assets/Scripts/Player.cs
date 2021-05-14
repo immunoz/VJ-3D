@@ -93,26 +93,12 @@ public class Player : MonoBehaviour
                     Location locationScript = currentLocation.GetComponent<Location>();
                     Ingredient ingredientScript = null;
                     if (carriedObject != null) ingredientScript = carriedObject.GetComponent<Ingredient>();
-                    if (locationScript.getType() != "IngredientSpawner" && locationScript.getType() != "cooker" && locationScript.getType() != "oven" && locationScript.getType() != "Sink" && locationScript.getType() != "DeliveryZone")
+                    if (locationScript.getType() == "Table")
                     {
-                        if (locationScript.isFree() && carryingObject)
+                        if (locationScript.isFree() && carryingObject) setObjectInLocation(locationScript);
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished()/*&& locationScript.objectCanBePickedUp()*/) getObjectInLocation(locationScript);
+                        else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject)
                         {
-                            locationScript.setObject(carriedObject);
-                            carriedObject = null;
-                            carryingObject = false;
-
-
-                        }
-                        else if (!locationScript.isFree() && !carryingObject /*&& locationScript.objectCanBePickedUp()*/)
-                        {
-                            if (locationScript.finished())
-                            {
-                                carriedObject = locationScript.pickObject();
-                                carryingObject = true;
-                            }
-
-                        }
-                        else if (!locationScript.isFree() && locationScript.hasPlate() && carryingObject) {
                             TableScript tableScript = currentLocation.GetComponent<TableScript>();
                             if (ingredientScript != null && ingredientScript.putInPlate() && !tableScript.currentObject.GetComponent<Plate>().isDirty())
                             {
@@ -122,7 +108,8 @@ public class Player : MonoBehaviour
                                     carryingObject = false;
                                 }
                             }
-                            else if (carriedObject.name == "pot") {
+                            else if (carriedObject.name == "pot")
+                            {
                                 Pot potScript = carriedObject.GetComponent<Pot>();
                                 if (potScript.hasStew() && !tableScript.getObject().GetComponent<Plate>().isDirty()) potScript.getStew(tableScript.getObject());
                             }
@@ -133,6 +120,13 @@ public class Player : MonoBehaviour
                             }
 
                         }
+                        else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject) {
+                        
+                        }
+                    }
+                    else if (locationScript.getType() == "Chopper") {
+                        if (locationScript.isFree() && carryingObject && ingredientScript != null && !ingredientScript.choppingDone() && carriedObject.name != "BurgerBread") setObjectInLocation(locationScript);
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished()) getObjectInLocation(locationScript);
                     }
                     else if (locationScript.getType() == "IngredientSpawner" && !carryingObject)
                     {
@@ -177,7 +171,7 @@ public class Player : MonoBehaviour
                     else if (locationScript.getType() == "oven")
                     {
 
-                        if (carryingObject && carriedObject.name == "pizza" && locationScript.isFree() && ! carriedObject.GetComponent<Pizza>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
+                        if (carryingObject && carriedObject.name == "pizza" && locationScript.isFree() && !carriedObject.GetComponent<Pizza>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
                         {
                             // poner otro if para comprobar que la pizza tiene todos los ingredientes necesarios.
                             locationScript.setObject(carriedObject);
@@ -185,7 +179,7 @@ public class Player : MonoBehaviour
                             carriedObject = null;
                             locationScript.GetComponent<Oven>().initOven();
                         }
-                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished() )
+                        else if (!locationScript.isFree() && !carryingObject && locationScript.finished())
                         {
                             carriedObject = locationScript.pickObject();
                             carryingObject = true;
@@ -216,7 +210,7 @@ public class Player : MonoBehaviour
                     Location locationScript = currentLocation.GetComponent<Location>();
                     if (locationScript.getType() == "Chopper")
                     {
-                        if (!locationScript.isFree() && !carryingObject )
+                        if (!locationScript.isFree() && !carryingObject)
                         {
                             Chopper chopperScript = currentLocation.GetComponent<Chopper>();
                             chopperScript.startChopp();
