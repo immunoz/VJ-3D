@@ -327,24 +327,29 @@ public class Player : MonoBehaviour
 
                 break;
             case playerStates.MOVE:
-
+                Quaternion rotate = Quaternion.Euler(0, 0, 0);
+       
                 if (leftB) {
                     movement = movement + new Vector3(-playerVelocity, 0f, 0f);
                     direction = playerDirections.LEFT;
+                    rotate = Quaternion.Euler(0, -90, 0);
                 }
                 else if (rightB) {
                     movement = movement + new Vector3(playerVelocity, 0f, 0f);
                     direction = playerDirections.RIGHT;
+                    rotate = Quaternion.Euler(0, 90, 0);
                 }
                 else if (upB)
                 {
                     movement = movement + new Vector3(0f, 0f, playerVelocity);
                     direction = playerDirections.UP;
+                    rotate = Quaternion.Euler(0, 0, 0);
                 }
                 else if (downB) {
 
                     movement = movement + new Vector3(0f, 0f, -playerVelocity);
                     direction = playerDirections.DOWN;
+                    rotate = Quaternion.Euler(0, 180, 0);
 
                 }
 
@@ -352,21 +357,29 @@ public class Player : MonoBehaviour
                 {
                     movement = movement + new Vector3(playerVelocity / 2, 0f, playerVelocity / 2);
                     direction = playerDirections.TOPRIGHT;
+                    direction = playerDirections.DOWN;
+                    rotate = Quaternion.Euler(0, 45, 0);
                 }
                 else if (leftB && upB)
                 {
                     movement = movement + new Vector3(-playerVelocity / 2, 0f, playerVelocity / 2);
                     direction = playerDirections.TOPLEFT;
+                    direction = playerDirections.DOWN;
+                    rotate = Quaternion.Euler(0, -45, 0);
                 }
                 else if (rightB && downB)
                 {
 
                     direction = playerDirections.BOTTOMRIGHT;
                     movement = movement + new Vector3(playerVelocity / 2, 0f, -playerVelocity / 2);
+                    direction = playerDirections.DOWN;
+                    rotate = Quaternion.Euler(0, 135, 0);
                 }
                 else if (leftB && downB) {
                     direction = playerDirections.BOTTOMLEFT;
                     movement = movement + new Vector3(-playerVelocity / 2, 0f, -playerVelocity / 2);
+                    direction = playerDirections.DOWN;
+                    rotate = Quaternion.Euler(0, -135, 0);
                 }
 
                 if (!upB && !downB && !leftB && !rightB)
@@ -378,6 +391,7 @@ public class Player : MonoBehaviour
                 {
                     //gameObject.GetComponent<Rigidbody>().AddForce(movement);
                     if (carryingObject) initObjectPosition(); //updateCarryingObjectPosition(movement);
+                    transform.rotation = rotate;
                     gameObject.GetComponent<Rigidbody>().velocity = movement * Time.deltaTime;//Vector3.ClampMagnitude(gameObject.GetComponent<Rigidbody>().velocity, maxSpeed);
                 }
                 /*if (!upB && !downB && !leftB && !rightB)

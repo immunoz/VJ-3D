@@ -15,7 +15,6 @@ abstract class Location : MonoBehaviour
     public float expandDelay;
     public GameObject flame;
     public GameObject[] nearComponents;
-    bool expandedNear;
 
     protected bool onFire;
     void Start()
@@ -39,12 +38,7 @@ abstract class Location : MonoBehaviour
             expand(new Vector3 (0.3f,0.3f,0.3f));
             scaleDelay = 0.2f;
         }
-        else if (onFire && !expandedNear && expandDelay <= 0 )
-        {
-            setNearObjectsOnFire();
-            expandedNear = true;
-        }
-
+        else if (onFire &&  expandDelay <= 0 ) setNearObjectsOnFire();
     }
 
 
@@ -138,8 +132,9 @@ abstract class Location : MonoBehaviour
     {
         for (int i = 0; i < nearComponents.Length; ++i)
         {
-            nearComponents[i].GetComponent<Location>().setOnFire();
+            if (!nearComponents[i].GetComponent<Location>().burnning()) nearComponents[i].GetComponent<Location>().setOnFire();
         }
+        expandDelay = 5f;
     }
 
    public bool burnning ()
