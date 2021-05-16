@@ -120,8 +120,10 @@ public class Player : MonoBehaviour
                             }
 
                         }
-                        else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject) {
-                        
+                        else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject && locationScript.currentObject.GetComponent<PizzaMass>().putIngredient(carriedObject)) {
+                            locationScript.resetCoolDown();
+                            carriedObject = null;
+                            carryingObject = false;
                         }
                     }
                     else if (locationScript.getType() == "Chopper") {
@@ -171,7 +173,7 @@ public class Player : MonoBehaviour
                     else if (locationScript.getType() == "oven")
                     {
 
-                        if (carryingObject && carriedObject.name == "pizza" && locationScript.isFree() && !carriedObject.GetComponent<Pizza>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
+                        if (carryingObject && carriedObject.name == "PizzaMass" && locationScript.isFree() && !carriedObject.GetComponent<PizzaMass>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
                         {
                             // poner otro if para comprobar que la pizza tiene todos los ingredientes necesarios.
                             locationScript.setObject(carriedObject);

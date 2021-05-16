@@ -17,7 +17,7 @@ public abstract class Ingredient : MonoBehaviour
     
     protected enum ingredientState
     {
-       RAW, IN_PROCESS, CHOPPED, COOKED
+       RAW, IN_PROCESS, CHOPPED, COOKING, COOKED
     };
 
     protected ingredientState state;
