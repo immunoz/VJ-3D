@@ -30621,7 +30621,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.79, y: 1.33, z: 1}
+  m_Size: {x: 0.64, y: 1.33, z: 1}
   m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!4 &836591656 stripped
 Transform:
@@ -55309,7 +55309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffe4e97c1698c5a489045700ce890856, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffe4e97c1698c5a489045700ce890856, type: 3}
       propertyPath: m_LocalRotation.w
@@ -55789,7 +55789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 97017915621906471, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 46.8
+      value: 47.7
       objectReference: {fileID: 0}
     - target: {fileID: 491477551919646818, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
       propertyPath: nearComponents.Array.data[0]
@@ -85870,6 +85870,18 @@ PrefabInstance:
       propertyPath: nearComponents.Array.data[1]
       value: 
       objectReference: {fileID: 1821936815}
+    - target: {fileID: 491477551919646830, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 491477551919646830, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 491477551919646830, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
+      propertyPath: m_Size.z
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 491477551919646831, guid: d4884d9109e7f8d4eb1e6e3a7233a0eb, type: 3}
       propertyPath: m_Size.z
       value: 4

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,5 +50,11 @@ public class extinguisher : MonoBehaviour
     public bool isShooting()
     {
         return shoot;
+    }
+
+    public void stopShooting()
+    {
+        shoot = false;
+        smoke.SetActive(false);
     }
 }

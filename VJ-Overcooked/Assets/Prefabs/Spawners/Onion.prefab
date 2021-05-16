@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3222270647259159048}
   - component: {fileID: 4957838860255445749}
   m_Layer: 0
-  m_Name: Onion2
+  m_Name: Onion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ SphereCollider:
   m_GameObject: {fileID: 7387168242636369577}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.01
   m_Center: {x: 0, y: 0.00015557557, z: -0.000000005122274}
@@ -109,4 +109,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CuttingTime: 1
-  name: Onion
+  pot: 0

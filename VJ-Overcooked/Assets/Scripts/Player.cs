@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
         downB = Input.GetKey("s");
         spaceB = Input.GetKey(KeyCode.Space);
         Rigidbody rb = GetComponent<Rigidbody>();
+        GetComponent<AnimationState>().setCarryingObject(carryingObject);
 
         Vector3 movement = new Vector3(0f, rb.velocity.y, 0f);
 
@@ -204,7 +205,8 @@ public class Player : MonoBehaviour
                         carryingObject = false;
                     }
                 }
-                
+
+
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
@@ -216,18 +218,15 @@ public class Player : MonoBehaviour
                             chopperScript.startChopp();
                             state = playerStates.CHOPP;
                         }
-                    }else if ( locationScript.getType() == "Sink")
+                    }
+                    else if (locationScript.getType() == "Sink")
                     {
                         SinkScript sink = currentLocation.GetComponent<SinkScript>();
                         sink.startWashing();
                         state = playerStates.DISHES;
                     }
                 }
-                else if (Input.GetKey(KeyCode.LeftControl) && carryingObject &&  carriedObject.name == "extinguisher")
-                {
-                    extinguisher extinguisherScript = carriedObject.GetComponent<extinguisher>();
-                    if (!extinguisherScript.isShooting()) extinguisherScript.startShooting();
-                }
+                else if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
 
 
                 /*  if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
@@ -381,6 +380,7 @@ public class Player : MonoBehaviour
                     direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, -135, 0);
                 }
+                if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
 
                 if (!upB && !downB && !leftB && !rightB)
                 {
@@ -642,4 +642,14 @@ public class Player : MonoBehaviour
         play = value;
     }
 
+
+    public void setShooting()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            extinguisher extinguisherScript = carriedObject.GetComponent<extinguisher>();
+            if (!extinguisherScript.isShooting()) extinguisherScript.startShooting();
+        }
+        else if (carriedObject.GetComponent<extinguisher>().isShooting()) carriedObject.GetComponent<extinguisher>().stopShooting();
+    }
 }
