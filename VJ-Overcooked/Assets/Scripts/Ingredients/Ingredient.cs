@@ -78,8 +78,8 @@ public abstract class Ingredient : MonoBehaviour
     public bool putInPlate()
     {
         if (name == "BurgerBread") return true;
-        if (name == "PizzaMass") return false;
-        return state == ingredientState.CHOPPED;
+        if (name == "PizzaMass" || name == "mushroom pizza raw" || name == "sausage pizza raw") return false;
+        return state == ingredientState.CHOPPED || state == ingredientState.COOKED;
     }
 
     public bool choppingDone()

@@ -917,7 +917,7 @@ Transform:
   m_GameObject: {fileID: 3795752607083553347}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 27.310184, y: 0.10664344, z: 10.688501}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 7345256949830323651}
   - {fileID: 4753081929289616555}
@@ -947,6 +947,9 @@ MonoBehaviour:
   cheese: {fileID: 4485814557126974260}
   salami: {fileID: 4485814556631766548}
   cookingTime: 10
+  recipes:
+  - {fileID: 2687172949257489941, guid: 190f6883c5927e44cb9b74b426759e24, type: 3}
+  - {fileID: 1135958470012362946, guid: cd79fb305000f8c43944d1a036021ef4, type: 3}
 --- !u!1 &4424574003859081524
 GameObject:
   m_ObjectHideFlags: 0

@@ -60479,7 +60479,7 @@ PrefabInstance:
     - target: {fileID: 164976164739287140, guid: e49168241829e924b8ff331aac085aa3, type: 3}
       propertyPath: ingredientPrefab
       value: 
-      objectReference: {fileID: 3124385305545471491, guid: b764b1652dcc59d459de9b67c1f4e499, type: 3}
+      objectReference: {fileID: 7985398191293147418, guid: f8c7192e7d7a3db4a9702e22445a8594, type: 3}
     - target: {fileID: 164976164739287163, guid: e49168241829e924b8ff331aac085aa3, type: 3}
       propertyPath: m_RootOrder
       value: 4
