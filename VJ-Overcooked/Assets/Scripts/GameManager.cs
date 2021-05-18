@@ -5,11 +5,12 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
 
-    public GameObject recipe, preparingStep, player, delivery, plateSpawner;
-    public Canvas canvas;          
+    public GameObject recipe, preparingStep, player, delivery, plateSpawner,goStep;
+    public Canvas canvas;
+    public Text time, scoreText;
     public Sprite goSprite;
     public float showRecipeTime;
-    public float offset;
+    public float offset, levelTime;
     public float spawnTime, spawnPlateTime;
     public GameObject[] levelDeliveries;
     
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> deliveries;
     private List<GameObject> plates;
     private List<float> plateCooldown;
+    private int score;
 
     public void increaseScore()
     {
@@ -39,6 +41,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        score = 0;
+        scoreText.text = score.ToString();
+        time.text = fromSecondsToInt();
         if (recipe != null) state = GameSteps.SHOWING_RECIPE;
         else state = GameSteps.PREPARING;
         timer = 0f;
@@ -76,8 +81,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GameSteps.RUNNING:
+                //time.text = 
+                levelTime -= Time.deltaTime;
+                time.text = fromSecondsToInt();
                 if (plates.Count != 0) updatePlateTimers();
-
 
                 if (timer > 0) timer -= Time.deltaTime;
                 else {
@@ -90,15 +97,31 @@ public class GameManager : MonoBehaviour
                 if (timer > showRecipeTime)
                 {
                     state = GameSteps.RUNNING;
-                    preparingStep.SetActive(false);
+                    goStep.SetActive(false);
                     timer = 0;
                     player.GetComponent<Player>().setPlay(true);
                 }
-                if (showRecipeTime * 2 / 3 < timer) preparingStep.GetComponent<Image>().sprite = goSprite;
+                if (showRecipeTime * 2 / 3 < timer)
+                {
+                    preparingStep.SetActive(false);
+                    goStep.SetActive(true);
+                    // preparingStep.GetComponent<Image>().sprite = goSprite;
+                }
                 break;
         }
     }
 
+    private string fromSecondsToInt() {
+        int integerSeconds = (int) levelTime;
+        int minutes = integerSeconds/60;
+        integerSeconds %= 60;
+        string timeInString = "";
+        if (minutes < 10) timeInString += "0";
+        timeInString += minutes.ToString() + ":";
+        if (integerSeconds < 10) timeInString += "0";
+        timeInString += integerSeconds.ToString();
+        return timeInString;
+    }
     private void updatePlateTimers()
     {
         for (int i = 0; i < plates.Count; ++i) {
@@ -148,6 +171,8 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(deliveries[i]);
                 deliveries.RemoveAt(i);
+                score += d.score;
+                scoreText.text = score.ToString();
                 return true;
             }
         }

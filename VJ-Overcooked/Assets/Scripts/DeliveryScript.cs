@@ -9,6 +9,7 @@ public class DeliveryScript : MonoBehaviour
     public Image fill;
     public float expireTime;
     public string dish;
+    public int score;
 
     void Start()
     {

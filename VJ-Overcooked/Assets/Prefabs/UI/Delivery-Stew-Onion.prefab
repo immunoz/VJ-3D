@@ -211,6 +211,7 @@ MonoBehaviour:
   fill: {fileID: 3564672835274864932}
   expireTime: 20
   dish: Onion Stew
+  score: 20
 --- !u!114 &3564672835676810623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,7 +226,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
   - {fileID: 7387168242636369577, guid: afbc0b5bbe611c3448c64028149662d4, type: 3}
+  state: []
   quantity: 03000000
+  recipeName: 
+  cookedName: 
 --- !u!1 &3564672835680231362
 GameObject:
   m_ObjectHideFlags: 0
