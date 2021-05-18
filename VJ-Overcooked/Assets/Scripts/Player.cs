@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
         spaceB = Input.GetKey(KeyCode.Space);
         Rigidbody rb = GetComponent<Rigidbody>();
         GetComponent<AnimationState>().setCarryingObject(carryingObject);
+        checkIfNearLocation();
 
         Vector3 movement = new Vector3(0f, rb.velocity.y, 0f);
 
@@ -360,14 +361,12 @@ public class Player : MonoBehaviour
                 {
                     movement = movement + new Vector3(playerVelocity / 2, 0f, playerVelocity / 2);
                     direction = playerDirections.TOPRIGHT;
-                    direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, 45, 0);
                 }
                 else if (leftB && upB)
                 {
                     movement = movement + new Vector3(-playerVelocity / 2, 0f, playerVelocity / 2);
                     direction = playerDirections.TOPLEFT;
-                    direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, -45, 0);
                 }
                 else if (rightB && downB)
@@ -375,13 +374,11 @@ public class Player : MonoBehaviour
 
                     direction = playerDirections.BOTTOMRIGHT;
                     movement = movement + new Vector3(playerVelocity / 2, 0f, -playerVelocity / 2);
-                    direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, 135, 0);
                 }
                 else if (leftB && downB) {
                     direction = playerDirections.BOTTOMLEFT;
                     movement = movement + new Vector3(-playerVelocity / 2, 0f, -playerVelocity / 2);
-                    direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, -135, 0);
                 }
                 if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
@@ -466,52 +463,6 @@ public class Player : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider collider)
-    {
-        /*if (collider.name == "Chopper") {
-            canChopp = true;
-            currentTable = collider.gameObject;
-        } 
-        else if (collider.name == "IngredientSpawner")
-        {
-            ingredientSpawner = collider.gameObject.GetComponent<IngredientSpawner>();
-            canPickUp = true;
-        }
-        else if (collider.name == "Table") {
-            currentTable = collider.gameObject;
-            nextToTable = true;
-        }
-        else if ( collider.name == "Sink")
-        {
-            canWash = true;
-            currentWasher = collider.gameObject;
-            
-        }*/
-        canUse = true;
-        currentLocation = collider.gameObject;
-
-    }
-
-    void OnTriggerExit(Collider collider) {
-        /* if (collider.name == "Chopper") canChopp = false;
-        else if (collider.name == "IngredientSpawner")
-        {
-            ingredientSpawner = null;
-            canPickUp = false;
-        }
-        else if (collider.name == "Table")
-        {
-            currentTable = null;
-            nextToTable = false;
-        }
-        else if (collider.name == "Sink")
-        {
-            currentWasher = null;
-            canWash = false;
-        }*/
-        canUse = false;
-        currentLocation = null;
-    }
 
     public bool playerCanPickUP() {
         return canPickUp;
@@ -577,6 +528,7 @@ public class Player : MonoBehaviour
                     Quaternion target = Quaternion.Euler(0, -135, 78);
                     carriedObject.transform.rotation = target;
                 } 
+
                 carriedObject.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
 
                 break;
@@ -603,8 +555,9 @@ public class Player : MonoBehaviour
                     Quaternion target = Quaternion.Euler(0, 135, 78);
                     carriedObject.transform.rotation = target;
                 }
+                Debug.Log("hola");
                 carriedObject.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
- 
+
                 break;
         }
     }
@@ -637,5 +590,20 @@ public class Player : MonoBehaviour
             ingredientPosY = 11.7f;
         }
 
+    }
+
+    public void checkIfNearLocation()
+    {
+        RaycastHit loc;
+        if (Physics.Raycast(transform.position, transform.forward, out loc, 5f))
+        {
+            currentLocation = loc.collider.gameObject;
+            canUse = true;
+        }
+        else
+        {
+            currentLocation = null;
+            canUse = false;
+        }
     }
 }

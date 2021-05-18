@@ -65,7 +65,6 @@ using UnityEngine;
     {
         if (!onFire)
         {
-            Debug.Log("setOnfire");
             warning.SetActive(false);
             onFire = true;
             flame.SetActive(true);
