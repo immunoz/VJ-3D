@@ -168,8 +168,8 @@ abstract class Location : MonoBehaviour
         } 
     }
 
-    internal bool hasPizzaMass()
+    public bool hasPizzaMass()
     {
-        throw new NotImplementedException();
+        return currentObject.name == "PizzaMass";
     }
 }

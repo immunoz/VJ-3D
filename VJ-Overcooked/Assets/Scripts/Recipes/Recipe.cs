@@ -8,6 +8,7 @@ public class Recipe : MonoBehaviour
     public string[] state;
     public int[] quantity;
     public string recipeName;
+    public string cookedName;
 
     public int getSize() {
         int result = 0;

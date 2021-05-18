@@ -57,7 +57,6 @@ public class Plate : MonoBehaviour
             {
                 if (checkRecipe(i))
                 {
-                    Debug.Log(recipes[i].GetComponent<Recipe>().recipeName);
                     preparedDish = recipes[i].GetComponent<Recipe>().recipeName;
                     recipeFound = true;
                 }
