@@ -56,7 +56,7 @@ abstract class Location : MonoBehaviour
         Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
         if ( name == "Sink") currentObject.transform.Rotate(0f, -45f, 0f);
         if ( currentObject.name != "extinguisher" )currentObject.transform.position = tableCenter + new Vector3(0f, getGetHeightOffset(), 0f);
-        currentObject.transform.position = new Vector3(tableCenter.x, getGetHeightOffset() + tableCenter.y, tableCenter.z);
+        else currentObject.transform.position = tableCenter + new Vector3(0f, 15f, 0f);
     }
 
 
@@ -132,9 +132,10 @@ abstract class Location : MonoBehaviour
     {
         for (int i = 0; i < nearComponents.Length; ++i)
         {
-            if (!nearComponents[i].GetComponent<Location>().burnning()) nearComponents[i].GetComponent<Location>().setOnFire();
+            if (!nearComponents[i].GetComponent<Location>().burnning())  nearComponents[i].GetComponent<Location>().setOnFire();
         }
         expandDelay = 5f;
+
     }
 
    public bool burnning ()
@@ -162,6 +163,8 @@ abstract class Location : MonoBehaviour
             flame.SetActive(false);
             onFire = false;
             flame.GetComponent<ProcessBar>().hide();
+            
+
         } 
     }
 

@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     public float timer;
     public float maxSpeed;
     private bool canChopp, canPickUp, carryingObject, nextToTable, canWash;
-    public float ingredientPosY = 10f;
+    public float ingredientPosY = 8f;
 
     void Start()
     {
@@ -58,8 +58,11 @@ public class Player : MonoBehaviour
         downB = Input.GetKey("s");
         spaceB = Input.GetKey(KeyCode.Space);
         Rigidbody rb = GetComponent<Rigidbody>();
+        GetComponent<AnimationState>().setCarryingObject(carryingObject);
 
         Vector3 movement = new Vector3(0f, rb.velocity.y, 0f);
+
+        if (carryingObject) adjustPosition();
 
         switch (state) {
             case playerStates.STAND:
@@ -204,7 +207,8 @@ public class Player : MonoBehaviour
                         carryingObject = false;
                     }
                 }
-                
+
+
                 if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
@@ -216,18 +220,15 @@ public class Player : MonoBehaviour
                             chopperScript.startChopp();
                             state = playerStates.CHOPP;
                         }
-                    }else if ( locationScript.getType() == "Sink")
+                    }
+                    else if (locationScript.getType() == "Sink")
                     {
                         SinkScript sink = currentLocation.GetComponent<SinkScript>();
                         sink.startWashing();
                         state = playerStates.DISHES;
                     }
                 }
-                else if (Input.GetKey(KeyCode.LeftControl) && carryingObject &&  carriedObject.name == "extinguisher")
-                {
-                    extinguisher extinguisherScript = carriedObject.GetComponent<extinguisher>();
-                    if (!extinguisherScript.isShooting()) extinguisherScript.startShooting();
-                }
+                else if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
 
 
                 /*  if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
@@ -381,6 +382,7 @@ public class Player : MonoBehaviour
                     direction = playerDirections.DOWN;
                     rotate = Quaternion.Euler(0, -135, 0);
                 }
+                if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
 
                 if (!upB && !downB && !leftB && !rightB)
                 {
@@ -602,39 +604,6 @@ public class Player : MonoBehaviour
                 carriedObject.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
  
                 break;
-                /*
-                case playerDirections.UP:
-                    if (carriedIngredient != null ) carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
-                    else if ( carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, ingredientSpawnDistance + playerCenter.z);
-                    break;
-                case playerDirections.DOWN:
-                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x, ingredientPosY,   playerCenter.z- ingredientSpawnDistance);
-                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
-                    break;
-                case playerDirections.LEFT:
-                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x- ingredientSpawnDistance, ingredientPosY, playerCenter.z);
-                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z);
-                    break;
-                case playerDirections.RIGHT:
-                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
-                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z);
-                    break;
-                case playerDirections.BOTTOMRIGHT:
-                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY,   playerCenter.z - ingredientSpawnDistance);
-                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(ingredientSpawnDistance + playerCenter.x, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
-                    break;
-                case playerDirections.BOTTOMLEFT:
-                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
-                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z - ingredientSpawnDistance);
-                    break;
-                case playerDirections.TOPLEFT:
-                    if (carriedIngredient != null)  carriedIngredient.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                    else if (carriedPlate != null)  carriedPlate.transform.position = new Vector3(playerCenter.x - ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                    break;
-                case playerDirections.TOPRIGHT:
-                    if (carriedIngredient != null) carriedIngredient.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                    else if (carriedPlate != null) carriedPlate.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
-                    break;*/
         }
     }
 
@@ -642,4 +611,29 @@ public class Player : MonoBehaviour
         play = value;
     }
 
+
+    public void setShooting()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            extinguisher extinguisherScript = carriedObject.GetComponent<extinguisher>();
+            if (!extinguisherScript.isShooting()) extinguisherScript.startShooting();
+        }
+        else if (carriedObject.GetComponent<extinguisher>().isShooting()) carriedObject.GetComponent<extinguisher>().stopShooting();
+    }
+
+    public void adjustPosition()
+    {
+        if ( carriedObject.name == "extinguisher")
+        {
+            ingredientSpawnDistance = 3.6f;
+            ingredientPosY = 17f;
+        }
+        else
+        {
+            ingredientSpawnDistance = 6.1f;
+            ingredientPosY = 11.7f;
+        }
+
+    }
 }
