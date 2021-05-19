@@ -415,12 +415,14 @@ public class Player : MonoBehaviour
 
                 break;
             case playerStates.CHOPP:
+                GetComponent<AnimationState>().setChopping(true);
                 Chopper chopperScr = currentLocation.GetComponent<Chopper>();
                 if (upB || downB || leftB || rightB || chopperScr.finished())
                 {
                     if (chopperScr.finished()) chopperScr.stopChopp();
                     else chopperScr.pauseChopping();
                     state = playerStates.STAND;
+                    GetComponent<AnimationState>().setChopping(false);
                 }
  
 

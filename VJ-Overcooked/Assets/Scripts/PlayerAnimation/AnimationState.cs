@@ -12,11 +12,14 @@ public class AnimationState : MonoBehaviour
         MOVE, STAND, CHOPP, DISHES,CARRYING
     };
     private playerStates state;
+    private bool chopping;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         state = playerStates.STAND;
         carryingObject = false;
+        chopping = false;
 
     }
 
@@ -28,13 +31,13 @@ public class AnimationState : MonoBehaviour
         bool leftward = Input.GetKey("a");
         bool rightward = Input.GetKey("d");
         bool isWalking = animator.GetBool("isWalking");
+        animator.SetBool("carrying", carryingObject);
+        animator.SetBool("chopping", chopping);
 
         if ( !isWalking && (rightward || backward || leftward || forward) )
             animator.SetBool("isWalking", true);
         else if ( isWalking && (!rightward && !backward && !leftward && !forward))
             animator.SetBool("isWalking", false);
-
-        animator.SetBool("carrying", carryingObject);
 
     }
 
@@ -42,5 +45,9 @@ public class AnimationState : MonoBehaviour
     public void setCarryingObject(bool value)
     {
         carryingObject = value;
+    }
+
+    public void setChopping(bool value) {
+        chopping = value;
     }
 }
