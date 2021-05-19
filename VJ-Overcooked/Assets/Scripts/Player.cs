@@ -212,7 +212,7 @@ public class Player : MonoBehaviour
                 }
 
 
-                if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed())
+                if (Input.GetKey(KeyCode.LeftControl) && canUse && currentLocation.GetComponent<Location>().canBeUsed() && carriedObject == null)
                 {
                     Location locationScript = currentLocation.GetComponent<Location>();
                     if (locationScript.getType() == "Chopper")

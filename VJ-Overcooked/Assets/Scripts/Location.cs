@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 abstract class Location : MonoBehaviour
 {
@@ -14,14 +12,24 @@ abstract class Location : MonoBehaviour
     private Vector3 threshHold;
     public float expandDelay;
     public GameObject flame;
-    public GameObject[] nearComponents;
+    public List<GameObject> nearComponents;
+
+
+    //---------------------
+    //Fire upgrades
+    public List<float> timers;
+    public float fireExpandTime;
+    private bool maxFlame;
+    //---------------------
 
     protected bool onFire;
     void Start()
     {
+        nearComponents = new List<GameObject>();
+        timers = new List<float>();
         timer = 0f;
-        
         onFire = false;
+        maxFlame = false;
         threshHold = new Vector3(2.5f, 2.5f, 2.5f);
         if (currentObject != null) setObject(currentObject);
         if (flame != null) flame.transform.position = GetComponent<Renderer>().bounds.center + new Vector3 (0,2f,0);
@@ -31,14 +39,15 @@ abstract class Location : MonoBehaviour
     void Update()
     {
         if (timer > 0) timer -= Time.deltaTime;
-        if (expandDelay > 0 && onFire) expandDelay -= Time.deltaTime;
-        if (onFire ) scaleDelay -= Time.deltaTime;
+        if (onFire && scaleDelay > 0) scaleDelay -= Time.deltaTime;
+        if (maxFlame) setNearObjectsOnFire();
+        
         if (onFire && scaleDelay <= 0)
         {
             expand(new Vector3 (0.3f,0.3f,0.3f));
             scaleDelay = 0.2f;
         }
-        else if (onFire &&  expandDelay <= 0 ) setNearObjectsOnFire();
+        //else if (onFire &&  expandDelay <= 0 ) setNearObjectsOnFire();
     }
 
 
@@ -58,8 +67,6 @@ abstract class Location : MonoBehaviour
         if ( currentObject.name != "extinguisher" )currentObject.transform.position = tableCenter + new Vector3(0f, getGetHeightOffset(), 0f);
         else currentObject.transform.position = tableCenter + new Vector3(0f, 15f, 0f);
     }
-
-
 
     public bool isFree()
     {
@@ -81,8 +88,6 @@ abstract class Location : MonoBehaviour
     {
         return currentObject;
     }
-
-
 
     public bool canBeUsed()
     {
@@ -116,7 +121,7 @@ abstract class Location : MonoBehaviour
 
     public void expand(Vector3 scale)
     {
-        //
+        ProcessBar processScript = flame.GetComponent<ProcessBar>();
         if (flame.transform.GetChild(0).transform.localScale.x < threshHold.x || scale.x < 0)
         {
             flame.transform.GetChild(0).transform.localScale += scale;
@@ -124,17 +129,37 @@ abstract class Location : MonoBehaviour
             flame.transform.GetChild(2).transform.localScale += scale;
             flame.transform.GetChild(3).transform.localScale += scale;
         }
+        else if (flame.transform.GetChild(0).transform.localScale.x >= threshHold.x && !maxFlame)
+        {
+            maxFlame = true;
+            processScript.hide();
+        }
 
-
+        
+        if (!maxFlame)
+        {
+            processScript.setMaxTime(1);
+            processScript.setProcessTime(flame.transform.GetChild(0).transform.localScale.x / threshHold.x);
+        }
     }
 
     private void setNearObjectsOnFire()
     {
-        for (int i = 0; i < nearComponents.Length; ++i)
+        /*for (int i = 0; i < nearComponents.Length; ++i)
         {
             if (!nearComponents[i].GetComponent<Location>().burnning())  nearComponents[i].GetComponent<Location>().setOnFire();
         }
-        expandDelay = 5f;
+        expandDelay = 5f;*/
+        for (int i = 0; i < nearComponents.Count; ++i)
+        {
+            if (!nearComponents[i].GetComponent<Location>().burnning() && timers[i] > 0) timers[i] -= Time.deltaTime;
+            else if (!nearComponents[i].GetComponent<Location>().burnning())
+            {
+                timers[i] = fireExpandTime;
+                nearComponents[i].GetComponent<Location>().setOnFire();
+            }
+            else if (nearComponents[i].GetComponent<Location>().burnning() && timers[i] < fireExpandTime) timers[i] = fireExpandTime;
+        }
 
     }
 
@@ -145,31 +170,27 @@ abstract class Location : MonoBehaviour
 
     public void turnOffFire()
     {
-        if (flame.transform.GetChild(0).transform.localScale.x > 0) {
-            expand(new Vector3(-0.1f, -0.1f, -0.1f));
-            ProcessBar processScript = flame.GetComponent<ProcessBar>();
-            if (processScript != null) {
-                processScript.setMaxTime(1);
-                processScript.setProcessTime(flame.transform.GetChild(0).transform.localScale.x / threshHold.x);
-            }
-            
-
-            //  Debug.Log(flame.transform.GetChild(0).transform.localScale.x + "," + threshHold.x)
-            
-
-           // flame.transform.GetChild(4).
-        } 
-        else {
+        if (flame.transform.GetChild(0).transform.localScale.x > 0) expand(new Vector3(-0.1f, -0.1f, -0.1f));
+        else
+        {
             flame.SetActive(false);
             onFire = false;
             flame.GetComponent<ProcessBar>().hide();
-            
-
-        } 
+        }
+        maxFlame = false;
     }
 
     public bool hasPizzaMass()
     {
         return currentObject.name == "PizzaMass";
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (!collider.isTrigger)
+        {
+            nearComponents.Add(collider.gameObject);
+            timers.Add(fireExpandTime);
+        }
     }
 }
