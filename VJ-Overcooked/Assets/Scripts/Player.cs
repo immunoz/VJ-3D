@@ -555,7 +555,6 @@ public class Player : MonoBehaviour
                     Quaternion target = Quaternion.Euler(0, 135, 78);
                     carriedObject.transform.rotation = target;
                 }
-                Debug.Log("hola");
                 carriedObject.transform.position = new Vector3(playerCenter.x + ingredientSpawnDistance, ingredientPosY, playerCenter.z + ingredientSpawnDistance);
 
                 break;
