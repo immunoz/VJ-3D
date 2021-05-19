@@ -29,28 +29,13 @@ public class AnimationState : MonoBehaviour
         bool rightward = Input.GetKey("d");
         bool isWalking = animator.GetBool("isWalking");
 
-        switch (state)
-        {
-            case playerStates.STAND:
-                animator.SetBool("isWalking", false);
-                if (forward || backward || rightward || leftward)
-                    state = playerStates.MOVE;
-                else if (carryingObject) state = playerStates.CARRYING;
-                break;
-            case playerStates.MOVE:
-                animator.SetBool("isWalking", true);
-                if ( !forward && ! backward && ! leftward&& !rightward) state = playerStates.STAND;
-                break;
-            case playerStates.CARRYING:
-                animator.SetBool("carrying", carryingObject);
-                if (!carryingObject) {
-                    if (forward || backward || rightward || leftward) state = playerStates.MOVE;
-                    else state = playerStates.STAND;
-                } 
-                else if (forward || backward || rightward || leftward) animator.SetBool("isWalking", true); // walking with object
-                else animator.SetBool("isWalking", false); // standing with object
-                break;
-        }
+        if ( !isWalking && (rightward || backward || leftward || forward) )
+            animator.SetBool("isWalking", true);
+        else if ( isWalking && (!rightward && !backward && !leftward && !forward))
+            animator.SetBool("isWalking", false);
+
+        animator.SetBool("carrying", carryingObject);
+
     }
 
 
