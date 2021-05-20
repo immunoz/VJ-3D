@@ -12,17 +12,26 @@ using UnityEngine;
 
     void FixedUpdate()
     {
-        if (currentObject != null && currentObject.name == "pan") return;
+        if (currentObject != null && currentObject.name == "pan") {
+            if (currentObject.GetComponent<Pan>().isReady() && !currentObject.GetComponent<Pan>().burned()) showWarning();
+            return;
+        }
+        
+        
+        
         if ( currentObject != null && currentObject.GetComponent<Pot>().doneCooking() && !currentObject.GetComponent<Pot>().isBurned() )
         {
             Pot potSricpt = currentObject.GetComponent<Pot>();
             potSricpt.hideBar();
-            warning.SetActive(true);
-            if (delay > 0) delay -= Time.deltaTime;
-            
-            else setOnFire();
+            showWarning();
             //Debug.Log(delay);
         }
+    }
+
+    private void showWarning() {
+        warning.SetActive(true);
+        if (delay > 0) delay -= Time.deltaTime;
+        else setOnFire();
     }
 
     public override float getGetHeightOffset()

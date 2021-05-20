@@ -187,7 +187,7 @@ abstract class Location : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (!collider.isTrigger)
+        if (!collider.isTrigger && collider.gameObject.name != "player")
         {
             nearComponents.Add(collider.gameObject);
             timers.Add(fireExpandTime);
