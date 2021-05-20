@@ -17,6 +17,16 @@ public class Pan : MonoBehaviour
     private GameObject meat;
     private bool pause;
 
+    public bool isReady()
+    {
+        return state == States.READY;
+    }
+
+    public bool burned()
+    {
+        return state == States.BURNED;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +71,8 @@ public class Pan : MonoBehaviour
                 break;
         }
     }
+
+
 
     public bool setObject(GameObject obj)
     {
