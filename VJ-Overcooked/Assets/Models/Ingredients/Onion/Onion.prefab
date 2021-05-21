@@ -448,6 +448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8398096190070860351}
+  - component: {fileID: 8179962828641674606}
   m_Layer: 0
   m_Name: Onion
   m_TagString: Untagged
@@ -471,3 +472,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &8179962828641674606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9207564710303264901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58399f7e16f23ae459192c0ee4b320ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CuttingTime: 3
+  pot: 1
