@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,9 +8,10 @@ public class Player : MonoBehaviour
     public GameObject currentLocation, carriedObject;
     // Start is called before the first frame update
 
-    private bool canUse;
+    private bool canUse, settedBlade;
     private GameObject carriedIngredient, currentTable, currentWasher, carriedPlate;
     private bool play;
+    Vector3 initialPosition;
 
     // Update is called once per frame
 
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
         carriedIngredient = null;
         carriedPlate = null;
         play = false;
+        settedBlade = false;
 
 
         ////////////////////
@@ -416,12 +419,23 @@ public class Player : MonoBehaviour
                 break;
             case playerStates.CHOPP:
                 GetComponent<AnimationState>().setChopping(true);
+                GameObject blade = currentLocation.transform.GetChild(0).gameObject;
+                if (!settedBlade)
+                {
+                    initialPosition = blade.transform.position;
+                    settedBlade = true;
+                }
+                adjustPositionOfBlade(blade);
                 Chopper chopperScr = currentLocation.GetComponent<Chopper>();
                 if (upB || downB || leftB || rightB || chopperScr.finished())
                 {
                     if (chopperScr.finished()) chopperScr.stopChopp();
                     else chopperScr.pauseChopping();
                     state = playerStates.STAND;
+                    blade.transform.position = initialPosition;
+                    Quaternion rotation = Quaternion.Euler(90f, 0f, 62.512f);
+                    blade.transform.rotation = rotation;
+                    settedBlade = false;
                     GetComponent<AnimationState>().setChopping(false);
                 }
  
@@ -450,6 +464,16 @@ public class Player : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void adjustPositionOfBlade(GameObject blade)
+    {
+        GameObject hand = GameObject.Find("RightHandIndex1");
+        blade.transform.position = hand.transform.position;
+        blade.transform.eulerAngles = hand.transform.eulerAngles;
+        Quaternion rotation = Quaternion.Euler(9.6f, 84.4f, 79.4f);
+        blade.transform.rotation = rotation;
+
     }
 
     private void setObjectInLocation(Location locationScript) {
