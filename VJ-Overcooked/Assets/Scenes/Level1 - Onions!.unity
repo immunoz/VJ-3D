@@ -3092,6 +3092,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1328559263}
     - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
+      propertyPath: slideVelocity
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
+      propertyPath: velocitySlide
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
       propertyPath: spawnPlateTime
       value: 5
       objectReference: {fileID: 0}

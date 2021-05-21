@@ -11,6 +11,7 @@ public class Pan : MonoBehaviour
     }
     
     public float burnedTime;
+    public GameObject friedMeat;
 
     private States state;
     private float timer;
@@ -79,6 +80,9 @@ public class Pan : MonoBehaviour
         if (meat != null) return false;
         meat = obj;
         timer = obj.GetComponent<Meat>().preparingTime;
+        //Destroy(obj);
+        obj.SetActive(false);
+        friedMeat.SetActive(true);
         return true;
     }
 
