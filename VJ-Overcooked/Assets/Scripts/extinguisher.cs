@@ -38,7 +38,7 @@ public class extinguisher : MonoBehaviour
     public void castSmoke()
     {
         RaycastHit hit;
-        if ( Physics.Raycast(smoke.transform.position, smoke.transform.forward,out hit,20f))
+        if ( Physics.Raycast(GameObject.Find("Player").transform.position, GameObject.Find("Player").transform.forward,out hit,25f))
         {
             GameObject target = hit.collider.gameObject;
             Location targetScript = target.GetComponent<Location>();
