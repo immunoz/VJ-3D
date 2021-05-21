@@ -13,7 +13,15 @@ public class GameManager : MonoBehaviour
     public float offset, levelTime;
     public float spawnTime, spawnPlateTime;
     public GameObject[] levelDeliveries;
-    
+
+    //---------------------
+    public float slideVelocity;
+    private Vector3 target;
+    private int ithDel;
+    bool updatingDeliveriesPosition = false;
+    public float velocitySlide;
+    //---------------------
+
 
     private GameSteps state;
     private float timer;
@@ -41,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        ithDel = -1;
         score = 0;
         scoreText.text = score.ToString();
         time.text = fromSecondsToInt();
@@ -85,6 +94,7 @@ public class GameManager : MonoBehaviour
                 levelTime -= Time.deltaTime;
                 time.text = fromSecondsToInt();
                 if (plates.Count != 0) updatePlateTimers();
+                //if (updatingDeliveriesPosition) deliveriesAnimation();
 
                 if (timer > 0) timer -= Time.deltaTime;
                 else {
@@ -109,6 +119,46 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void deliveriesAnimation()
+    {
+        if (ithDel+1 >= deliveries.Count) {
+            Destroy(deliveries[ithDel]);
+            deliveries.RemoveAt(ithDel);
+            updatingDeliveriesPosition = false;
+            return;
+        }
+
+        Debug.Log(target.x);
+        Debug.Log(deliveries[ithDel + 1].GetComponent<RectTransform>().position.x);
+        if (target.x < deliveries[ithDel+1].GetComponent<RectTransform>().position.x)
+        {
+            //Vector3 targetPosition = deliveries[ithDel].GetComponent<RectTransform>().position;
+            for (int i = ithDel + 1; i < deliveries.Count; ++i)
+            {
+                //Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;velocitySlide
+                Vector3 temp = deliveries[i].GetComponent<RectTransform>().position - new Vector3(velocitySlide * Time.deltaTime,0,0);
+                deliveries[i].GetComponent<RectTransform>().position = temp;
+                //targetPosition = aux;
+            }
+        }
+        else {
+            target = target + new Vector3(deliveries[ithDel].GetComponent<RectTransform>().sizeDelta.x + offset, 0, 0);
+            //Vector3 temp = target + new Vector3(deliveries[i].GetComponent<RectTransform>().sizeDelta.x + offset, 0, 0);
+            for (int i = ithDel + 1; i < deliveries.Count; ++i)
+            {
+                //Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;velocitySlide
+                Vector3 temp = target - new Vector3(deliveries[i].GetComponent<RectTransform>().sizeDelta.x + offset,0,0);
+                deliveries[i].GetComponent<RectTransform>().position = target;
+                target = temp;
+                //targetPosition = aux;
+            }
+            Destroy(deliveries[ithDel]);
+            deliveries.RemoveAt(ithDel);
+            updatingDeliveriesPosition = false;
+        }
+
     }
 
     private string fromSecondsToInt() {
@@ -141,6 +191,7 @@ public class GameManager : MonoBehaviour
         GameObject temp = Instantiate(levelDeliveries[Random.Range(0, levelDeliveries.Length)]) as GameObject;
         temp.transform.SetParent(canvas.transform,false);
         lastPosition.x += temp.GetComponent<RectTransform>().sizeDelta.x + offset;
+        //lastPos= temp.GetComponent<RectTransform>().sizeDelta.x + offset;
         temp.GetComponent<RectTransform>().localPosition = lastPosition;
         deliveries.Add(temp);
     }
@@ -163,19 +214,35 @@ public class GameManager : MonoBehaviour
     {
         if (deliveries.Count == 0) return false;
 
+        bool found = false;
         Plate plateScript = plate.GetComponent<Plate>();
         for (int i = 0; i < deliveries.Count; ++i)
         {
             DeliveryScript d = deliveries[i].GetComponent<DeliveryScript>();
             if (d.dish == plateScript.getPreparedDish())
             {
+                slideLeft(i);
+                //ithDel = i;
                 Destroy(deliveries[i]);
                 deliveries.RemoveAt(i);
+                //target = deliveries[i].GetComponent<RectTransform>().position;
+                //updatingDeliveriesPosition = true;
                 score += d.score;
                 scoreText.text = score.ToString();
                 return true;
             }
         }
         return false;
+    }
+
+    private void slideLeft(int index)
+    {
+        Vector3 targetPosition = deliveries[index].GetComponent<RectTransform>().localPosition;
+        for (int i = index+1; i < deliveries.Count; ++i) {
+            Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;
+            deliveries[i].GetComponent<RectTransform>().localPosition = targetPosition;
+            if (i == deliveries.Count - 1) lastPosition = targetPosition;
+            targetPosition = aux;
+        }
     }
 }
