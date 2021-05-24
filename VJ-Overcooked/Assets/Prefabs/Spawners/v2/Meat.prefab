@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 8511716346336057799}
   - component: {fileID: 1306139160234231678}
   m_Layer: 0
-  m_Name: Meat 1
+  m_Name: Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,8 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35a100d3ba076be4dae054cafe98a6fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 5
+  CuttingTime: 1
   pot: 0
-  preparingTime: 5
-  rawMeat: {fileID: 7367353631892969949}
-  rawMeat2: {fileID: 4840281149627002924}
+  raw: {fileID: 7367353631892969949}
+  sliced: {fileID: 4840281149627002924}
+  preparingTime: 2.5

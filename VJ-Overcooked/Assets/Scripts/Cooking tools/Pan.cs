@@ -112,6 +112,7 @@ public class Pan : MonoBehaviour
 
     private void initPan()
     {
+        friedMeat.SetActive(false);
         state = States.IDLE;
         timer = 0;
         pause = false;

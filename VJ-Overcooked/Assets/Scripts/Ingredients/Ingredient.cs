@@ -7,20 +7,27 @@ public abstract class Ingredient : MonoBehaviour
 {
     public float CuttingTime;
     public bool pot;
-    
+    public GameObject raw, sliced;
+
+
     protected float leftCuttingTime;
     protected float timer;
     protected bool bChopped;
     protected bool readyToCut;
-
     protected bool cooked;
-    
+
     protected enum ingredientState
     {
-       RAW, IN_PROCESS, CHOPPED, COOKING, COOKED
+        RAW, IN_PROCESS, CHOPPED, COOKING, COOKED
     };
 
     protected ingredientState state;
+
+    public void updatePieces(GameObject raw, GameObject sliced) {
+        Debug.Log(raw.name + sliced.name);
+        //r = raw;
+        //s = sliced;
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -30,12 +37,12 @@ public abstract class Ingredient : MonoBehaviour
         bChopped = false;
         leftCuttingTime = getTime();
         cooked = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
         switch (state)
         {
             case ingredientState.RAW:
@@ -48,20 +55,22 @@ public abstract class Ingredient : MonoBehaviour
                 break;
             case ingredientState.IN_PROCESS:
                 timer -= Time.deltaTime;
-                if (timer <= 0)
+                if (timer <= 0) {
                     state = ingredientState.CHOPPED;
                     leftCuttingTime = 0f;
+                    if (raw != null) raw.SetActive(false);
+                    if (sliced != null) sliced.SetActive(true);
+                }
                 break;
 
             case ingredientState.CHOPPED:
                 bChopped = false;
-                if (cooked) state = ingredientState.COOKED;
                 break;
             case ingredientState.COOKED:
 
                 break;
         }
-        
+
     }
 
 
@@ -70,15 +79,15 @@ public abstract class Ingredient : MonoBehaviour
     {
         readyToCut = true;
         //Debug.Log(leftCuttingTime);
-        
-       
+
+
         return leftCuttingTime / getTime();
     }
 
     public bool putInPlate()
     {
         if (name == "BurgerBread") return true;
-        if (name == "PizzaMass" || name == "mushroom pizza raw" || name == "sausage pizza raw") return false;
+        if (name == "PizzaMass" || name == "mushroom pizza raw" || name == "sausage pizza raw" || (name == "Meat" && state != ingredientState.COOKED)) return false;
         return state == ingredientState.CHOPPED || state == ingredientState.COOKED;
     }
 
