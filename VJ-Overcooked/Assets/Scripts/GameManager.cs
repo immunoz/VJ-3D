@@ -54,7 +54,11 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
         time.text = fromSecondsToInt();
         if (recipe != null) state = GameSteps.SHOWING_RECIPE;
-        else state = GameSteps.PREPARING;
+        else {
+            preparingStep.SetActive(true);
+            state = GameSteps.PREPARING;
+
+        } 
         timer = 0f;
         deliveries = new List<GameObject>();
         plates = new List<GameObject>();

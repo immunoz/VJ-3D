@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 164976164739287163}
   - component: {fileID: 164976164739287160}
   - component: {fileID: 164976164739287161}
-  - component: {fileID: 164976164739287142}
   - component: {fileID: 164976164739287143}
-  - component: {fileID: 164976164739287141}
   - component: {fileID: 164976164739287140}
   m_Layer: 0
   m_Name: IngredientSpawner
@@ -86,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &164976164739287142
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164976164739287138}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 30, y: 100, z: 30}
-  m_Center: {x: -0.3665371, y: -3.1148462, z: 1.9249849}
 --- !u!65 &164976164739287143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -112,19 +97,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 58.49846, y: 58.49845, z: 58.498444}
   m_Center: {x: -0.3665371, y: -3.1148462, z: 1.9249849}
---- !u!65 &164976164739287141
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164976164739287138}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 100, y: 30, z: 30}
-  m_Center: {x: -0.3665371, y: -3.1148467, z: 1.9249852}
 --- !u!114 &164976164739287140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,11 +111,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObject: {fileID: 0}
   cooldownTime: 0.5
-  scale: {x: 0, y: 0, z: 0}
   scaleDelay: 0
   expandDelay: 0
   flame: {fileID: 164976164992451724}
   nearComponents: []
+  timers: []
+  fireExpandTime: 0
   ingredientPrefab: {fileID: 4988729054594329707, guid: 16519d740560fee449b2e4f556bd3153, type: 3}
   heightOffset: 0
 --- !u!1 &164976164992451724
