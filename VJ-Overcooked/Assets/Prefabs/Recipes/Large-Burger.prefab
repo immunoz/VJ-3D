@@ -45,13 +45,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
   - {fileID: 3587417849620679727, guid: a977d807cfd05054ba96420b15a627f2, type: 3}
-  - {fileID: 8048526938849945334, guid: 5041f138979c84a48b9ec8af9d4ff328, type: 3}
-  - {fileID: 3124385305545471491, guid: b764b1652dcc59d459de9b67c1f4e499, type: 3}
-  - {fileID: 4988729054594329707, guid: 16519d740560fee449b2e4f556bd3153, type: 3}
+  - {fileID: 9030949011356337021, guid: b45fb70d8908fb148a75cd45917943e8, type: 3}
+  - {fileID: 464750782514581216, guid: ee7e2f8c1dc92934db00285bcd258db0, type: 3}
+  - {fileID: 1920633483017932060, guid: 432edb9cb4e2b9b47b8ded3aa2cb0e39, type: 3}
   state:
   - Raw
   - Cooked
   - Chopped
   - Chopped
   quantity: 01000000010000000100000001000000
-  recipeName: Large Burger
+  recipeName: Large Burguer
+  cookedName: 

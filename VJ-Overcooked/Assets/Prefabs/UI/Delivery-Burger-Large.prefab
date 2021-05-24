@@ -285,7 +285,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 9209974552835325666}
   expireTime: 20
-  ingredients: []
+  dish: Large Burguer
+  score: 40
 --- !u!1 &9209974553515475866
 GameObject:
   m_ObjectHideFlags: 0

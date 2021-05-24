@@ -8,10 +8,13 @@ public class Plate : MonoBehaviour
     public float washingTime;
     public GameObject stewTexture;
     public GameObject[] recipes;
+    public GameObject bread, lMeat, sMeat, lettuce, tomato, sPizza, mPizza;
     
     private float leftWasshingTime;
     private float timer;
     private bool washing;
+    private bool vegetableSet;
+
     public List<GameObject> ingredients;
     public string preparedDish;//public a modo de testing
 
@@ -29,32 +32,45 @@ public class Plate : MonoBehaviour
         ingredients = new List<GameObject>();
         state = plateState.WASHED;
         initDish();
-        if (recipes.Length != 0)
+        /*if (recipes.Length != 0)
         {
             recipes[0] = Instantiate(recipes[0]) as GameObject;
             recipes[1] = Instantiate(recipes[1]) as GameObject;
             //Debug.Log(recipes[0].name);
             //foreach (string x in recipes[0].GetComponent<Recipe>().state) Debug.Log(x);
             //foreach (GameObject x in recipes[0].GetComponent<Recipe>().ingredients) Debug.Log(x.name);
-        }
+        }*/
     }
 
     private void initDish()
     {
         stewTexture.SetActive(false);
+        bread.SetActive(false);
+        lMeat.SetActive(false);
+        sMeat.SetActive(false);
+        lettuce.SetActive(false);
+        tomato.SetActive(false);
+        sPizza.SetActive(false);
+        mPizza.SetActive(false);
         washing = false;
         leftWasshingTime = washingTime;
         preparedDish = "";
+        vegetableSet = false;
     }
 
     public bool putIngredient(GameObject carriedObject)
     {
         if (ingredients.Count >= 4) return false;
+        carriedObject.SetActive(false);
+        if (carriedObject.name == "Cabbage" || carriedObject.name == "Tomato") vegetableSet = true;
         ingredients.Add(carriedObject);
+        updateVisuals(carriedObject.name);
         bool recipeFound = false;
         for (int i = 0; i < recipes.Length && !recipeFound; ++i) {
+            Debug.Log("equisde");
             if (recipes[i].GetComponent<Recipe>().getSize() == ingredients.Count)
             {
+                Debug.Log("equisde2");
                 if (checkRecipe(i))
                 {
                     preparedDish = recipes[i].GetComponent<Recipe>().recipeName;
@@ -63,6 +79,19 @@ public class Plate : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private void updateVisuals(string name)
+    {
+        if (name == "BurgerBread") bread.SetActive(true);
+        if (name == "Cabagge") lettuce.SetActive(true);
+        if (name == "Meat" && !vegetableSet) lMeat.SetActive(true);
+        if (name == "Meat") {
+            lMeat.SetActive(false);
+            sMeat.SetActive(true);
+        }
+        if (name == "Tomato") tomato.SetActive(true);
+
     }
 
     private bool checkRecipe(int i)
@@ -76,8 +105,6 @@ public class Plate : MonoBehaviour
             bool not_found = true;
             for (int j = 0; j < recipeScript.ingredients.Length && not_found; ++j)
             {
-                //Debug.Log(k.name);
-                //Debug.Log(recipeScript.ingredients[j].name);
                 if (recipeScript.ingredients[j].name == k.name && k.GetComponent<Ingredient>().getState() == recipeScript.state[j])
                 {
                     if (--tempQuantity[j] < 0) return false;

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float offset, levelTime;
     public float spawnTime, spawnPlateTime;
     public GameObject[] levelDeliveries;
+    public int maxDeliveries;
 
     //---------------------
     public float slideVelocity;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
                 if (plates.Count != 0) updatePlateTimers();
                 //if (updatingDeliveriesPosition) deliveriesAnimation();
 
-                if (timer > 0) timer -= Time.deltaTime;
+                if (timer > 0 && maxDeliveries >= deliveries.Count) timer -= Time.deltaTime;
                 else {
                     timer = spawnTime;
                     generateDelivery();
@@ -223,12 +224,13 @@ public class GameManager : MonoBehaviour
             {
                 slideLeft(i);
                 //ithDel = i;
+                score += d.score;
+                scoreText.text = score.ToString();
                 Destroy(deliveries[i]);
                 deliveries.RemoveAt(i);
                 //target = deliveries[i].GetComponent<RectTransform>().position;
                 //updatingDeliveriesPosition = true;
-                score += d.score;
-                scoreText.text = score.ToString();
+                
                 return true;
             }
         }
@@ -238,6 +240,10 @@ public class GameManager : MonoBehaviour
     private void slideLeft(int index)
     {
         Vector3 targetPosition = deliveries[index].GetComponent<RectTransform>().localPosition;
+        if (deliveries.Count == 1) {
+            lastPosition.x -= deliveries[index].GetComponent<RectTransform>().sizeDelta.x;
+            return;
+        }
         for (int i = index+1; i < deliveries.Count; ++i) {
             Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;
             deliveries[i].GetComponent<RectTransform>().localPosition = targetPosition;
