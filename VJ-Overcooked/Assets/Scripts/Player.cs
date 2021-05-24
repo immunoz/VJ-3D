@@ -224,6 +224,7 @@ public class Player : MonoBehaviour
                         {
                             Chopper chopperScript = currentLocation.GetComponent<Chopper>();
                             chopperScript.startChopp();
+                            
                             state = playerStates.CHOPP;
                         }
                     }
@@ -486,6 +487,10 @@ public class Player : MonoBehaviour
     {
         carriedObject = locationScript.pickObject();
         carryingObject = true;
+        if ( locationScript.getType() == "Chopper")
+        {
+            currentLocation.GetComponent<Chopper>().hideExplosion();
+        }
     }
 
 

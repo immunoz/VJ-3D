@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Level1 - Onions!.unity
+    guid: bf176c40f8ef66c41ae5663bd5460f3e
+  - enabled: 1
+    path: Assets/Scenes/Level2_-_Pizza.unity
+    guid: 6706069e48f5adc4f901dc337109ed40
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: d0fc39582316fbd428e8edc11e67c746
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: fb9e0e609e01dc3449833469a2b81c25
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 899d20e15c4bd1a4fa8f8d73071a33c5
   m_configObjects: {}

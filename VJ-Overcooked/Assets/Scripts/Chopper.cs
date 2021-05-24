@@ -5,7 +5,9 @@ using UnityEngine;
  class Chopper : Location
 {
     public float heightOffset;
+    public GameObject explosion;
     private bool started = false;
+    
 
     public override float getGetHeightOffset()
     {
@@ -28,6 +30,7 @@ using UnityEngine;
     public void stopChopp()
     {
         GetComponent<ProcessBar>().hide();
+        explosion.SetActive(true);
         started = false;
     }
 
@@ -49,5 +52,10 @@ using UnityEngine;
             onFire = true;
             flame.SetActive(true);
         }
+    }
+
+    public void hideExplosion()
+    {
+        explosion.SetActive(false);
     }
 }
