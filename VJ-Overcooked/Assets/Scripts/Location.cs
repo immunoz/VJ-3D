@@ -10,7 +10,7 @@ abstract class Location : MonoBehaviour
     public float  cooldownTime;
     public float scaleDelay;
     private Vector3 threshHold;
-    public float expandDelay;
+
     public GameObject flame;
     public List<GameObject> nearComponents;
 
@@ -176,6 +176,8 @@ abstract class Location : MonoBehaviour
             flame.SetActive(false);
             onFire = false;
             flame.GetComponent<ProcessBar>().hide();
+            /*if (currentObject.name == "pot") currentObject.GetComponent<Pot>().setBurned(false);
+            else if (currentObject.name == "pan") currentObject.GetComponent<Pan>().turnedOff();*/
         }
         maxFlame = false;
     }

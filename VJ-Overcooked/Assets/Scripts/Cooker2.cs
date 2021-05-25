@@ -8,8 +8,14 @@ using UnityEngine;
     public float heightOffset;
 
     public GameObject warning;
-    public float delay;
+    private float delay;
+    public float burningTime;
 
+
+     void Awake()
+    {
+        delay = burningTime; 
+    }
     void FixedUpdate()
     {
         if (currentObject != null && currentObject.name == "pan") {
@@ -48,18 +54,27 @@ using UnityEngine;
     {
         bool set;
         //asumimos que solo pueden haber ollas y sartenes sobre la cocina
-        if (currentObject != null && currentObject.name == "pan" && obj.name != "plate") {
+        if (currentObject != null && currentObject.name == "pan" && obj.name != "plate" && obj.name != "extinguisher") {
             if (obj.name != "Meat" || !obj.GetComponent<Meat>().choppingDone()) return false;
             Pan panScript = currentObject.GetComponent<Pan>();
             set = panScript.setObject(obj);
-            if (set) resetCoolDown();
+            if (set) {
+                resetCoolDown();
+                delay = burningTime;
+                warning.SetActive(false);
+            } 
             return set;
         }
-        else if (currentObject != null && obj.name != "plate")
+        else if (currentObject != null && obj.name != "plate" && obj.name != "extinguisher")
         {
             Pot pot = currentObject.GetComponent<Pot>();
             set = pot.setObject(obj);
-            if (set) resetCoolDown();
+            if (set)
+            {
+                resetCoolDown();
+                delay = burningTime;
+                warning.SetActive(false);
+            }
             return set;
         }
         return false;
@@ -77,7 +92,7 @@ using UnityEngine;
             warning.SetActive(false);
             onFire = true;
             flame.SetActive(true);
-            currentObject.GetComponent<Pot>().setBurned(true);
+            if ( currentObject != null && currentObject.name == "pot" ) currentObject.GetComponent<Pot>().setBurned(true);
             delay = 3; // poner en una  funcion inicializadora.
         }
     }
@@ -87,10 +102,12 @@ using UnityEngine;
         return currentObject.GetComponent<Pot>().hasStew();
     }
 
-    public void GetStew(GameObject plate)
+    public void GetStew(GameObject plate )
     {
-        Plate plateScript = plate.GetComponent<Plate>();
-        if (!plateScript.isDirty()) currentObject.GetComponent<Pot>().getStew(plate);
+        
+            Plate plateScript = plate.GetComponent<Plate>();
+            if (!plateScript.isDirty()) currentObject.GetComponent<Pot>().getStew(plate);
+        
     }
 
     public bool hasMeat()

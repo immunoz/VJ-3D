@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5217197661678476705}
   - component: {fileID: 4788299494349991420}
   - component: {fileID: 3986269224552412387}
+  - component: {fileID: 350648299264709573}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -28,7 +29,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416371552487776088}
   m_LocalRotation: {x: 0.49991274, y: -0.50008726, z: -0.49991274, w: 0.50008726}
-  m_LocalPosition: {x: 0, y: 0, z: 1009}
+  m_LocalPosition: {x: 0, y: 0, z: 1107}
   m_LocalScale: {x: 31.916958, y: 45.602722, z: 38.973392}
   m_Children:
   - {fileID: 2587757433333683358}
@@ -114,6 +115,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+--- !u!95 &350648299264709573
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416371552487776088}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1bd14753c104b8146b3d4851dd245199, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &760229670073388580
 GameObject:
   m_ObjectHideFlags: 0
@@ -14860,14 +14880,13 @@ MonoBehaviour:
   currentObject: {fileID: 0}
   cooldownTime: 0.5
   scaleDelay: 0.2
-  expandDelay: 5
   flame: {fileID: 2992098169827006418}
   nearComponents: []
   timers: []
-  fireExpandTime: 0
+  fireExpandTime: 5
   heightOffset: 4
   warning: {fileID: 416371552487776088}
-  delay: 3
+  burningTime: 7
 --- !u!54 &8253482927824402489
 Rigidbody:
   m_ObjectHideFlags: 0

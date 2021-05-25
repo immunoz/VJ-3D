@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     public void increaseScore()
     {
-        Debug.Log("increase score!");
     }
 
     public void AddPlateTimer(GameObject obj)

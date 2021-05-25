@@ -9818,12 +9818,11 @@ MonoBehaviour:
   currentObject: {fileID: 0}
   cooldownTime: 0.5
   scaleDelay: 0.2
-  expandDelay: 5
   flame: {fileID: 7333354097057239730}
   nearComponents:
   - {fileID: 0}
   timers: []
-  fireExpandTime: 0
+  fireExpandTime: 5
   heightOffset: 8
 --- !u!65 &7333354097552508126
 BoxCollider:

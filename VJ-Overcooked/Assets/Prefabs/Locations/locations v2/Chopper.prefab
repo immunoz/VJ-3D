@@ -24687,11 +24687,10 @@ MonoBehaviour:
   currentObject: {fileID: 0}
   cooldownTime: 0.5
   scaleDelay: 0.2
-  expandDelay: 5
   flame: {fileID: 5046536065785187405}
   nearComponents: []
   timers: []
-  fireExpandTime: 0
+  fireExpandTime: 5
   heightOffset: 10
   explosion: {fileID: 0}
 --- !u!114 &5046536065289426133

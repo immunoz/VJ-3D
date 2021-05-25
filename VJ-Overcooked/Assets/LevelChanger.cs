@@ -14,8 +14,23 @@ public class LevelChanger : MonoBehaviour
         
     }
 
-    internal void setSlideTrigger()
+    public void setSlideTrigger()
     {
         transition.SetTrigger("slide");
+    }
+
+    public void setSlideLeft()
+    {
+        transition.SetTrigger("slideLeft");
+    }
+
+    public void setSlideRight()
+    {
+        transition.SetTrigger("slideRight");
+    }
+
+    public void setSlideMiddleToRight()
+    {
+        transition.SetTrigger("middleToRight");
     }
 }
