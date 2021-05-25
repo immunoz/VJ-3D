@@ -654,7 +654,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ef8edeb2a648da947b59adfb9e4346c2, type: 2}
   - {fileID: 2100000, guid: 1c1f7fb197535794c8aba3b84cad2798, type: 2}
   - {fileID: 2100000, guid: b781ce54a8f32ad44adfdb4a55f7f46a, type: 2}
-  MaxCookTime: 18
+  - {fileID: 2100000, guid: 47cc143ad64840742abdcdbeccbbdf18, type: 2}
+  MaxCookTime: 30
   stewTexture: {fileID: 6149354247517501256}
 --- !u!114 &7489431766428913351
 MonoBehaviour:

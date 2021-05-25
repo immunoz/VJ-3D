@@ -39,7 +39,7 @@ public class Pan : MonoBehaviour
     {
         switch (state) {
             case States.IDLE:
-                if (meat != null)
+                if (meat != null && ! meat.GetComponent<Meat>().getBurned())
                 {
                     state = States.COOKING;
                     GetComponent<ProcessBar>().setMaxTime(1);
@@ -47,28 +47,31 @@ public class Pan : MonoBehaviour
 
                 break;
             case States.COOKING:
-                if (pause) break;
+                if (pause) return;
                 if (timer > 0)
                 {
                     timer -= Time.deltaTime;
                     float preparationTime = meat.GetComponent<Meat>().preparingTime;
-                    GetComponent<ProcessBar>().setProcessTime((preparationTime - timer)/preparationTime);
-                    break;
+                    GetComponent<ProcessBar>().setProcessTime((preparationTime - timer) / preparationTime);
                 }
-
-                state = States.READY;
-                timer = burnedTime;
-                meat.GetComponent<Meat>().setCooked(true);
-                GetComponent<ProcessBar>().hide();
+                else
+                {
+                    state = States.READY;
+                    timer = burnedTime;
+                    meat.GetComponent<Meat>().setCooked(true);
+                    GetComponent<ProcessBar>().hide();
+                    
+                }
                 break;
             case States.READY:
+                if (pause) return;
                 if (timer > 0) timer -= Time.deltaTime;
                 else {
                     state = States.BURNED;
-                    //init fire...¿?
                 }
                 break;
             case States.BURNED:
+                meat.GetComponent<Meat>().setBurned();
                 break;
         }
     }
@@ -118,4 +121,10 @@ public class Pan : MonoBehaviour
         pause = false;
         meat = null;
     }
+
+    public void turnedOff ()
+    {
+        state = States.IDLE;
+    }
+
 }

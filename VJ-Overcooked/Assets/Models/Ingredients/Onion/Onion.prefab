@@ -96,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &593645791454014926
 Transform:
   m_ObjectHideFlags: 0
@@ -486,3 +486,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CuttingTime: 3
   pot: 1
+  raw: {fileID: 205552314474287682}
+  sliced: {fileID: 2109317875951592628}

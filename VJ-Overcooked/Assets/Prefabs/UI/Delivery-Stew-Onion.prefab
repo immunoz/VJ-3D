@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 3564672835676810622}
   - component: {fileID: 3564672835676810621}
   - component: {fileID: 3564672835676810620}
-  - component: {fileID: 3564672835676810623}
   m_Layer: 5
   m_Name: Delivery-Stew-Onion
   m_TagString: Untagged
@@ -212,24 +211,6 @@ MonoBehaviour:
   expireTime: 20
   dish: Onion Stew
   score: 20
---- !u!114 &3564672835676810623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3564672835676810609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2581e7f5b24e4a46ab65d81f684ed28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ingredients:
-  - {fileID: 7387168242636369577, guid: afbc0b5bbe611c3448c64028149662d4, type: 3}
-  state: []
-  quantity: 03000000
-  recipeName: 
-  cookedName: 
 --- !u!1 &3564672835680231362
 GameObject:
   m_ObjectHideFlags: 0

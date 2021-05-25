@@ -43,6 +43,11 @@ public class Pot : MonoBehaviour
         }
     }
 
+    internal void throwInBin()
+    {
+        initCooker();
+    }
+
     public bool setObject(GameObject obj)
     {
         Ingredient ingredientScript = obj.GetComponent<Ingredient>();
@@ -61,7 +66,8 @@ public class Pot : MonoBehaviour
     {
         stewTexture.SetActive(true);
         Renderer rend = stewTexture.GetComponent<Renderer>();
-        if (ingredient == "Onion") rend.sharedMaterial = stewColour[0];
+        if ( burned) rend.sharedMaterial = stewColour[3];
+        else if (ingredient == "Onion") rend.sharedMaterial = stewColour[0];
         else if (ingredient == "Tomato") rend.sharedMaterial = stewColour[1];
         else rend.sharedMaterial = stewColour[2];
     }
@@ -84,7 +90,7 @@ public class Pot : MonoBehaviour
 
     public bool doneCooking()
     {
-        return cookTime >= MaxCookTime;
+        return   count != 0 && cookTime >= MaxCookTime * count / 3;
     }
 
     public bool hasStew()
@@ -95,6 +101,7 @@ public class Pot : MonoBehaviour
     //Pre: Pot must have stew (hasStew())
     public void getStew(GameObject plate)
     {
+        if (burned) return;
         if (ingredient == "Onion") getStewAux(plate,0,"Onion Stew");
         else if (ingredient == "Tomato") getStewAux(plate, 1, "Tomato Stew");
         else getStewAux(plate, 2, "Mushroom Stew");
@@ -117,5 +124,6 @@ public class Pot : MonoBehaviour
     public void setBurned(bool value)
     {
         burned = value;
+        if (burned && hasElement()) updateStewTexture();
     }
 }
