@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ddc728b61b582b488f964922f4801b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burnedTime: 5
+  burnedTime: 7.1
   friedMeat: {fileID: 0}
 --- !u!114 &928362729535754864
 MonoBehaviour:

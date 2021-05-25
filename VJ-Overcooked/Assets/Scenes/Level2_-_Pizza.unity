@@ -550,6 +550,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7333354097552508127, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: fireExpandTime
       value: 5
@@ -873,6 +881,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 77216702}
     m_Modifications:
+    - target: {fileID: 2760090752251279863, guid: dba986f76ca6252469c7b7f91fa897cc, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1525312228}
     - target: {fileID: 3441612361856125860, guid: dba986f76ca6252469c7b7f91fa897cc, type: 3}
       propertyPath: camera
       value: 
@@ -2698,6 +2710,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7333354097552508127, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: fireExpandTime
       value: 5
@@ -3357,6 +3377,14 @@ PrefabInstance:
     - target: {fileID: 7333354097552508123, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: m_Name
       value: Table
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7333354097552508127, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: fireExpandTime
@@ -4323,6 +4351,14 @@ PrefabInstance:
     - target: {fileID: 7333354097552508123, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: m_Name
       value: Table
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7333354097552508127, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: fireExpandTime
