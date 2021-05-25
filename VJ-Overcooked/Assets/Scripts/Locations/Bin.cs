@@ -29,19 +29,21 @@ using UnityEngine;
         onFire = false;
     }
 
-
-    public GameObject throwObject(GameObject ojbct)
+    //returns true if object has been thrown and its an ingredient
+    //otherwise returns false
+    public bool throwObject(GameObject obj)
     {
-        if (ojbct.name == "plate")
+        if (obj.name == "plate")
         {
-            ojbct.GetComponent<Plate>().SetDirty();
-            return ojbct;
+            obj.GetComponent<Plate>().SetDirty();
+            return false;
         }
-        if (ojbct.name == "pot")
+        if (obj.name == "pot")
         {
-            ojbct.GetComponent<Pot>().throwInBin();
-            return ojbct;
+            obj.GetComponent<Pot>().throwInBin();
+            return false;
         }
-        return null;
+        Destroy(obj);
+        return true;
     }
 }

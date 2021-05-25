@@ -19,7 +19,7 @@ class DeliveryZone : Location
         //currentObject = obj;
         obj.SetActive(false);
         GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        if (gameManager.deliverPlate(obj)) gameManager.increaseScore();
+        gameManager.deliverPlate(obj);
         gameManager.AddPlateTimer(obj);
         timer = cooldownTime;
     }

@@ -125,13 +125,14 @@ public class Player : MonoBehaviour
                                 Pan panScript = carriedObject.GetComponent<Pan>();
                                 if (panScript.hasMeat() && !tableScript.getObject().GetComponent<Plate>().isDirty()) panScript.GetMeat(tableScript.getObject());
                             }
-
                         }
                         else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject && locationScript.currentObject.GetComponent<PizzaMass>().putIngredient(carriedObject)) {
                             locationScript.resetCoolDown();
                             carriedObject = null;
                             carryingObject = false;
                         }
+                        else if (!locationScript.isFree() && carryingObject && carriedObject.name == "plate" && !carriedObject.GetComponent<Plate>().isDirty() && locationScript.currentObject.name == "pot" && locationScript.currentObject.GetComponent<Pot>().hasStew())
+                            locationScript.currentObject.GetComponent<Pot>().getStew(carriedObject);
                     }
                     else if (locationScript.getType() == "Chopper" || locationScript.getType() == "plateGenerator") {
                         if (locationScript.isFree() && carryingObject && ingredientScript != null && !ingredientScript.choppingDone() && carriedObject.name != "BurgerBread") setObjectInLocation(locationScript);
@@ -215,8 +216,7 @@ public class Player : MonoBehaviour
                     else if ( locationScript.getType() == "bin" && carryingObject)
                     {
                         Bin bin = currentLocation.GetComponent<Bin>();
-                        GameObject temp = bin.throwObject(carriedObject);
-                        if ( temp == null )
+                        if (bin.throwObject(carriedObject))
                         {
                             carriedObject = null;
                             carryingObject = false;

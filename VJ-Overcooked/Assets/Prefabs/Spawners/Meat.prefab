@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8048526938849945334}
   m_LocalRotation: {x: 0.65328157, y: -0.27059805, z: 0.2705981, w: 0.6532814}
   m_LocalPosition: {x: 89.612175, y: 0.602742, z: 9.395412}
-  m_LocalScale: {x: 0.12000001, y: 0.06515856, z: 0.06515856}
+  m_LocalScale: {x: 0.12000001, y: 0.06515856, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,4 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CuttingTime: 5
   pot: 0
+  raw: {fileID: 0}
+  sliced: {fileID: 0}
   preparingTime: 5

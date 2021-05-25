@@ -63,7 +63,11 @@ abstract class Location : MonoBehaviour
     public void setObjectPosition()
     {
         Vector3 tableCenter = GetComponent<Renderer>().bounds.center;
-        if ( name == "Sink") currentObject.transform.Rotate(0f, -45f, 0f);
+        if (name == "Sink")
+        {
+            Quaternion rotate = Quaternion.Euler(30, -20, 40);
+            currentObject.transform.rotation = rotate;
+        }
         if ( currentObject.name != "extinguisher" )currentObject.transform.position = tableCenter + new Vector3(0f, getGetHeightOffset(), 0f);
         else currentObject.transform.position = tableCenter + new Vector3(0f, 15f, 0f);
     }
@@ -76,7 +80,11 @@ abstract class Location : MonoBehaviour
     public GameObject pickObject()
     {
         GameObject result = currentObject;
-        if ( name == "Sink") currentObject.transform.Rotate(0f, 45f, 0f);
+        if (name == "Sink") {
+            Quaternion rotate = Quaternion.Euler(0, 0, 0);
+            currentObject.transform.rotation = rotate;
+        }
+        //currentObject.transform.Rotate(-30f, 20f, -40f);
         currentObject = null;
         resetCoolDown();
         return result;

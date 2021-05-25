@@ -11,17 +11,25 @@ public class DeliveryScript : MonoBehaviour
     public string dish;
     public int score;
 
+    private float timer;
+
     void Start()
     {
-        slider.maxValue = expireTime;
+        timer = expireTime;
+        slider.maxValue = timer;
     }
 
     private void Update()
     {
-        if (expireTime > 0)
+        if (timer > 0)
         {
-            expireTime -= Time.deltaTime;
-            setProcessTime(expireTime);
+            timer -= Time.deltaTime;
+            setProcessTime(timer);
+        } else
+        {
+            timer = expireTime;
+            slider.maxValue = timer;
+            GameObject.Find("GameManager").GetComponent<GameManager>().increaseScore(-score/2);
         }
     }
 

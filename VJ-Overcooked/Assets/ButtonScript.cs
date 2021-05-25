@@ -33,7 +33,6 @@ public class ButtonScript : MonoBehaviour
 
         }
         GameObject.Find("ButtonLeft").GetComponent<ButtonScript>().setActualLevel(actualLevel);
-
     }
 
     public void clickedLeft()
@@ -60,6 +59,17 @@ public class ButtonScript : MonoBehaviour
 
         }
         GameObject.Find("ButtonRight").GetComponent<ButtonScript>().setActualLevel(actualLevel);
+    }
+
+    public void loadLevel() {
+        switch (actualLevel.name) {
+            case "level1":
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(0);
+                break;
+            case "level2":
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(1);
+                break;
+        }
     }
 
     public void setActualLevel(GameObject level) {

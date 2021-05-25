@@ -32,8 +32,11 @@ public class GameManager : MonoBehaviour
     private List<float> plateCooldown;
     private int score;
 
-    public void increaseScore()
+    public void increaseScore(int s)
     {
+        this.score += s;
+        if (this.score < 0) this.score = 0;
+        scoreText.text = score.ToString();
     }
 
     public void AddPlateTimer(GameObject obj)
@@ -101,7 +104,8 @@ public class GameManager : MonoBehaviour
                 //if (updatingDeliveriesPosition) deliveriesAnimation();
 
                 if (timer > 0 && maxDeliveries >= deliveries.Count) timer -= Time.deltaTime;
-                else {
+                else if (maxDeliveries >= deliveries.Count + 1)
+                {
                     timer = spawnTime;
                     generateDelivery();
                 }
@@ -123,46 +127,6 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    private void deliveriesAnimation()
-    {
-        if (ithDel+1 >= deliveries.Count) {
-            Destroy(deliveries[ithDel]);
-            deliveries.RemoveAt(ithDel);
-            updatingDeliveriesPosition = false;
-            return;
-        }
-
-        Debug.Log(target.x);
-        Debug.Log(deliveries[ithDel + 1].GetComponent<RectTransform>().position.x);
-        if (target.x < deliveries[ithDel+1].GetComponent<RectTransform>().position.x)
-        {
-            //Vector3 targetPosition = deliveries[ithDel].GetComponent<RectTransform>().position;
-            for (int i = ithDel + 1; i < deliveries.Count; ++i)
-            {
-                //Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;velocitySlide
-                Vector3 temp = deliveries[i].GetComponent<RectTransform>().position - new Vector3(velocitySlide * Time.deltaTime,0,0);
-                deliveries[i].GetComponent<RectTransform>().position = temp;
-                //targetPosition = aux;
-            }
-        }
-        else {
-            target = target + new Vector3(deliveries[ithDel].GetComponent<RectTransform>().sizeDelta.x + offset, 0, 0);
-            //Vector3 temp = target + new Vector3(deliveries[i].GetComponent<RectTransform>().sizeDelta.x + offset, 0, 0);
-            for (int i = ithDel + 1; i < deliveries.Count; ++i)
-            {
-                //Vector3 aux = deliveries[i].GetComponent<RectTransform>().localPosition;velocitySlide
-                Vector3 temp = target - new Vector3(deliveries[i].GetComponent<RectTransform>().sizeDelta.x + offset,0,0);
-                deliveries[i].GetComponent<RectTransform>().position = target;
-                target = temp;
-                //targetPosition = aux;
-            }
-            Destroy(deliveries[ithDel]);
-            deliveries.RemoveAt(ithDel);
-            updatingDeliveriesPosition = false;
-        }
-
     }
 
     private string fromSecondsToInt() {
@@ -195,30 +159,14 @@ public class GameManager : MonoBehaviour
         GameObject temp = Instantiate(levelDeliveries[Random.Range(0, levelDeliveries.Length)]) as GameObject;
         temp.transform.SetParent(canvas.transform,false);
         lastPosition.x += temp.GetComponent<RectTransform>().sizeDelta.x + offset;
-        //lastPos= temp.GetComponent<RectTransform>().sizeDelta.x + offset;
         temp.GetComponent<RectTransform>().localPosition = lastPosition;
         deliveries.Add(temp);
     }
 
-    /*public bool deliverPlate(GameObject plate) {
-        if (deliveries.Count == 0) return false;
-        
-        Plate plateScript = plate.GetComponent<Plate>();
-        foreach (GameObject delivery in deliveries) {
-            Recipe recipeScript = delivery.GetComponent<Recipe>();
-            if (recipeScript != null && recipeScript.checkRecipe(plateScript.getIngredients()))
-            {
-                Destroy(delivery);
-                return true;
-            }
-        }
-        return false;
-    }*/
     public bool deliverPlate(GameObject plate)
     {
         if (deliveries.Count == 0) return false;
 
-        bool found = false;
         Plate plateScript = plate.GetComponent<Plate>();
         for (int i = 0; i < deliveries.Count; ++i)
         {
@@ -226,14 +174,9 @@ public class GameManager : MonoBehaviour
             if (d.dish == plateScript.getPreparedDish())
             {
                 slideLeft(i);
-                //ithDel = i;
-                score += d.score;
-                scoreText.text = score.ToString();
+                increaseScore(d.score);
                 Destroy(deliveries[i]);
                 deliveries.RemoveAt(i);
-                //target = deliveries[i].GetComponent<RectTransform>().position;
-                //updatingDeliveriesPosition = true;
-                
                 return true;
             }
         }

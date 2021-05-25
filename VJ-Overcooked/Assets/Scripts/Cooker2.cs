@@ -105,9 +105,12 @@ using UnityEngine;
     public void GetStew(GameObject plate )
     {
         
-            Plate plateScript = plate.GetComponent<Plate>();
-            if (!plateScript.isDirty()) currentObject.GetComponent<Pot>().getStew(plate);
-        
+        Plate plateScript = plate.GetComponent<Plate>();
+        if (!plateScript.isDirty())
+        {
+            hideWarning();
+            currentObject.GetComponent<Pot>().getStew(plate);
+        }
     }
 
     public bool hasMeat()
