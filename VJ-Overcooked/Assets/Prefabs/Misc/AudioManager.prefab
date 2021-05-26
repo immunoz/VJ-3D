@@ -52,7 +52,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - soundName: RestaurantMusic
     sound: {fileID: 8300000, guid: b097af7d2666d954a9df8299d8d646ca, type: 3}
-    volume: 0.4
+    volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}

@@ -582,7 +582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &620023316638169227
 Transform:
   m_ObjectHideFlags: 0
@@ -2511,6 +2511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7229676622586323054}
+  - component: {fileID: 7656851064512667842}
   m_Layer: 0
   m_Name: Cheese
   m_TagString: Untagged
@@ -2534,6 +2535,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7656851064512667842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8007162891667274452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886c4e3aacec86646bd60641948cf958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CuttingTime: 2
+  pot: 0
+  raw: {fileID: 7027993268472859942}
+  sliced: {fileID: 2446528868797962164}
 --- !u!1 &8672861441408290808
 GameObject:
   m_ObjectHideFlags: 0

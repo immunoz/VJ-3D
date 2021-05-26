@@ -69,6 +69,9 @@ public class ButtonScript : MonoBehaviour
             case "level2":
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(1);
                 break;
+            case "level3":
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(2);
+                break;
         }
         FindObjectOfType<AudioManager>().stop("MainMenuTheme");
     }

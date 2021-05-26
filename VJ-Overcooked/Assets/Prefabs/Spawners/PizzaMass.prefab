@@ -2129,7 +2129,7 @@ GameObject:
   - component: {fileID: 8572343721036285086}
   - component: {fileID: 781458933382473118}
   m_Layer: 0
-  m_Name: BreadMass
+  m_Name: PizzaMass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2168,8 +2168,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CuttingTime: 2
   pot: 0
+  raw: {fileID: 0}
+  sliced: {fileID: 0}
   preparedMass: {fileID: 8177881955193995044}
   rawMass: {fileID: 8177881954037986906}
   tomato: {fileID: 8177881953949721197}
   cheese: {fileID: 8177881953714981021}
   salami: {fileID: 8177881953915030837}
+  cookingTime: 15
+  recipes:
+  - {fileID: 1135958470012362946, guid: cd79fb305000f8c43944d1a036021ef4, type: 3}
+  - {fileID: 2687172949257489941, guid: 190f6883c5927e44cb9b74b426759e24, type: 3}

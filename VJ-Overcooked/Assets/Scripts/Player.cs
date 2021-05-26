@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
                         {
                             carriedObject = locationScript.pickObject();
                             carryingObject = true;
-                            locationScript.GetComponent<Oven>().finishOven();
+                            locationScript.GetComponent<Oven>().hideProcessBar();
 
                         }
 

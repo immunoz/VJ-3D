@@ -209,8 +209,9 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   fill: {fileID: 4431330939491152651}
-  expireTime: 20
-  ingredients: []
+  expireTime: 180
+  dish: 
+  score: 80
 --- !u!1 &4431330939491152653
 GameObject:
   m_ObjectHideFlags: 0

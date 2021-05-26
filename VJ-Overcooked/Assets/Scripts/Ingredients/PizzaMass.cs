@@ -12,9 +12,10 @@ public class PizzaMass : Ingredient
     public GameObject salami;
     public float cookingTime;
     public GameObject[] recipes;
-
+    public bool burned;
     private List<string> ingredients;
     private bool cooking;
+
 
     public override float getTime()
     {
@@ -32,6 +33,7 @@ public class PizzaMass : Ingredient
         name = "PizzaMass";
         ingredients = new List<string>();
         cooking = false;
+        burned = false;
     }
 
     internal void setDoneCooking()
@@ -155,4 +157,10 @@ public class PizzaMass : Ingredient
     {
         return name == "sausage pizza raw" || name == "mushroom pizza raw";
     }
+
+    public void setBurned(bool value)
+    {
+        burned = value;
+    }
+
 }
