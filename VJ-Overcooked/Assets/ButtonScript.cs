@@ -70,6 +70,7 @@ public class ButtonScript : MonoBehaviour
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(1);
                 break;
         }
+        FindObjectOfType<AudioManager>().stop("MainMenuTheme");
     }
 
     public void setActualLevel(GameObject level) {

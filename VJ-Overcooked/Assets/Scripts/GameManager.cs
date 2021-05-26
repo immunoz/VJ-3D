@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         plates = new List<GameObject>();
         plateCooldown = new List<float>();
         initSpawnPoint();
+        FindObjectOfType<AudioManager>().play("RestaurantMusic");
     }
 
     private void initSpawnPoint()

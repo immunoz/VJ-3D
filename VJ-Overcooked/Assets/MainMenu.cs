@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
+    private void Start()
+    {
+        FindObjectOfType<AudioManager>().play("MainMenuTheme");
+    }
 
     public void credits()
     {
