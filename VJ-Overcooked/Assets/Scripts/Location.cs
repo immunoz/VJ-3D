@@ -10,6 +10,7 @@ abstract class Location : MonoBehaviour
     public float  cooldownTime;
     public float scaleDelay;
     private Vector3 threshHold;
+    protected bool fireDisable;
 
     public GameObject flame;
     public List<GameObject> nearComponents;
@@ -23,6 +24,7 @@ abstract class Location : MonoBehaviour
     //---------------------
 
     protected bool onFire;
+
     void Start()
     {
         nearComponents = new List<GameObject>();
@@ -33,16 +35,19 @@ abstract class Location : MonoBehaviour
         threshHold = new Vector3(2.5f, 2.5f, 2.5f);
         if (currentObject != null) setObject(currentObject);
         if (flame != null) flame.transform.position = GetComponent<Renderer>().bounds.center + new Vector3 (0,2f,0);
+        fireDisable = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.F)) fireDisable = true;
+        
         if (timer > 0) timer -= Time.deltaTime;
         if (onFire && scaleDelay > 0) scaleDelay -= Time.deltaTime;
         if (maxFlame) setNearObjectsOnFire();
         
-        if (onFire && scaleDelay <= 0)
+        if (onFire && scaleDelay <= 0 && !fireDisable)
         {
             expand(new Vector3 (0.3f,0.3f,0.3f));
             scaleDelay = 0.2f;

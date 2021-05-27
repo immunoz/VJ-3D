@@ -210,7 +210,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 4431330939491152651}
   expireTime: 180
-  dish: 
+  dish: SausagePizza
   score: 80
 --- !u!1 &4431330939491152653
 GameObject:

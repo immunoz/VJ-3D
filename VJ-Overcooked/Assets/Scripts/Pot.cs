@@ -37,10 +37,12 @@ public class Pot : MonoBehaviour
 
     private void Update()
     {
-        if (count != 0 && cookTime < MaxCookTime * count / 3 && !stop && !burned) {
+        if (count != 0 && cookTime < MaxCookTime * count / 3 && !stop && !burned)
+        {
             cookTime += Time.deltaTime;
-            GetComponent<ProcessBar>().setProcessTime(cookTime/ (MaxCookTime * count / 3)); //cookTime - (cookTime / (MaxCookTime * count))
+            GetComponent<ProcessBar>().setProcessTime(cookTime / (MaxCookTime * count / 3));
         }
+        else if (count != 0 && !stop && !burned) hideBar();
     }
 
     internal void throwInBin()

@@ -284,5 +284,5 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fill: {fileID: 4803505560783656211}
   expireTime: 180
-  dish: 
+  dish: MushroomPizza
   score: 80

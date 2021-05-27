@@ -9,12 +9,12 @@ public class Level_loader : MonoBehaviour
     public float transitionTime = 1f;
     void Update()
     {
-      // if (Input.GetKey("0")) loadNextLevel(0); For the menu
-       if(Input.GetKey("1")) loadNextLevel(0);
+       if (Input.GetKey("0")) loadNextLevel(4);
+       else if (Input.GetKey("1")) loadNextLevel(0);
        else if (Input.GetKey("2")) loadNextLevel(1);
        else if (Input.GetKey("3")) loadNextLevel(2);
        else if (Input.GetKey("4")) loadNextLevel(3);
-       else if (Input.GetKey("5")) loadNextLevel(4);
+       //else if (Input.GetKey("5")) loadNextLevel(4);
     }
 
     public void playClicked()
@@ -30,6 +30,7 @@ public class Level_loader : MonoBehaviour
 
     IEnumerator loadLevel(int levelIndex)
     {
+        FindObjectOfType<AudioManager>().stopAll();
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
         SceneManager.LoadScene(levelIndex);

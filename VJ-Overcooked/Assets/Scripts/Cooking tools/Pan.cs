@@ -12,11 +12,13 @@ public class Pan : MonoBehaviour
     
     public float burnedTime;
     public GameObject friedMeat;
+    public Material burnedMaterial;
 
     private States state;
     private float timer;
     private GameObject meat;
     private bool pause;
+    private bool fireDisable;
 
     public bool isReady()
     {
@@ -32,11 +34,13 @@ public class Pan : MonoBehaviour
     void Start()
     {
         initPan();
+        fireDisable = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.F)) fireDisable = true;
         switch (state) {
             case States.IDLE:
                 if (meat != null && ! meat.GetComponent<Meat>().getBurned())
@@ -64,14 +68,14 @@ public class Pan : MonoBehaviour
                 }
                 break;
             case States.READY:
-                if (pause) return;
-                if (timer > 0) timer -= Time.deltaTime;
-                else {
-                    state = States.BURNED;
-                }
+                if (pause || fireDisable) return;
+                //if (timer > 0) timer -= Time.deltaTime;
+                //else {
+                //    state = States.BURNED;
+                //}
                 break;
             case States.BURNED:
-                meat.GetComponent<Meat>().setBurned();
+                
                 break;
         }
     }
@@ -109,22 +113,28 @@ public class Pan : MonoBehaviour
     {
         Plate plateScript = plate.GetComponent<Plate>();
         bool result = plateScript.putIngredient(meat);
-        if (result) initPan();
+        if (result)
+        {
+            meat = null;
+            initPan();
+        }
         return result;
     }
 
-    private void initPan()
+    public void initPan()
     {
         friedMeat.SetActive(false);
         state = States.IDLE;
         timer = 0;
         pause = false;
+        if (meat != null) Destroy(meat);
         meat = null;
     }
 
-    public void turnedOff ()
-    {
-        state = States.IDLE;
+    public void setBurned() {
+        state = States.BURNED;
+        meat.GetComponent<Meat>().setBurned();
+        Renderer rend = friedMeat.GetComponent<Renderer>();
+        rend.sharedMaterial = burnedMaterial;
     }
-
 }

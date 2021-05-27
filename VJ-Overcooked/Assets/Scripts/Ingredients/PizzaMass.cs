@@ -10,6 +10,10 @@ public class PizzaMass : Ingredient
     public GameObject tomato;
     public GameObject cheese;
     public GameObject salami;
+    public GameObject mushroom;
+    public GameObject burnedTexture;
+    public GameObject salamiPizza;
+    public GameObject mushroomPizza;
     public float cookingTime;
     public GameObject[] recipes;
     public bool burned;
@@ -34,6 +38,7 @@ public class PizzaMass : Ingredient
         ingredients = new List<string>();
         cooking = false;
         burned = false;
+        burnedTexture.SetActive(false);
     }
 
     internal void setDoneCooking()
@@ -79,6 +84,9 @@ public class PizzaMass : Ingredient
                 {
                     if (name == recipes[0].GetComponent<Recipe>().recipeName) name = recipes[0].GetComponent<Recipe>().cookedName;
                     else name = recipes[1].GetComponent<Recipe>().cookedName;
+                    if (name == "SausagePizza") salamiPizza.SetActive(true);
+                    else if (name == "MushroomPizza") mushroomPizza.SetActive(true);
+                    deactivateAllRawVisuals();
                     state = ingredientState.COOKED;
                 }
                 break;
@@ -101,6 +109,7 @@ public class PizzaMass : Ingredient
         if (ingredient.name == "Tomato") tomato.SetActive(true);
         else if (ingredient.name == "Cheese") cheese.SetActive(true);
         else if (ingredient.name == "Sausage") salami.SetActive(true);
+        else if (ingredient.name == "Mushroom") mushroom.SetActive(true);
 
         checkRecipe();
         return true;
@@ -161,6 +170,18 @@ public class PizzaMass : Ingredient
     public void setBurned(bool value)
     {
         burned = value;
+        if (value) {
+            burnedTexture.SetActive(true);
+            salamiPizza.SetActive(false);
+            mushroomPizza.SetActive(false);
+        }
     }
 
+    private void deactivateAllRawVisuals() {
+        preparedMass.SetActive(false);
+        tomato.SetActive(false);
+        cheese.SetActive(false);
+        salami.SetActive(false);
+        mushroom.SetActive(false);
+    }
 }

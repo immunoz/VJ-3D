@@ -770,6 +770,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7333354098541190193, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: camera
       value: 
@@ -1652,6 +1660,14 @@ PrefabInstance:
     - target: {fileID: 7333354097552508123, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: m_Name
       value: Table
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7333354098541190193, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: camera
@@ -7958,6 +7974,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7333354098541190193, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: camera
       value: 
@@ -8620,6 +8644,14 @@ PrefabInstance:
     - target: {fileID: 7333354097552508123, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: m_Name
       value: Table
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7333354097552508124, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
+      propertyPath: m_Size.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7333354098541190193, guid: 3ed43f83ba48f974b8ab69e4662e9252, type: 3}
       propertyPath: camera

@@ -19,19 +19,13 @@ using UnityEngine;
     void FixedUpdate()
     {
         if (currentObject != null && currentObject.name == "pan") {
-            if (currentObject.GetComponent<Pan>().isReady() && !currentObject.GetComponent<Pan>().burned()) showWarning();
+            if (currentObject.GetComponent<Pan>().isReady() && !currentObject.GetComponent<Pan>().burned() && !fireDisable) showWarning();
             return;
         }
         
         
         
-        if ( currentObject != null && currentObject.GetComponent<Pot>().doneCooking() && !currentObject.GetComponent<Pot>().isBurned() )
-        {
-            Pot potSricpt = currentObject.GetComponent<Pot>();
-            potSricpt.hideBar();
-            showWarning();
-            //Debug.Log(delay);
-        }
+        if (currentObject != null && currentObject.GetComponent<Pot>().doneCooking() && !currentObject.GetComponent<Pot>().isBurned() && !fireDisable) showWarning();
     }
 
     private void showWarning() {
@@ -89,6 +83,7 @@ using UnityEngine;
     {
         if (!onFire)
         {
+            if (currentObject.name == "pan") currentObject.GetComponent<Pan>().setBurned(); 
             warning.SetActive(false);
             onFire = true;
             flame.SetActive(true);

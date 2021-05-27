@@ -13,10 +13,12 @@ public class Player : MonoBehaviour
     private bool play;
     Vector3 initialPosition;
 
-    // Update is called once per frame
+    //------------- GOD MODE -------------
+    public GameObject dishTemplate;
 
 
-    enum playerStates{
+    enum playerStates
+    {
         MOVE, STAND, CHOPP, DISHES 
     };
      enum playerDirections {
@@ -54,6 +56,12 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         if (!play) return;
+
+        //----------- GOD MODE -----------
+        if (Input.GetKey(KeyCode.P) && carriedObject == null) SpawnPlateLocation();
+        else if (carriedObject != null && carriedObject.GetComponent<Plate>() != null) checkGodMode(); 
+
+        //----------- GOD MODE -----------
         bool leftB, rightB, upB, downB, spaceB;
         leftB = Input.GetKey("a");
         rightB = Input.GetKey("d");
@@ -181,7 +189,7 @@ public class Player : MonoBehaviour
                     else if (locationScript.getType() == "oven")
                     {
 
-                        if (carryingObject && carriedObject.GetComponent<PizzaMass>().isRawPizza() && locationScript.isFree() && !carriedObject.GetComponent<PizzaMass>().finished()) // EL Not finished is para ver si la pizza no esta cocinada.
+                        if (carryingObject && carriedObject.GetComponent<PizzaMass>().isRawPizza() && locationScript.isFree() && !carriedObject.GetComponent<PizzaMass>().finished() && !locationScript.burnning()) // EL Not finished is para ver si la pizza no esta cocinada.
                         {
                             // poner otro if para comprobar que la pizza tiene todos los ingredientes necesarios.
                             locationScript.setObject(carriedObject);
@@ -243,104 +251,10 @@ public class Player : MonoBehaviour
                         SinkScript sink = currentLocation.GetComponent<SinkScript>();
                         sink.startWashing();
                         state = playerStates.DISHES;
+                        GetComponent<AnimationState>().setDishes(true);
                     }
                 }
                 else if ( carryingObject && carriedObject.name == "extinguisher") setShooting();
-
-
-                /*  if (canChopp && spaceB  && currentTable.GetComponent<TableScript>().canBeUsed())
-                  {
-                      TableScript tableScript = currentTable.GetComponent<TableScript>();
-                      if (tableScript.isFree() && carryingObject)
-                      {
-                          tableScript.setIngredient(carriedIngredient);
-                          carriedIngredient = null;
-                          carryingObject = false;
-                      }
-                      else if (!tableScript.isFree() && !carryingObject && tableScript.ingredientCanBePickedUp())
-                      {
-                          carriedIngredient = tableScript.pickIngredient();
-                          carryingObject = true;
-                      }
-
-                  }
-                  if ( canChopp && Input.GetKey(KeyCode.LeftControl) && !currentTable.GetComponent<TableScript>().isFree()) {
-                      GameObject ingredientOnTable =  currentTable.GetComponent<TableScript>().getIngredient();
-                      if (!ingredientOnTable.GetComponent<Ingredient>().choppingDone()) {
-                          float timeLeft = ingredientOnTable.GetComponent<Ingredient>().setReadyToCut();
-                          currentTable.GetComponent<ProcessBar>().setMaxTime(timeLeft);
-                          state = playerStates.CHOPP;
-                      }
-                  }
-                  else if (canPickUp && spaceB && !carryingObject)
-                  {
-                      carriedIngredient = ingredientSpawner.createIngredient();
-                      initIngridientPosition();
-                      carriedIngredient.GetComponent<Rigidbody>().useGravity = false;
-                      carriedIngredient.GetComponent<Rigidbody>().detectCollisions = false;
-                      carriedIngredient.GetComponent<Rigidbody>().isKinematic = true;
-                      carryingObject = true;
-                  }
-                  else if (nextToTable && spaceB && currentTable.GetComponent<TableScript>().canBeUsed()) {
-                      TableScript tableScript = currentTable.GetComponent<TableScript>();
-                      if (tableScript.isFree() && carryingObject)
-                      {
-                          if (carriedIngredient != null) {
-                              tableScript.setIngredient(carriedIngredient);
-                              carriedIngredient = null;
-                          }
-                          else if (carriedPlate != null )
-                          {
-                              tableScript.setPlate(carriedPlate);
-                              carriedPlate = null;
-                          }
-
-
-                          carryingObject = false;
-                      }
-                      else if (!tableScript.isFree() && !carryingObject)
-                      {
-                          if (!tableScript.plateOnTable()) carriedIngredient = tableScript.pickIngredient();
-                          else carriedPlate = tableScript.pickPlate();
-
-                          //como diferencio entre plato y ingridiente
-                          carryingObject = true;
-                      }
-                  }
-                  else if ( canWash && spaceB && currentWasher.GetComponent<SinkScript>().canBeUsed() )
-                  {
-                      SinkScript sinkScript = currentWasher.GetComponent<SinkScript>();
-                      if (sinkScript.isFree() && carryingObject)
-                      {
-                          //hacer cambios hay que adaptarlo al plato 
-                          sinkScript.setPlate(carriedPlate);
-                          carriedPlate = null;
-                          carryingObject = false;
-                      }
-                      else if ( !sinkScript.isFree() && !carryingObject)
-                      {
-                          GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
-                          if (plateOnTable.GetComponent<Plate>().doneWashing())
-                          {
-                              carriedPlate = sinkScript.pickPlate();
-                              carryingObject = true;
-                          }
-
-                      }
-                      // no esta entrando 
-
-                  }
-                  if (canWash && Input.GetKey(KeyCode.LeftControl) && !currentWasher.GetComponent<SinkScript>().isFree())
-                  {
-                      GameObject plateOnTable = currentWasher.GetComponent<SinkScript>().getPlate();
-                      if (!plateOnTable.GetComponent<Plate>().doneWashing())
-                      {
-                          float timeLeft = plateOnTable.GetComponent<Plate>().setReadyToWash();
-                          currentWasher.GetComponent<ProcessBar>().setMaxTime(timeLeft);
-                          state = playerStates.DISHES;
-                      }
-
-                  }*/
 
 
                 break;
@@ -467,7 +381,8 @@ public class Player : MonoBehaviour
             case playerStates.DISHES:
                 SinkScript sinkScript = currentLocation.GetComponent<SinkScript>();
                 if (upB || downB || leftB || rightB || sinkScript.finished())
-                { 
+                {
+                    GetComponent<AnimationState>().setDishes(false);
                     state = playerStates.STAND;
                     if (sinkScript.finished()) sinkScript.stopWashing();
                     else sinkScript.pauseWashing();
@@ -475,6 +390,21 @@ public class Player : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void checkGodMode()
+    {
+        Plate plateScript = carriedObject.GetComponent<Plate>();
+        if (Input.GetKey(KeyCode.E))
+            plateScript.putDish(0);
+        return;
+    }
+
+    private void SpawnPlateLocation()
+    {
+        carriedObject = Instantiate(dishTemplate) as GameObject;
+        carryingObject = true;
+        initObjectPosition();
     }
 
     private void adjustPositionOfBlade(GameObject blade)

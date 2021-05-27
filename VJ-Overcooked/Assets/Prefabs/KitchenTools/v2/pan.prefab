@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   burnedTime: 7.1
-  friedMeat: {fileID: 0}
+  friedMeat: {fileID: 3646357360734560574}
+  burnedMaterial: {fileID: 2100000, guid: 11678734586336d4ab6a180fb9d7ea10, type: 2}
 --- !u!114 &928362729535754864
 MonoBehaviour:
   m_ObjectHideFlags: 0

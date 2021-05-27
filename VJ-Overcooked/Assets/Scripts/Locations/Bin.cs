@@ -29,10 +29,9 @@ using UnityEngine;
         onFire = false;
     }
 
-    //returns true if object has been thrown and its an ingredient
-    //otherwise returns false
     public bool throwObject(GameObject obj)
     {
+        if (obj.name == "extinguisher") return false;
         if (obj.name == "plate")
         {
             obj.GetComponent<Plate>().SetDirty();
@@ -41,6 +40,11 @@ using UnityEngine;
         if (obj.name == "pot")
         {
             obj.GetComponent<Pot>().throwInBin();
+            return false;
+        }
+        if (obj.name == "pan")
+        {
+            obj.GetComponent<Pan>().initPan();
             return false;
         }
         Destroy(obj);

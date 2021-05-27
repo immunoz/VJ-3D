@@ -54,7 +54,7 @@ MonoBehaviour:
   - Chopped
   quantity: 010000000100000001000000
   recipeName: mushroom pizza raw
-  cookedName: mushroom pizza
+  cookedName: MushroomPizza
 --- !u!114 &2290150121986222287
 MonoBehaviour:
   m_ObjectHideFlags: 0

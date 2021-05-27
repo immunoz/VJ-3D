@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class AnimationState : MonoBehaviour
 {
-    // Start is called before the first frame update
-    Animator animator;
-    bool carryingObject;
     enum playerStates
     {
         MOVE, STAND, CHOPP, DISHES,CARRYING
     };
-    private playerStates state;
     private bool chopping;
+    private bool carryingObject;
+    private bool dishes;
+    private playerStates state;
+    Animator animator;
+    
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class AnimationState : MonoBehaviour
         bool isWalking = animator.GetBool("isWalking");
         animator.SetBool("carrying", carryingObject);
         animator.SetBool("chopping", chopping);
+        animator.SetBool("dishes", dishes);
 
         if ( !isWalking && (rightward || backward || leftward || forward) )
             animator.SetBool("isWalking", true);
@@ -49,5 +51,9 @@ public class AnimationState : MonoBehaviour
 
     public void setChopping(bool value) {
         chopping = value;
+    }
+
+    public void setDishes(bool value) {
+        dishes = value;
     }
 }

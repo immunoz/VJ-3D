@@ -9823,7 +9823,7 @@ MonoBehaviour:
   - {fileID: 0}
   timers: []
   fireExpandTime: 5
-  heightOffset: 5
+  heightOffset: 5.2
 --- !u!65 &7333354097552508126
 BoxCollider:
   m_ObjectHideFlags: 0

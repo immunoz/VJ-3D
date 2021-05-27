@@ -1209,6 +1209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   washingTime: 3
   stewTexture: {fileID: 1775509892212694552}
+  stewColour:
+  - {fileID: 2100000, guid: b781ce54a8f32ad44adfdb4a55f7f46a, type: 2}
   recipes:
   - {fileID: 7373696414421351429, guid: 689de189aaa84c34aa77953162cca84a, type: 3}
   - {fileID: 5752148710129569514, guid: 0d97b5c8ce5aa0b428a565127df72a30, type: 3}

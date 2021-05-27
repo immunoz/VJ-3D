@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1135958470012362956}
   - component: {fileID: 1135958470012362947}
-  - component: {fileID: 3133490709603865246}
   m_Layer: 0
   m_Name: sausage-pizza
   m_TagString: Untagged
@@ -54,21 +53,4 @@ MonoBehaviour:
   - Chopped
   quantity: 010000000100000001000000
   recipeName: sausage pizza raw
-  cookedName: sausage pizza
---- !u!114 &3133490709603865246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1135958470012362946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2581e7f5b24e4a46ab65d81f684ed28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ingredients: []
-  state: []
-  quantity: 
-  recipeName: 
-  cookedName: 
+  cookedName: SausagePizza

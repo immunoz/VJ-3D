@@ -35,4 +35,12 @@ public class AudioManager : MonoBehaviour
         Clips c = Array.Find(sounds, sound => sound.soundName == name);
         if (c != null) c.source.Stop();
     }
+
+    public void stopAll()
+    {
+        foreach (Clips c in sounds)
+        {
+            c.source.Stop();
+        }
+    }
 }

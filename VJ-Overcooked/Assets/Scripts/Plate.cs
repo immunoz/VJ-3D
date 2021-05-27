@@ -7,6 +7,7 @@ public class Plate : MonoBehaviour
 {
     public float washingTime;
     public GameObject stewTexture;
+    public Material[] stewColour;
     public GameObject[] recipes;
     public GameObject bread, lMeat, sMeat, lettuce, tomato, sPizza, mPizza;
     
@@ -31,6 +32,7 @@ public class Plate : MonoBehaviour
     {
         ingredients = new List<GameObject>();
         state = plateState.WASHED;
+        name = "plate";
         initDish();
         /*if (recipes.Length != 0)
         {
@@ -60,17 +62,26 @@ public class Plate : MonoBehaviour
 
     public bool putIngredient(GameObject carriedObject)
     {
-        if (ingredients.Count >= 4) return false;
+        Ingredient ingredientScript = carriedObject.GetComponent<Ingredient>();
+        if (ingredientScript == null || ingredients.Count >= 4) return false;
+        if ((carriedObject.name == "SausagePizza" || carriedObject.name == "MushroomPizza") && carriedObject.GetComponent<PizzaMass>().burned) return false;
+        if ((carriedObject.name == "SausagePizza" || carriedObject.name == "MushroomPizza") && ingredients.Count != 0) return false;
+
+
+        if (carriedObject.name == "SausagePizza" || carriedObject.name == "MushroomPizza") {
+            updateVisuals(carriedObject.name);
+            setPreparedDish(carriedObject.name);
+            Destroy(carriedObject);
+            return true;
+        }
         carriedObject.SetActive(false);
         if (carriedObject.name == "Cabbage" || carriedObject.name == "Tomato") vegetableSet = true;
         ingredients.Add(carriedObject);
         updateVisuals(carriedObject.name);
         bool recipeFound = false;
         for (int i = 0; i < recipes.Length && !recipeFound; ++i) {
-            Debug.Log("equisde");
             if (recipes[i].GetComponent<Recipe>().getSize() == ingredients.Count)
             {
-                Debug.Log("equisde2");
                 if (checkRecipe(i))
                 {
                     preparedDish = recipes[i].GetComponent<Recipe>().recipeName;
@@ -80,6 +91,8 @@ public class Plate : MonoBehaviour
         }
         return true;
     }
+
+
 
     private void updateVisuals(string name)
     {
@@ -92,6 +105,14 @@ public class Plate : MonoBehaviour
         }
         if (name == "Tomato") tomato.SetActive(true);
 
+        if (name == "SausagePizza")
+        {
+            sPizza.SetActive(true);
+        }
+        if (name == "MushroomPizza")
+        {
+            mPizza.SetActive(true);
+        }
     }
 
     private bool checkRecipe(int i)
@@ -213,5 +234,25 @@ public class Plate : MonoBehaviour
     public string getPreparedDish()
     {
         return preparedDish;
+    }
+
+    /*
+     * DISH CODES
+     * 0 -> Mushroom Stew
+     */
+    public void putDish(int dishCode)
+    {
+        switch (dishCode) {
+            case 0:
+                setMushroomStew();
+                break;
+        }
+    }
+
+    private void setMushroomStew()
+    {
+        stewTexture.SetActive(true);
+        preparedDish = "Mushroom Stew";
+        setStewFlavour(stewColour[0]);
     }
 }

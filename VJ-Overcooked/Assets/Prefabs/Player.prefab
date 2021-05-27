@@ -487,6 +487,7 @@ MonoBehaviour:
   ingredientSpawnDistance: 6.1
   currentLocation: {fileID: 0}
   carriedObject: {fileID: 0}
+  dishTemplate: {fileID: 3355904857467790254, guid: 674dd5d4ab715f146b19ad8874090ebc, type: 3}
   timer: 0
   maxSpeed: 50
   ingredientPosY: 11.7

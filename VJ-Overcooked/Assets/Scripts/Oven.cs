@@ -22,11 +22,9 @@ using UnityEngine;
     {
         if (currentObject != null && !currentObject.GetComponent<PizzaMass>().finished())
         {
-            // cookTime += Time.deltaTime;
             GetComponent<ProcessBar>().setProcessTime(currentObject.GetComponent<PizzaMass>().getCookingTimeLeftNormalized());
-            //if ( cookTime >= MaxCookTime ) currentObject.GetComponent<PizzaMass>().setDoneCooking();
         }
-        else if (currentObject != null && ! currentObject.GetComponent<PizzaMass>().burned ) finishOven();
+        else if (currentObject != null && !currentObject.GetComponent<PizzaMass>().burned && !fireDisable) finishOven();
     }
     public override float getGetHeightOffset()
     {
@@ -35,14 +33,15 @@ using UnityEngine;
 
     public override bool finished()
     {
-        return currentObject.GetComponent<PizzaMass>().finished();
+        return currentObject.GetComponent<PizzaMass>().finished() && !onFire;
     }
 
     public void initOven()
     {
-        // cambairlo por pizza finishedCooking
+        warning.SetActive(false);
         GetComponent<ProcessBar>().setMaxTime(1);
         currentObject.GetComponent<PizzaMass>().startCookingPizza();
+        delay = burningTime;
     }
 
     public void finishOven()
@@ -68,6 +67,7 @@ using UnityEngine;
     public void  hideProcessBar ()
     {
         GetComponent<ProcessBar>().hide();
+        warning.SetActive(false);
     }
 
 }
