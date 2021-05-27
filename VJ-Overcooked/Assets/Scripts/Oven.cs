@@ -70,4 +70,12 @@ using UnityEngine;
         warning.SetActive(false);
     }
 
+    public void setCookingFinished()
+    {
+       if ( currentObject != null )
+        {
+            currentObject.GetComponent<PizzaMass>().finishCooking();
+            GetComponent<ProcessBar>().hide();
+        }
+    }
 }

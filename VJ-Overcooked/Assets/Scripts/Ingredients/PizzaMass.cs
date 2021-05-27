@@ -97,13 +97,24 @@ public class PizzaMass : Ingredient
         }
     }
 
+    public void finishCooking()
+    {
+        if (name == recipes[0].GetComponent<Recipe>().recipeName) name = recipes[0].GetComponent<Recipe>().cookedName;
+        else name = recipes[1].GetComponent<Recipe>().cookedName;
+        if (name == "SausagePizza") salamiPizza.SetActive(true);
+        else if (name == "MushroomPizza") mushroomPizza.SetActive(true);
+        deactivateAllRawVisuals();
+        state = ingredientState.COOKED;
+    }
+
     internal void startCookingPizza()
     {
         cooking = true;
     }
 
     public bool putIngredient(GameObject ingredient) {
-        if (ingredients.Count >= 4 || (ingredient.name != "Tomato" && ingredient.name != "Cheese" && ingredient.name != "Sausage" && ingredient.name != "Mushroom") || state != ingredientState.CHOPPED) return false;
+        if (ingredient.name != "Tomato" && ingredient.name != "Cheese" && ingredient.name != "Sausage" && ingredient.name != "Mushroom") return false;
+        if (ingredients.Count >= 4  || ! ingredient.GetComponent<Ingredient>().isChopped()) return false;
         Destroy(ingredient);
         ingredients.Add(ingredient.name);
         if (ingredient.name == "Tomato") tomato.SetActive(true);
@@ -183,5 +194,14 @@ public class PizzaMass : Ingredient
         cheese.SetActive(false);
         salami.SetActive(false);
         mushroom.SetActive(false);
+    }
+
+    public void setChoppedFinished()
+    {
+        state = ingredientState.CHOPPED;
+        leftCuttingTime = 0f;
+        rawMass.SetActive(false);
+        preparedMass.SetActive(true);
+        
     }
 }

@@ -42,6 +42,7 @@ abstract class Location : MonoBehaviour
     void Update()
     {
         if (Input.GetKey(KeyCode.F)) fireDisable = true;
+        if (Input.GetKey(KeyCode.B)) finishAllcookingProcesses();
         
         if (timer > 0) timer -= Time.deltaTime;
         if (onFire && scaleDelay > 0) scaleDelay -= Time.deltaTime;
@@ -207,5 +208,13 @@ abstract class Location : MonoBehaviour
             nearComponents.Add(collider.gameObject);
             timers.Add(fireExpandTime);
         }
+    }
+
+    public void finishAllcookingProcesses()
+    {
+        if (name == "cooker") GetComponent<Cooker2>().setCookingFinished();
+        else if (name == "oven") GetComponent<Oven>().setCookingFinished();
+        else if (name == "Chopper") GetComponent<Chopper>().setChoppingFinished();
+
     }
 }

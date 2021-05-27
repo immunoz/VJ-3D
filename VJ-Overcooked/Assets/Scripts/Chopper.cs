@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,5 +58,17 @@ using UnityEngine;
     public void hideExplosion()
     {
         explosion.SetActive(false);
+    }
+
+    public void setChoppingFinished()
+    {
+        if (currentObject != null) {
+            stopChopp();
+            if ( currentObject.name != "PizzaMass" )currentObject.GetComponent<Ingredient>().setChoppedFinished();
+            else currentObject.GetComponent<PizzaMass>().setChoppedFinished();
+        }
+        
+
+        
     }
 }

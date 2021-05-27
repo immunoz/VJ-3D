@@ -137,4 +137,13 @@ public class Pan : MonoBehaviour
         Renderer rend = friedMeat.GetComponent<Renderer>();
         rend.sharedMaterial = burnedMaterial;
     }
+
+    public void finishCooking()
+    {
+        if (meat != null) {
+            state = States.READY;
+            meat.GetComponent<Meat>().setCooked(true);
+            GetComponent<ProcessBar>().hide();
+        }  
+    }
 }

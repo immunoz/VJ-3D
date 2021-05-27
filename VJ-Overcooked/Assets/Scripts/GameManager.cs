@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     enum GameSteps
     {
-        RUNNING, SHOWING_RECIPE, PREPARING
+        RUNNING, SHOWING_RECIPE, PREPARING,END
     };
 
     void Start()
@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
                     timer = spawnTime;
                     generateDelivery();
                 }
+                if (levelTime <= 0) state = GameSteps.END;
                 break;
             case GameSteps.PREPARING:
                 timer += Time.deltaTime;
@@ -127,6 +128,11 @@ public class GameManager : MonoBehaviour
                     // preparingStep.GetComponent<Image>().sprite = goSprite;
                 }
                 break;
+            case GameSteps.END:
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(5);
+
+                break;
+
         }
     }
 

@@ -84,6 +84,14 @@ public abstract class Ingredient : MonoBehaviour
         return leftCuttingTime / getTime();
     }
 
+    public void setChoppedFinished()
+    {
+        state = ingredientState.CHOPPED;
+        leftCuttingTime = 0f;
+        if (raw != null) raw.SetActive(false);
+        if (sliced != null) sliced.SetActive(true);
+    }
+
     public bool putInPlate()
     {
         if (name == "BurgerBread") return true;
@@ -94,6 +102,7 @@ public abstract class Ingredient : MonoBehaviour
     public bool choppingDone()
     {
         return state == ingredientState.CHOPPED;
+
     }
 
     public bool ingredientCanBePickedUp()
@@ -135,5 +144,10 @@ public abstract class Ingredient : MonoBehaviour
                 break;
         }
         return "";
+    }
+
+    public  bool isChopped()
+    {
+        return state == ingredientState.CHOPPED;
     }
 }

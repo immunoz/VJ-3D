@@ -95,6 +95,7 @@ public class Pot : MonoBehaviour
         return   count != 0 && cookTime >= MaxCookTime * count / 3;
     }
 
+    
     public bool hasStew()
     {
         return count == 3 && cookTime >= MaxCookTime;
@@ -127,5 +128,10 @@ public class Pot : MonoBehaviour
     {
         burned = value;
         if (burned && hasElement()) updateStewTexture();
+    }
+
+    public void finishCooking()
+    {
+        if (count == 3) cookTime = MaxCookTime;
     }
 }

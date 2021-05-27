@@ -118,4 +118,10 @@ using UnityEngine;
         Plate plateScript = plate.GetComponent<Plate>();
         if (!plateScript.isDirty()) currentObject.GetComponent<Pan>().GetMeat(plate);
     }
+
+    public void setCookingFinished()
+    {
+        if (currentObject != null && currentObject.name == "pot") currentObject.GetComponent<Pot>().finishCooking();
+        else if (currentObject != null && currentObject.name == "pan") currentObject.GetComponent<Pan>().finishCooking();
+    }
 }
