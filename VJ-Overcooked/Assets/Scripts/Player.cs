@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
         //----------- GOD MODE -----------
         if (Input.GetKey(KeyCode.P) && carriedObject == null) SpawnPlateLocation();
-        else if (carriedObject != null && carriedObject.GetComponent<Plate>() != null) checkGodMode(); 
+        else if (carriedObject != null && carriedObject.GetComponent<Plate>() != null && Input.GetKey(KeyCode.N)) checkGodMode(); 
 
         //----------- GOD MODE -----------
         bool leftB, rightB, upB, downB, spaceB;
@@ -395,9 +395,8 @@ public class Player : MonoBehaviour
     private void checkGodMode()
     {
         Plate plateScript = carriedObject.GetComponent<Plate>();
-        if (Input.GetKey(KeyCode.E))
-            plateScript.putDish(0);
-        return;
+        string plate = GameObject.Find("GameManager").GetComponent<GameManager>().getNextDelivery();
+        if (plate != null) plateScript.putDish(plate);
     }
 
     private void SpawnPlateLocation()

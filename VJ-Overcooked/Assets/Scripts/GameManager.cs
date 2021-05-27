@@ -198,4 +198,10 @@ public class GameManager : MonoBehaviour
             targetPosition = aux;
         }
     }
+
+    public string getNextDelivery()
+    {
+        if (deliveries.Count == 0) return null;
+        return deliveries[0].GetComponent<DeliveryScript>().dish;
+    }
 }

@@ -240,19 +240,74 @@ public class Plate : MonoBehaviour
      * DISH CODES
      * 0 -> Mushroom Stew
      */
-    public void putDish(int dishCode)
+    public void putDish(string dishCode)
     {
+        if (dishCode == null) return;
         switch (dishCode) {
-            case 0:
+            case "Mushroom Stew":
                 setMushroomStew();
                 break;
+            case "Tomato Stew":
+                setTomatoStew();
+                break;
+            case "Onion Stew":
+                setOnionStew();
+                break;
+            case "Large Burguer":
+                setLargeBurguer();
+                break;
+            case "Simple Burguer":
+                setSimpleBurguer();
+                break;
+            case "MushroomPizza":
+                setMushroomPizza();
+                break;
+            case "SausagePizza":
+                setSausagePizza();
+                break;
         }
+        preparedDish = dishCode;
+    }
+
+    private void setMushroomPizza()
+    {
+        mPizza.SetActive(true);
+    }
+
+    private void setSausagePizza()
+    {
+        sPizza.SetActive(true);
+    }
+
+    private void setSimpleBurguer()
+    {
+        bread.SetActive(true);
+        lMeat.SetActive(true);
+    }
+
+    private void setLargeBurguer()
+    {
+        bread.SetActive(true);
+        sMeat.SetActive(true);
+        lettuce.SetActive(true);
+        tomato.SetActive(true);
     }
 
     private void setMushroomStew()
     {
         stewTexture.SetActive(true);
-        preparedDish = "Mushroom Stew";
         setStewFlavour(stewColour[0]);
+    }
+
+    private void setTomatoStew()
+    {
+        stewTexture.SetActive(true);
+        setStewFlavour(stewColour[1]);
+    }
+
+    private void setOnionStew()
+    {
+        stewTexture.SetActive(true);
+        setStewFlavour(stewColour[2]);
     }
 }
