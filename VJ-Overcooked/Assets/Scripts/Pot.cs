@@ -55,6 +55,7 @@ public class Pot : MonoBehaviour
         Ingredient ingredientScript = obj.GetComponent<Ingredient>();
         if (ingredientScript.inPot() && ingredientScript.choppingDone() && (count == 0 || obj.name == ingredient && count < 3) ) {
             count++;
+            if (count == 1) GetComponent<AudioSource>().Play();
             GetComponent<ProcessBar>().setMaxTime(1);
             ingredient = obj.name;
             updateStewTexture();
@@ -76,8 +77,8 @@ public class Pot : MonoBehaviour
 
     public void stopCooking()
     {
+        GetComponent<AudioSource>().Stop();
         stop = true;
-
     }
 
     public bool hasElement()
@@ -87,6 +88,7 @@ public class Pot : MonoBehaviour
 
     public void continueCooking()
     {
+        GetComponent<AudioSource>().Play();
         stop = false;
     }
 
@@ -132,6 +134,11 @@ public class Pot : MonoBehaviour
 
     public void finishCooking()
     {
-        if (count == 3) cookTime = MaxCookTime;
+        if (count == 3)
+        {
+            cookTime = MaxCookTime;
+            GetComponent<AudioSource>().Stop();
+        }
+
     }
 }

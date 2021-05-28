@@ -11,10 +11,14 @@ using UnityEngine;
     private float delay;
     public float burningTime;
 
+    public float beepTimer;
+    private float btimer;
+
 
      void Awake()
     {
-        delay = burningTime; 
+        delay = burningTime;
+        btimer = 0;
     }
     void FixedUpdate()
     {
@@ -30,6 +34,12 @@ using UnityEngine;
 
     private void showWarning() {
         warning.SetActive(true);
+        if (btimer > 0) btimer -= Time.deltaTime;
+        else
+        {
+            FindObjectOfType<AudioManager>().play("WarningEffect");
+            btimer = beepTimer;
+        }
         if (delay > 0) delay -= Time.deltaTime;
         else setOnFire();
     }

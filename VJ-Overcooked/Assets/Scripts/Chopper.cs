@@ -23,6 +23,7 @@ using UnityEngine;
 
     public void startChopp()
     {
+        GetComponent<AudioSource>().Play();
         float time = currentObject.GetComponent<Ingredient>().setReadyToCut();
         started = true;
         if ( time > 0 ) GetComponent<ProcessBar>().setMaxTime(time);
@@ -30,6 +31,7 @@ using UnityEngine;
 
     public void stopChopp()
     {
+        GetComponent<AudioSource>().Stop();
         GetComponent<ProcessBar>().hide();
         explosion.SetActive(true);
         started = false;
@@ -37,6 +39,7 @@ using UnityEngine;
 
     public void pauseChopping()
     {
+        GetComponent<AudioSource>().Stop();
         currentObject.GetComponent<Ingredient>().stopCutting();
         started = false;
     }
