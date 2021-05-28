@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void credits()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(6);
     }
 
     public void quit()
@@ -23,8 +23,10 @@ public class MainMenu : MonoBehaviour
 
     public void backFromCreditsToMenu ()
     {
-        SceneManager.LoadScene(3);
+        FindObjectOfType<AudioManager>().stopAll();
+        SceneManager.LoadScene(0);
     }
+
     public void setSlideTrigger()
     {
         GameObject.Find("level1").GetComponent<LevelChanger>().setSlideTrigger();

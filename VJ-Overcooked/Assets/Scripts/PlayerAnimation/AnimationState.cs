@@ -11,6 +11,7 @@ public class AnimationState : MonoBehaviour
     private bool chopping;
     private bool carryingObject;
     private bool dishes;
+    private bool isWalking;
     private playerStates state;
     Animator animator;
     
@@ -21,26 +22,17 @@ public class AnimationState : MonoBehaviour
         state = playerStates.STAND;
         carryingObject = false;
         chopping = false;
+        isWalking = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool forward = Input.GetKey("w");
-        bool backward = Input.GetKey("s");
-        bool leftward = Input.GetKey("a");
-        bool rightward = Input.GetKey("d");
-        bool isWalking = animator.GetBool("isWalking");
         animator.SetBool("carrying", carryingObject);
         animator.SetBool("chopping", chopping);
         animator.SetBool("dishes", dishes);
-
-        if ( !isWalking && (rightward || backward || leftward || forward) )
-            animator.SetBool("isWalking", true);
-        else if ( isWalking && (!rightward && !backward && !leftward && !forward))
-            animator.SetBool("isWalking", false);
-
+        animator.SetBool("isWalking",isWalking);
     }
 
 
@@ -55,5 +47,10 @@ public class AnimationState : MonoBehaviour
 
     public void setDishes(bool value) {
         dishes = value;
+    }
+
+    public void setMoving(bool value)
+    {
+        isWalking = value;
     }
 }

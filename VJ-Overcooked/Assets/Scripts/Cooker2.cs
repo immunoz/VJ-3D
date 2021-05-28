@@ -37,7 +37,7 @@ using UnityEngine;
         if (btimer > 0) btimer -= Time.deltaTime;
         else
         {
-            FindObjectOfType<AudioManager>().play("WarningEffect");
+            Alert.Play();
             btimer = beepTimer;
         }
         if (delay > 0) delay -= Time.deltaTime;
@@ -93,6 +93,8 @@ using UnityEngine;
     {
         if (!onFire)
         {
+            fire.Play();
+            Alert.Stop();
             if (currentObject.name == "pan") currentObject.GetComponent<Pan>().setBurned(); 
             warning.SetActive(false);
             onFire = true;

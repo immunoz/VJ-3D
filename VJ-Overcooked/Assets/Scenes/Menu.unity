@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3996,7 +3996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actualLevel: {fileID: 905387791}
---- !u!1001 &5214603781379685429
+--- !u!1001 &2078566795
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -4046,26 +4046,6 @@ PrefabInstance:
     - target: {fileID: 5214603781507221973, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214603781507221994, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
-      propertyPath: sounds.Array.data[0].loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214603781507221994, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
-      propertyPath: sounds.Array.data[1].loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214603781507221994, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
-      propertyPath: sounds.Array.data[0].pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214603781507221994, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
-      propertyPath: sounds.Array.data[0].volume
-      value: 0.132
-      objectReference: {fileID: 0}
-    - target: {fileID: 5214603781507221994, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
-      propertyPath: sounds.Array.data[1].volume
-      value: 0.078
       objectReference: {fileID: 0}
     - target: {fileID: 5214603781507221995, guid: 45f945014ed5c1d4ea23f73cc21ee3ba, type: 3}
       propertyPath: m_Name

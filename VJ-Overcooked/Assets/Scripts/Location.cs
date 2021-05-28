@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 abstract class Location : MonoBehaviour
 {
@@ -9,6 +10,9 @@ abstract class Location : MonoBehaviour
     protected float timer;
     public float  cooldownTime;
     public float scaleDelay;
+    public AudioSource fire;
+    public AudioSource Alert;
+
     private Vector3 threshHold;
     protected bool fireDisable;
 
@@ -157,6 +161,11 @@ abstract class Location : MonoBehaviour
         }
     }
 
+    public bool hasPan()
+    {
+        return currentObject.name == "pan";
+    }
+
     private void setNearObjectsOnFire()
     {
         /*for (int i = 0; i < nearComponents.Length; ++i)
@@ -189,6 +198,7 @@ abstract class Location : MonoBehaviour
         {
             flame.SetActive(false);
             onFire = false;
+            fire.Stop();
             flame.GetComponent<ProcessBar>().hide();
             /*if (currentObject.name == "pot") currentObject.GetComponent<Pot>().setBurned(false);
             else if (currentObject.name == "pan") currentObject.GetComponent<Pan>().turnedOff();*/

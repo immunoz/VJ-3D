@@ -90,19 +90,19 @@ public class ButtonScript : MonoBehaviour
     public void loadLevel() {
         switch (actualLevel.name) {
             case "level1":
-                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(0);
-                break;
-            case "level2":
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(1);
                 break;
-            case "level3":
+            case "level2":
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(2);
                 break;
-            case "level4":
+            case "level3":
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(3);
                 break;
-            case "level5":
+            case "level4":
                 GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(4);
+                break;
+            case "level5":
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(5);
                 break;
         }
         FindObjectOfType<AudioManager>().stop("MainMenuTheme");

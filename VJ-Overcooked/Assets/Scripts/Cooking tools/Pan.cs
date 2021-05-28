@@ -43,10 +43,11 @@ public class Pan : MonoBehaviour
         if (Input.GetKey(KeyCode.F)) fireDisable = true;
         switch (state) {
             case States.IDLE:
-                if (meat != null && ! meat.GetComponent<Meat>().getBurned())
+                if (meat != null && ! meat.GetComponent<Meat>().getBurned() )
                 {
                     state = States.COOKING;
                     GetComponent<ProcessBar>().setMaxTime(1);
+                    GetComponent<AudioSource>().Play();
                 }
 
                 break;
@@ -64,7 +65,7 @@ public class Pan : MonoBehaviour
                     timer = burnedTime;
                     meat.GetComponent<Meat>().setCooked(true);
                     GetComponent<ProcessBar>().hide();
-                    
+                    GetComponent<AudioSource>().Stop();
                 }
                 break;
             case States.READY:
@@ -82,7 +83,7 @@ public class Pan : MonoBehaviour
 
 
 
-    public bool setObject(GameObject obj)
+    public bool setObject(GameObject obj  )
     {
         if (meat != null) return false;
         meat = obj;
@@ -140,10 +141,11 @@ public class Pan : MonoBehaviour
 
     public void finishCooking()
     {
-        if (meat != null) {
+        if (meat != null && !burned()) {
             state = States.READY;
             meat.GetComponent<Meat>().setCooked(true);
             GetComponent<ProcessBar>().hide();
+            GetComponent<AudioSource>().Stop();
         }  
     }
 }

@@ -31,8 +31,8 @@ public class extinguisher : MonoBehaviour
     public void startShooting()
     {
         shoot = true;
-        //Debug.Log("hola");
         smoke.SetActive(true);
+        FindObjectOfType<AudioManager>().play("ExtinguisherSound");
     }
 
     public void castSmoke()
@@ -56,5 +56,6 @@ public class extinguisher : MonoBehaviour
     {
         shoot = false;
         smoke.SetActive(false);
+        FindObjectOfType<AudioManager>().stop("ExtinguisherSound");
     }
 }

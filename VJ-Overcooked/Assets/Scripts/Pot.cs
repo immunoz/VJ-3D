@@ -42,7 +42,11 @@ public class Pot : MonoBehaviour
             cookTime += Time.deltaTime;
             GetComponent<ProcessBar>().setProcessTime(cookTime / (MaxCookTime * count / 3));
         }
-        else if (count != 0 && !stop && !burned) hideBar();
+        else if (count != 0 && !stop && !burned)
+        {
+            GetComponent<AudioSource>().Stop();
+            hideBar();
+        }
     }
 
     internal void throwInBin()

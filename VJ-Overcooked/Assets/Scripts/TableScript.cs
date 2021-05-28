@@ -23,6 +23,7 @@ using UnityEngine;
 
     public override void setOnFire()
     {
+        fire.Play();
         onFire = true;
         flame.SetActive(true);
     }

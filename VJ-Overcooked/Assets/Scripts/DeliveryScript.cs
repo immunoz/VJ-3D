@@ -30,6 +30,7 @@ public class DeliveryScript : MonoBehaviour
             timer = expireTime;
             slider.maxValue = timer;
             GameObject.Find("GameManager").GetComponent<GameManager>().increaseScore(-score/2);
+            FindObjectOfType<AudioManager>().play("WrongSound");
         }
     }
 

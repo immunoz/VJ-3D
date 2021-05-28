@@ -9,6 +9,7 @@ using UnityEngine;
     public GameObject explosion;
     private bool started = false;
     
+    
 
     public override float getGetHeightOffset()
     {
@@ -53,6 +54,7 @@ using UnityEngine;
     {
         if (!onFire)
         {
+            fire.Play();
             onFire = true;
             flame.SetActive(true);
         }

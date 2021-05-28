@@ -60,14 +60,13 @@ public class GameManager : MonoBehaviour
         else {
             preparingStep.SetActive(true);
             state = GameSteps.PREPARING;
-
+            FindObjectOfType<AudioManager>().play("ReadySound");
         } 
         timer = 0f;
         deliveries = new List<GameObject>();
         plates = new List<GameObject>();
         plateCooldown = new List<float>();
         initSpawnPoint();
-        FindObjectOfType<AudioManager>().play("RestaurantMusic");
     }
 
     private void initSpawnPoint()
@@ -95,6 +94,7 @@ public class GameManager : MonoBehaviour
                     preparingStep.SetActive(true);
                     state = GameSteps.PREPARING;
                     timer = 0;
+                    FindObjectOfType<AudioManager>().play("ReadySound");
                 }
                 break;
             case GameSteps.RUNNING:
@@ -117,6 +117,8 @@ public class GameManager : MonoBehaviour
                 if (timer > showRecipeTime)
                 {
                     state = GameSteps.RUNNING;
+                    FindObjectOfType<AudioManager>().play("RestaurantMusic");
+                    FindObjectOfType<AudioManager>().play("voices");
                     goStep.SetActive(false);
                     timer = 0;
                     player.GetComponent<Player>().setPlay(true);
@@ -125,11 +127,12 @@ public class GameManager : MonoBehaviour
                 {
                     preparingStep.SetActive(false);
                     goStep.SetActive(true);
+                    
                     // preparingStep.GetComponent<Image>().sprite = goSprite;
                 }
                 break;
             case GameSteps.END:
-                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(5);
+                GameObject.Find("LevelLoader").GetComponent<Level_loader>().loadNextLevel(0);
 
                 break;
 
@@ -150,8 +153,8 @@ public class GameManager : MonoBehaviour
     private void updatePlateTimers()
     {
         for (int i = 0; i < plates.Count; ++i) {
-            if (plateCooldown[i] > 0) plateCooldown[i] -= Time.deltaTime;
-            else
+            if (plateCooldown[i] > 0 && plateSpawner.GetComponent<SpawnPlateLocation>().currentObject == null) plateCooldown[i] -= Time.deltaTime;
+            else if (plateSpawner.GetComponent<SpawnPlateLocation>().currentObject == null)
             {
                 plates[i].SetActive(true);
                 plates[i].GetComponent<Plate>().SetDirty();
@@ -184,16 +187,18 @@ public class GameManager : MonoBehaviour
                 increaseScore(d.score);
                 Destroy(deliveries[i]);
                 deliveries.RemoveAt(i);
+                FindObjectOfType<AudioManager>().play("CorrectDelivery");
                 return true;
             }
         }
+        FindObjectOfType<AudioManager>().play("WrongDelivery");
         return false;
     }
 
     private void slideLeft(int index)
     {
         Vector3 targetPosition = deliveries[index].GetComponent<RectTransform>().localPosition;
-        if (deliveries.Count == 1) {
+        if (/*deliveries.Count == 1*/ index == deliveries.Count-1) {
             lastPosition.x -= deliveries[index].GetComponent<RectTransform>().sizeDelta.x;
             return;
         }

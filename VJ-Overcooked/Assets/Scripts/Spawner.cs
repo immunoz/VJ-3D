@@ -10,6 +10,7 @@ using UnityEngine;
 
     public GameObject createIngredient()
     {
+        FindObjectOfType<AudioManager>().play("OpenChest");
         GameObject temp = Instantiate(ingredientPrefab) as GameObject;
         temp.name = "onion";
         return temp;

@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
 
         switch (state) {
             case playerStates.STAND:
-
+                GetComponent<AnimationState>().setMoving(false);
 
                 if (upB) {
                     direction = playerDirections.UP;
@@ -134,7 +134,8 @@ public class Player : MonoBehaviour
                                 if (panScript.hasMeat() && !tableScript.getObject().GetComponent<Plate>().isDirty()) panScript.GetMeat(tableScript.getObject());
                             }
                         }
-                        else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject && locationScript.currentObject.GetComponent<PizzaMass>().putIngredient(carriedObject)) {
+                        else if (!locationScript.isFree() && locationScript.hasPizzaMass() && carryingObject && locationScript.currentObject.GetComponent<PizzaMass>().putIngredient(carriedObject))
+                        {
                             locationScript.resetCoolDown();
                             carriedObject = null;
                             carryingObject = false;
@@ -188,8 +189,7 @@ public class Player : MonoBehaviour
                     }
                     else if (locationScript.getType() == "oven")
                     {
-
-                        if (carryingObject && carriedObject.GetComponent<PizzaMass>().isRawPizza() && locationScript.isFree() && !carriedObject.GetComponent<PizzaMass>().finished() && !locationScript.burnning()) // EL Not finished is para ver si la pizza no esta cocinada.
+                        if (carryingObject && carriedObject.name != "plate" && carriedObject.GetComponent<PizzaMass>().isRawPizza() && locationScript.isFree() && !carriedObject.GetComponent<PizzaMass>().finished() && !locationScript.burnning()) // EL Not finished is para ver si la pizza no esta cocinada.
                         {
                             // poner otro if para comprobar que la pizza tiene todos los ingredientes necesarios.
                             locationScript.setObject(carriedObject);
@@ -202,7 +202,14 @@ public class Player : MonoBehaviour
                             carriedObject = locationScript.pickObject();
                             carryingObject = true;
                             locationScript.GetComponent<Oven>().hideProcessBar();
-
+                        }
+                        else if (!locationScript.isFree() && locationScript.finished() && carryingObject && carriedObject.name == "plate") {
+                            GameObject temp = locationScript.pickObject();
+                            Plate plateScript = carriedObject.GetComponent<Plate>();
+                            if (plateScript.putIngredient(temp))
+                            {
+                                currentLocation.GetComponent<Oven>().hideProcessBar();
+                            }
                         }
 
 
@@ -251,6 +258,7 @@ public class Player : MonoBehaviour
                         SinkScript sink = currentLocation.GetComponent<SinkScript>();
                         sink.startWashing();
                         state = playerStates.DISHES;
+                        FindObjectOfType<AudioManager>().play("DoingTheDishes");
                         GetComponent<AnimationState>().setDishes(true);
                     }
                 }
@@ -259,6 +267,7 @@ public class Player : MonoBehaviour
 
                 break;
             case playerStates.MOVE:
+                GetComponent<AnimationState>().setMoving(true);
                 Quaternion rotate = Quaternion.Euler(0, 0, 0);
        
                 if (leftB) {
@@ -386,6 +395,7 @@ public class Player : MonoBehaviour
                     state = playerStates.STAND;
                     if (sinkScript.finished()) sinkScript.stopWashing();
                     else sinkScript.pauseWashing();
+                    FindObjectOfType<AudioManager>().stop("DoingTheDishes");
                 }
                 break;
 
@@ -417,6 +427,7 @@ public class Player : MonoBehaviour
     }
 
     private void setObjectInLocation(Location locationScript) {
+        FindObjectOfType<AudioManager>().play("PutOnTable");
         locationScript.setObject(carriedObject);
         carriedObject = null;
         carryingObject = false;

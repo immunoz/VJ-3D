@@ -11,10 +11,17 @@ using UnityEngine;
     public float MaxCookTime;
     private float delay;
     public float burningTime;
+    
+    public float beepTimer;
+    private float btimer;
+
+    private bool playingAlert;
 
     void Awake()
     {
         delay = burningTime;
+        playingAlert = false;
+        btimer = 0;
     }
 
     void FixedUpdate()
@@ -41,11 +48,25 @@ using UnityEngine;
         warning.SetActive(false);
         GetComponent<ProcessBar>().setMaxTime(1);
         currentObject.GetComponent<PizzaMass>().startCookingPizza();
+        GetComponent<AudioSource>().Play();
         delay = burningTime;
     }
 
     public void finishOven()
     {
+        if (!playingAlert)
+        {
+            Alert.Play();
+            playingAlert = true;
+            GetComponent<AudioSource>().Stop();
+        }
+        else {
+            if (btimer > 0) btimer -= Time.deltaTime;
+            else {
+                Alert.Play();
+                btimer = beepTimer;
+            }
+        }
         GetComponent<ProcessBar>().hide();
         warning.SetActive(true);
         if (delay > 0) delay -= Time.deltaTime;
@@ -56,6 +77,9 @@ using UnityEngine;
     {
         if (!onFire)
         {
+            fire.Play();
+            Alert.Stop();
+            playingAlert = false;
             warning.SetActive(false);
             onFire = true;
             flame.SetActive(true);
@@ -68,6 +92,7 @@ using UnityEngine;
     {
         GetComponent<ProcessBar>().hide();
         warning.SetActive(false);
+        GetComponent<AudioSource>().Stop();
     }
 
     public void setCookingFinished()
@@ -76,6 +101,7 @@ using UnityEngine;
         {
             currentObject.GetComponent<PizzaMass>().finishCooking();
             GetComponent<ProcessBar>().hide();
+            GetComponent<AudioSource>().Stop();
         }
     }
 }
