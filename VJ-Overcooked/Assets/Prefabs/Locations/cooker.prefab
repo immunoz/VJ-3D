@@ -14678,6 +14678,7 @@ MonoBehaviour:
   heightOffset: 4
   warning: {fileID: 416371552487776088}
   burningTime: 7
+  beepTimer: 0.75
 --- !u!54 &8253482927824402489
 Rigidbody:
   m_ObjectHideFlags: 0

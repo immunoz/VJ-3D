@@ -100,7 +100,7 @@ public class PizzaMass : Ingredient
     public void finishCooking()
     {
         if (name == recipes[0].GetComponent<Recipe>().recipeName) name = recipes[0].GetComponent<Recipe>().cookedName;
-        else name = recipes[1].GetComponent<Recipe>().cookedName;
+        else if (name == recipes[1].GetComponent<Recipe>().recipeName) name = recipes[1].GetComponent<Recipe>().cookedName;
         if (name == "SausagePizza") salamiPizza.SetActive(true);
         else if (name == "MushroomPizza") mushroomPizza.SetActive(true);
         deactivateAllRawVisuals();
