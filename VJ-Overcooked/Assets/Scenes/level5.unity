@@ -4587,7 +4587,7 @@ PrefabInstance:
       objectReference: {fileID: 4803505562872374711, guid: d807b8e09e925024db497afbdf223f1f, type: 3}
     - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
       propertyPath: levelTime
-      value: 210
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
       propertyPath: scoreText
@@ -4595,7 +4595,7 @@ PrefabInstance:
       objectReference: {fileID: 560875688}
     - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
       propertyPath: spawnTime
-      value: 1
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7287586016270928137, guid: 92450c58454c54c428681ee6d321ac76, type: 3}
       propertyPath: plateSpawner

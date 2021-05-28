@@ -48,13 +48,13 @@ MonoBehaviour:
     sound: {fileID: 8300000, guid: adeb60de3ddcfaf429949b2b8aac64d4, type: 3}
     volume: 0.4
     pitch: 0.95
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - soundName: RestaurantMusic
     sound: {fileID: 8300000, guid: b097af7d2666d954a9df8299d8d646ca, type: 3}
     volume: 0.5
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - soundName: DoingTheDishes
     sound: {fileID: 8300000, guid: cdf25a8ec3ce6de4da91e52266ce1f3c, type: 3}

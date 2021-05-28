@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a5260671ff29446bc22ad13aab5dcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 2
+  CuttingTime: 4
   pot: 0
   raw: {fileID: 7333081660070085892}
   sliced: {fileID: 6289248535951362015}

@@ -211,7 +211,7 @@ MonoBehaviour:
   fill: {fileID: 7558719381675187504}
   expireTime: 120
   dish: Mushroom Stew
-  score: 20
+  score: 60
 --- !u!1 &7558719380995153992
 GameObject:
   m_ObjectHideFlags: 0

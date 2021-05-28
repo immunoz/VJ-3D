@@ -211,7 +211,7 @@ MonoBehaviour:
   fill: {fileID: 4431330939491152651}
   expireTime: 180
   dish: SausagePizza
-  score: 80
+  score: 150
 --- !u!1 &4431330939491152653
 GameObject:
   m_ObjectHideFlags: 0

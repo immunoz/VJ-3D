@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233cd0ba5043bc945a346bb17f02c52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 2
+  CuttingTime: 4
   pot: 1
   raw: {fileID: 8807204853053578853}
   sliced: {fileID: 1451994900950609505}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1291588984244344742}
   - component: {fileID: 3343512811570516810}
   m_Layer: 0
-  m_Name: tomato
+  m_Name: Tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987d0005a59e3584abe91ae54baa010b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 2
+  CuttingTime: 4
   pot: 1
   raw: {fileID: 8655415189950531000}
   sliced: {fileID: 1988111920392265499}

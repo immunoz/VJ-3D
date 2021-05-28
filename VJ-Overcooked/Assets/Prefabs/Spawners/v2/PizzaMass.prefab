@@ -4838,7 +4838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa1b214ee84dcf4199a809c568af23e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CuttingTime: 2
+  CuttingTime: 5
   pot: 0
   raw: {fileID: 0}
   sliced: {fileID: 0}
@@ -4851,7 +4851,7 @@ MonoBehaviour:
   burnedTexture: {fileID: 8966430177489470927}
   salamiPizza: {fileID: 8119995291950393947}
   mushroomPizza: {fileID: 4546947364075927059}
-  cookingTime: 2
+  cookingTime: 10
   recipes:
   - {fileID: 1135958470012362946, guid: cd79fb305000f8c43944d1a036021ef4, type: 3}
   - {fileID: 2687172949257489941, guid: 190f6883c5927e44cb9b74b426759e24, type: 3}

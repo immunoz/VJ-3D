@@ -211,7 +211,7 @@ MonoBehaviour:
   fill: {fileID: 3564672835274864932}
   expireTime: 120
   dish: Onion Stew
-  score: 20
+  score: 60
 --- !u!1 &3564672835680231362
 GameObject:
   m_ObjectHideFlags: 0
