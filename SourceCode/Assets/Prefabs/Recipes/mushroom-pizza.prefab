@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2687172949257489941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3814327959909395050}
+  - component: {fileID: 8072866414086768009}
+  - component: {fileID: 2290150121986222287}
+  m_Layer: 0
+  m_Name: mushroom-pizza
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3814327959909395050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687172949257489941}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 103.237854, y: -18.161104, z: 32.161392}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8072866414086768009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687172949257489941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2581e7f5b24e4a46ab65d81f684ed28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredients:
+  - {fileID: 9168313491266833549, guid: c1ff2b94721910543bf3158b5a1071cd, type: 3}
+  - {fileID: 4988729054594329707, guid: 16519d740560fee449b2e4f556bd3153, type: 3}
+  - {fileID: 7985398191293147418, guid: f8c7192e7d7a3db4a9702e22445a8594, type: 3}
+  state:
+  - Chopped
+  - Chopped
+  - Chopped
+  quantity: 010000000100000001000000
+  recipeName: mushroom pizza raw
+  cookedName: MushroomPizza
+--- !u!114 &2290150121986222287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687172949257489941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2581e7f5b24e4a46ab65d81f684ed28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredients: []
+  state: []
+  quantity: 
+  recipeName: 
+  cookedName: 

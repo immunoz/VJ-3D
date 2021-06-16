@@ -37,10 +37,25 @@ The resulting game has to count with the following requirements:
 A more detailed version of the statement can be found in the files of this
 repository (statement is in Catalan).
 
+## Game instructions
+Keyboard keys for a regular gameplay: 
 
+* **WASD**: moves the character up, down, left and right
+* **CTRL**: chop ingredient / do the dishes / use extinguisher
+* **SPACE**: put/pick-up elements in the game
+* **MOUSE**: basic menu interaction
+  
+Keyboard Keys for a god mode gameplay:
+* **F**: disables the fire when ingredients get burned
+* **P**: generates a plate in the player's hand
+* **N**: when the player has an empty plate on his hands, puts the next delivery into the plate
+* **B**: ends any cooking process like chopping and cooking (to cook a stew, the 3 ingredients have to be inside the pot).
+* **1, 2, 3, 4, 5, 0**: change between the available scenes
+
+Playing the game is very intuitive, but if it is not for you, checkout this [gameplay](https://www.youtube.com/watch?v=yM2npcOxHHA).
 ## Prerequisites
 To test and modify the project first clone this repository. If you only want to
-check the final result just open the binary in the X folder. This binary can be executed
+check the final result just open the *VJ-Overcooked.exe* in the **Binary** folder. This binary can be executed
 in Windows OS with 64 bit architecture. Otherwise, if you want to modify the game, you will need the following tools:
 * Unity version X
 * Visual Studio Community (or other code editor)

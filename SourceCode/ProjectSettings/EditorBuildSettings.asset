@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: fb9e0e609e01dc3449833469a2b81c25
+  - enabled: 1
+    path: Assets/Scenes/Level1 - Onions!.unity
+    guid: bf176c40f8ef66c41ae5663bd5460f3e
+  - enabled: 1
+    path: Assets/Scenes/Level2_-_Pizza.unity
+    guid: 6706069e48f5adc4f901dc337109ed40
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: d0fc39582316fbd428e8edc11e67c746
+  - enabled: 1
+    path: Assets/Scenes/Level4.unity
+    guid: 9e0302900b28a5e4bb5dc37594d84aff
+  - enabled: 1
+    path: Assets/Scenes/level5.unity
+    guid: e82c84bf0f94fbb4495b006a604a0ef7
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 5b64db4af7924024bb474ea58aa9fda2
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  m_configObjects: {}
