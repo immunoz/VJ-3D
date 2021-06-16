@@ -1,4 +1,4 @@
-#FIB's VJ project - Overcooked
+# FIB's VJ project - Overcooked
 This repository contains the code of a game based on the Team 17 cooking cooperative game, Overcooked (I and II).
 
 
@@ -71,5 +71,5 @@ Project Link: [https://github.com/immunoz/VJ-3D.git](https://github.com/immunoz/
 Feel free to use our code for any purpose, but always remember to attribute the authors 😉.  
 
 
-##Acknowledgments
+## Acknowledgments
 Special thanks to the [Brackeys](https://www.youtube.com/user/Brackeys) YT channel.
