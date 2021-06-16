@@ -2,7 +2,7 @@
 This repository contains the code of a game based on the Team 17 cooking cooperative game, Overcooked (I and II).
 
 
-##Statement
+## Statement
 This project is based on developing a game with similar characteristics to 
 Overcooked game. In this game, player has to control a cooker in order to 
 prepare the maximum number of deliveries in a limited amount time, all of 
